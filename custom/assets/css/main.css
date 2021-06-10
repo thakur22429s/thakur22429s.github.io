@@ -16,12 +16,14 @@ h1 {
     font-size: 5rem;
     color: coral;
     padding-bottom: 0mm;
+    margin-bottom: 0px;
 }
 
 p {
     text-align: top;
     align-items: inherit;
     width: 70%;
+    margin-top: 0px;
     padding-left: 15%;
     padding-right: 15%;
     text-indent: inherit;
