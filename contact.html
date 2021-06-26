@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact</title>
+    <link rel="stylesheet" href="assets/css/contact.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script
+      src="https://kit.fontawesome.com/2e8a3c4d79.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="dropdown">
+      <button class="dropbtn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="education.html">Education</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="back">
+      <a href="index.html"><i class="fas fa-home"></i></a>
+    </div>
+    <nav class="navbar">
+      <div class="navbar-links">
+        <ul>
+          <li>
+            <a href="https://www.linkedin.com/in/abhay-singh-thakur/"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </li>
+          <li>
+            <a href="https://github.com/thakur22429s"
+              ><i class="fab fa-github"></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="contact-form">
+      <h1>Let's connect! <i class="fas fa-paper-plane"></i></h1>
+      <form
+        id="contact-form-id"
+        class="contact-form-class"
+        method="POST"
+        action="https://formsubmit.co/thakur22429s@gmail.com"
+      >
+        <input type="hidden" name="_captcha" value="false" />
+        <input
+          type="hidden"
+          name="_next"
+          value="https://thakur22429s.github.io/"
+        />
+        <div class="txtb">
+          <input type="text" name="" value="" placeholder="Name" />
+        </div>
+
+        <div class="txtb">
+          <input type="email" name="" value="" placeholder="Email" />
+        </div>
+
+        <div class="txtb">
+          <textarea placeholder="Your message"></textarea>
+        </div>
+        <button class="btn" type="submit">Send</button>
+        <button class="btn-reset" type="reset">
+          <i class="fas fa-redo-alt"></i>
+        </button>
+      </form>
+    </div>
+    <div class="footer">&copy; 2021, Abhay Singh Thakur</div>
+  </body>
+</html>

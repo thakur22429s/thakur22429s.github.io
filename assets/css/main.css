@@ -1,0 +1,237 @@
+@import url("https://fonts.googleapis.com/css?family=Space+Mono&effect=font-effect-anaglyph");
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  background-color: black;
+}
+
+button {
+  border-style: none;
+  font-family: monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  color: white;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.back {
+  float: left;
+  overflow: hidden;
+  padding-left: 5px;
+}
+
+.back a {
+  float: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 40px;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.back a:hover {
+  color: coral;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+  padding-left: 5px;
+}
+
+.dropdown .dropbtn, .dropdown .homebtn {
+  font-size: 40px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: black;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: x-large;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown:hover .dropbtn {
+  color: coral;
+}
+
+.dropdown:hover .homebtn {
+  color: coral;
+}
+
+.dropdown-content a:hover {
+  background-color: black;
+  color: coral;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  .dropdown .dropbtn {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .dropdown {float: none;}
+  .dropdown-content {position: relative;}
+  .dropdown .dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+}
+
+.navbar-links ul {
+  margin: 10px solid white;
+  padding: 10px;
+  display: flex;
+}
+
+.navbar-links li {
+  list-style: none;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: white;
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 1rem;
+}
+
+.navbar-links li a{
+  font-size: 40px;  
+}
+
+.navbar-links li a:hover {
+  color: coral;
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -35%);
+  padding: 10px;
+}
+
+.flexbox-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flexbox-item {
+  width: 500px;
+  height: 400px;
+  padding: 10px;
+}
+
+.flexbox-image {
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.flexbox-header {
+  color: coral;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.flexbox-item-1 {
+  min-height: 500px;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexbox-item-2 {
+  color: white;
+  font-size: x-large;
+  font-weight: bold;
+  min-height: 200px;
+  justify-content: center;
+  align-items: center;
+}
+
+.resume-link {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.resume-link:hover {
+  color: coral;
+}
+
+.submit-confirm {
+  color: coral;
+  font-family: inherit;
+  font-size: 200px;
+  transition: ease-in 200ms;
+}
+
+.intro-text {
+  font: inherit;
+  color: white;
+  width: 500px;
+}
+
+.submit-text {
+  color: coral;
+  font-family: inherit;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.footer {
+  position: fixed;
+  left: 45%;
+  bottom: 20px;
+  color: grey;
+  font-size: medium;
+}

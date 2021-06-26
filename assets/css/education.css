@@ -1,0 +1,40 @@
+.edu1 {
+    transform: translate(8%, 20%);
+    width: 80%;
+}
+
+.edu1 h2 {
+    color: coral;
+    font-family: inherit;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.edu1-content {
+    color: white;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 35px;
+}
+
+.edu2 {
+    padding-top: 2%;
+    transform: translate(8%, 20%);
+    width: 80%;
+}
+
+.edu2 h2 {
+    color: coral;
+    font-family: inherit;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.edu2-content {
+    color: white;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 35px;
+}
