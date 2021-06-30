@@ -235,4 +235,16 @@ h1 {
     align-items: center;
     justify-content: center;
   }
+
+  .flexbox-item-1 {
+    align-items: center;
+    justify-content: center;
+    min-height: 600px;
+  }
+
+  .flexbox-image {
+    width: 60%;
+    position: relative;
+    border-radius: 50%;
+  }
 }
