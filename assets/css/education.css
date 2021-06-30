@@ -1,40 +1,85 @@
+.edu-container {
+    display: flex;
+    height: 80vh;
+    width: 90vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .edu1 {
-    transform: translate(8%, 20%);
-    width: 80%;
+    width: 100%;
 }
 
 .edu1 h2 {
     color: coral;
     font-family: inherit;
-    font-size: 45px;
+    font-size: 3.81vh;
     font-weight: bold;
 }
 
 .edu1-content {
     color: white;
     font-family: inherit;
-    font-size: 22px;
+    font-size: 1.97vh;
     font-weight: normal;
-    line-height: 35px;
+    line-height: 2.58vh;
 }
 
 .edu2 {
-    padding-top: 2%;
-    transform: translate(8%, 20%);
-    width: 80%;
+    width: 100%;
 }
 
 .edu2 h2 {
     color: coral;
     font-family: inherit;
-    font-size: 45px;
+    font-size: 3.81vh;
     font-weight: bold;
 }
 
 .edu2-content {
     color: white;
     font-family: inherit;
-    font-size: 22px;
+    font-size: 1.97vh;
     font-weight: normal;
-    line-height: 35px;
+    line-height: 2.58vh;
+}
+
+@media (min-width: 600px) {
+    .edu-container {
+        display: flex;
+        height: 80vh;
+        width: 90vw;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .edu1 h2 {
+        font-size: 40px;
+        font-weight: bold;
+    }
+
+    .edu1-content {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .edu2 h2 {
+        font-size: 40px;
+        font-weight: bold;
+    }
+
+    .edu2-content {
+        font-size: 20px;
+        line-height: 25px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .edu-container {
+        position: fixed;
+        transform: translate(-50%, -60%);
+        padding: 5%;
+    }
 }
