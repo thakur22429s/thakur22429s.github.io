@@ -58,6 +58,20 @@
   background-color: coral;
 }
 
+.submit-confirm {
+  color: coral;
+  font-family: inherit;
+  font-size: 200px;
+  transition: ease-in 200ms;
+}
+
+.submit-text {
+  color: coral;
+  font-family: inherit;
+  font-size: 50px;
+  font-weight: bold;
+}
+
 .btn-reset {
   display: inline-block;
   background: black;
