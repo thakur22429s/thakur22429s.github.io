@@ -48,8 +48,6 @@ h1 {
   float: left;
   overflow: hidden;
   padding-left: 1%;
-  border-style: dotted;
-  border-color: darkorchid;
 }
 
 .dropdown .dropbtn,
@@ -129,8 +127,6 @@ h1 {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-style: dotted;
-  border-color: yellow;
 }
 
 .navbar-links ul {
@@ -173,24 +169,18 @@ h1 {
   height: 80vh;
   justify-content: space-around;
   flex-direction: column;
-  border-style: dotted;
-  border-color: chartreuse;
 }
 
 .flexbox-item {
   width: 100%;
   height: 50%;
   overflow: hidden;
-  border-style: dotted;
-  border-color: cornflowerblue;
 }
 
 .flexbox-image {
   width: 30vh;
   position: relative;
   border-radius: 50%;
-  border-style: dotted;
-  border-color: crimson;
 }
 
 .flexbox-header {
@@ -236,16 +226,12 @@ h1 {
   color: grey;
   font-size: medium;
   padding: 1%;
-  border-color: darkgoldenrod;
-  border-style: dotted;
 }
 
 @media (min-width: 1025px) {
   .flexbox-container {
     display: flex;
     flex-direction: row;
-    border-style: dotted;
-    border-color: chartreuse;
     align-items: center;
     justify-content: center;
   }
