@@ -4,8 +4,6 @@
   background: black;
   align-content: center;
   justify-content: center;
-  border-style: dotted;
-  border-color: crimson;
 }
 
 .card__container {
@@ -16,8 +14,6 @@
   align-items: center;
   justify-items: center;
   color: white;
-  border-style: dotted;
-  border-color: cyan;
 }
 
 .card {
@@ -46,8 +42,6 @@
   padding: 2px 2px 2px 2px;
   cursor: pointer;
   transition: 0.7s all ease-in-out;
-  border-style: dotted;
-  border-color: darkgreen;
 }
 .card__header {
   text-transform: uppercase;

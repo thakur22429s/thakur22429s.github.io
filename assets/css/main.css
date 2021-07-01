@@ -27,8 +27,6 @@ h1 {
   float: left;
   overflow: hidden;
   padding-left: 5px;
-  border-style: dotted;
-  border-color: darkturquoise;
 }
 
 .back a {
@@ -54,8 +52,6 @@ h1 {
     float: left;
     overflow: hidden;
     padding-left: 5px;
-    border-style: dotted;
-    border-color: darkturquoise;
   }
 }
 
@@ -63,8 +59,6 @@ h1 {
   float: left;
   overflow: hidden;
   padding-left: 1%;
-  border-style: dotted;
-  border-color: darkorchid;
 }
 
 .dropdown .dropbtn,
@@ -144,8 +138,6 @@ h1 {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-style: dotted;
-  border-color: greenyellow;
 }
 
 .navbar-links ul {
@@ -246,8 +238,6 @@ h1 {
   color: grey;
   font-size: medium;
   padding: 1%;
-  border-style: dotted;
-  border-color: darkgoldenrod;
 }
 
 @media (min-width: 1025px) {
