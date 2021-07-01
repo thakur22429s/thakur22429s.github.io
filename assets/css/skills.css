@@ -1,20 +1,17 @@
 .flexbox-skills {
-  width: 80%;
-  height: 600px;
-  transform: translate(12%, 12%);  
+  width: 80%; 
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  align-content: center;
 }
 
 .flip-card {
   background-color: transparent;
-  height: 550px;
-  width: 450px;
-  padding: 30px 30px 30px 30px;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  height: 65vh;
+  width: 26vw;
+  padding: 3vh 3vh 3vh 3vh;
+  perspective: 80vw; /* Remove this if you don't want the 3D effect */
 }
 
 /* This container is needed to position the front and back side */
@@ -68,4 +65,32 @@
   font-weight: bold;
   line-height: 40px;
   transform: rotateY(180deg);
+}
+
+@media screen and (max-width: 1024px) {
+  .flexbox-skills {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: 5vh;
+    padding-bottom: 5vh;
+  }
+
+  .flip-card {
+    background-color: transparent;
+    height: 60vh;
+    width: 85vw;
+    padding: 2vh 2vh 2vh 2vh;
+    perspective: 200vw; /* Remove this if you don't want the 3D effect */
+  }
+
+  .flip-card-front {
+    font-size: 5vh;
+  }
+
+  .flip-card-back {
+    font-size: 2.7vh;
+    line-height: 4.5vh;
+  }
 }
