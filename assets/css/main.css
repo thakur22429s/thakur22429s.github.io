@@ -238,6 +238,7 @@ h1 {
   color: grey;
   font-size: medium;
   padding: 1%;
+  border: dotted darkgoldenrod;
 }
 
 @media (min-width: 1025px) {
