@@ -228,19 +228,6 @@ h1 {
   color: coral;
 }
 
-.footer {
-  position: fixed;
-  width: max-content;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: auto 0;
-  color: grey;
-  font-size: medium;
-  padding: 1%;
-  border: dotted darkgoldenrod;
-}
-
 @media (min-width: 1025px) {
   .flexbox-container {
     display: flex;
@@ -259,5 +246,17 @@ h1 {
     width: 55%;
     position: relative;
     border-radius: 50%;
+  }
+
+  .footer {
+    position: fixed;
+    width: max-content;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto 0;
+    color: grey;
+    font-size: medium;
+    padding: 1%;
   }
 }

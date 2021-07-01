@@ -1,89 +1,89 @@
 .edu-container {
+  display: flex;
+  height: 80vh;
+  width: 90vw;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.edu1 {
+  width: 100%;
+}
+
+.edu1 h2 {
+  color: coral;
+  font-family: inherit;
+  font-size: 3.81vh;
+  font-weight: bold;
+}
+
+.edu1-content {
+  color: white;
+  font-family: inherit;
+  font-size: 1.97vh;
+  font-weight: normal;
+  line-height: 2.58vh;
+}
+
+.edu2 {
+  width: 100%;
+}
+
+.edu2 h2 {
+  color: coral;
+  font-family: inherit;
+  font-size: 3.81vh;
+  font-weight: bold;
+}
+
+.edu2-content {
+  color: white;
+  font-family: inherit;
+  font-size: 1.97vh;
+  font-weight: normal;
+  line-height: 2.58vh;
+}
+
+@media (min-width: 600px) {
+  .edu-container {
     display: flex;
     height: 80vh;
     width: 90vw;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+    justify-content: space-around;
+    align-items: flex-start;
+  }
 
-.edu1 {
-    width: 100%;
-}
-
-.edu1 h2 {
-    color: coral;
-    font-family: inherit;
-    font-size: 3.81vh;
+  .edu1 h2 {
+    font-size: 40px;
     font-weight: bold;
-}
+  }
 
-.edu1-content {
-    color: white;
-    font-family: inherit;
-    font-size: 1.97vh;
-    font-weight: normal;
-    line-height: 2.58vh;
-}
+  .edu1-content {
+    font-size: 20px;
+    line-height: 25px;
+  }
 
-.edu2 {
-    width: 100%;
-}
-
-.edu2 h2 {
-    color: coral;
-    font-family: inherit;
-    font-size: 3.81vh;
+  .edu2 h2 {
+    font-size: 40px;
     font-weight: bold;
-}
+  }
 
-.edu2-content {
-    color: white;
-    font-family: inherit;
-    font-size: 1.97vh;
-    font-weight: normal;
-    line-height: 2.58vh;
-}
-
-@media (min-width: 600px) {
-    .edu-container {
-        display: flex;
-        height: 80vh;
-        width: 90vw;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: flex-start;
-    }
-
-    .edu1 h2 {
-        font-size: 40px;
-        font-weight: bold;
-    }
-
-    .edu1-content {
-        font-size: 20px;
-        line-height: 25px;
-    }
-
-    .edu2 h2 {
-        font-size: 40px;
-        font-weight: bold;
-    }
-
-    .edu2-content {
-        font-size: 20px;
-        line-height: 25px;
-    }
+  .edu2-content {
+    font-size: 20px;
+    line-height: 25px;
+  }
 }
 
 @media (min-width: 1024px) {
-    .edu-container {
-        position: fixed;
-        transform: translate(-50%, -50%);
-        padding: 5%;
-    }
+  .edu-container {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    padding: 5%;
+  }
 
-    .edu1 {
-        margin-top: -10vh;
-    }
+  .edu1 {
+    margin-top: -10vh;
+  }
 }
