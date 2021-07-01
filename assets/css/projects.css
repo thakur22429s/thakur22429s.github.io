@@ -1,37 +1,11 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: inherit;
-}
-
 .container {
-  position: absolute;
   width: 90%;
   height: 50%;
-  transform: translate(5%, 30%);
   background: black;
   align-content: center;
   justify-content: center;
-}
-
-.card {
-  width: 60%;
-  height: 80%;
-  max-height: 300px;
-  padding: auto;
-  text-align: center;
-  background: black;
-  border-color: coral;
-  border-style: solid;
-  border-radius: 8px;
-}
-
-.card:hover {
-    margin-top: -10px;
-    box-shadow: -5px -5px 5px 0px coral, inset -2px -2px 2px 0px coral;
+  border-style: dotted;
+  border-color: crimson;
 }
 
 .card__container {
@@ -42,29 +16,49 @@
   align-items: center;
   justify-items: center;
   color: white;
+  border-style: dotted;
+  border-color: cyan;
 }
+
+.card {
+  width: 60%;
+  height: 100%;
+  padding: auto;
+  text-align: center;
+  background: black;
+  border-color: coral;
+  border-style: solid;
+  border-radius: 8px;
+}
+
+.card:hover {
+  margin-top: -10px;
+  box-shadow: -5px -5px 5px 0px coral, inset -2px -2px 2px 0px coral;
+}
+
 .card__content {
   width: 90%;
-  height: 80%;
+  height: 75%;
   font-size: 20px;
   font-weight: bold;
   background: black;
-  margin: 10px auto;
-  border-radius: 5px;
-  padding: 5px 5px 5px 5px;
+  margin: 2px auto;
+  padding: 2px 2px 2px 2px;
   cursor: pointer;
   transition: 0.7s all ease-in-out;
+  border-style: dotted;
+  border-color: darkgreen;
 }
 .card__header {
   text-transform: uppercase;
   color: coral;
   font-weight: bolder;
   font-size: 35px;
-  margin: 30px auto;
+  margin: 15px auto;
 }
 
 .card__info {
-    padding: 0px 5px 50px 5px; 
+  padding: 5px 5px 10px 5px;
 }
 
 .card__button {
@@ -80,6 +74,95 @@
 }
 
 .card__button:hover {
-    color: black;
-    background-color: coral;
+  color: black;
+  background-color: coral;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+@media screen and (max-width: 650px) {
+  .container {
+    width: 80vw;
+    height: 80vh;
+  }
+
+  .card {
+    width: 90%;
+    height: 95%;
+    border-radius: 1vh;
+  }
+
+  .card__content {
+    height: 90%;
+    font-size: 2vh;
+    line-height: 3vh;
+    padding: 0vh 0vh 0vh 0vh;
+  }
+
+  .card__header {
+    font-size: 4vh;
+    line-height: 5vh;
+    padding-bottom: 0;
+  }
+
+  .card__info {
+    padding: 2vh 2vh 2vh 2vh;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .card__button {
+    font-size: 2.5vh;
+    margin: 0.8vw auto;
+  }
+}
+
+@media screen and (min-width: 651px) and (max-width: 1024px) {
+  .container {
+    width: 80vw;
+    height: 80vh;
+  }
+
+  .card {
+    width: 90%;
+    height: 95%;
+    border-radius: 1vh;
+  }
+
+  .card__content {
+    height: 90%;
+    font-size: 2vh;
+    line-height: 3vh;
+    padding: 0vh 0vh 0vh 0vh;
+  }
+
+  .card__header {
+    font-size: 4vh;
+    line-height: 5vh;
+    padding-bottom: 5vh;
+  }
+
+  .card__info {
+    padding: 2vh 2vh 5vh 2vh;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .card__button {
+    font-size: 2.5vh;
+    margin: 0.8vw auto;
+  }
 }

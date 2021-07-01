@@ -239,9 +239,10 @@ h1 {
 .footer {
   position: fixed;
   width: max-content;
-  bottom: 0%;
+  bottom: 0;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin: auto 0;
   color: grey;
   font-size: medium;
   padding: 1%;
