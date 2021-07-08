@@ -1,5 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Space+Mono&effect=font-effect-anaglyph");
 
+:root {
+  --dark: #111;
+  --light: #fefefe;
+  --color: var(--dark);
+  --bg: var(--light);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color: var(--light);
+    --bg: var(--dark);
+  }
+}
+
 html,
 body {
   margin: 0;
@@ -226,6 +239,129 @@ h1 {
 
 .resume-link:hover {
   color: coral;
+}
+
+p[data-scroll='in'] [data-char]:after {
+  -webkit-animation-name: glitch-switch;
+          animation-name: glitch-switch;
+}
+.reveal--0 [data-char]:after {
+  -webkit-animation-iteration-count: calc(var(--char-index) * 0.55);
+          animation-iteration-count: calc(var(--char-index) * 0.55);
+}
+.reveal--1 [data-char]:after {
+  -webkit-animation-iteration-count: 4;
+          animation-iteration-count: 4;
+}
+.reveal--2 [data-char]:after {
+  -webkit-animation-iteration-count: var(--count);
+          animation-iteration-count: var(--count);
+}
+p:nth-of-type(1) {
+  position: absolute;
+  opacity: 0;
+}
+.word {
+  position: relative;
+  display: inline-block;
+}
+[data-char] {
+  color: transparent;
+  position: relative;
+}
+[data-char]:after {
+  --txt: attr(data-char);
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+  -webkit-animation-timing-function: steps(1);
+          animation-timing-function: steps(1);
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+  content: var(--txt);
+  color: var(--color);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.container {
+  height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+  -ms-scroll-snap-type: y mandatory;
+      scroll-snap-type: y mandatory;
+}
+@-webkit-keyframes glitch-switch {
+  0% {
+    content: var(--char-0);
+  }
+  10% {
+    content: var(--char-1);
+  }
+  20% {
+    content: var(--char-2);
+  }
+  30% {
+    content: var(--char-3);
+  }
+  40% {
+    content: var(--char-4);
+  }
+  50% {
+    content: var(--char-5);
+  }
+  60% {
+    content: var(--char-6);
+  }
+  70% {
+    content: var(--char-7);
+  }
+  80% {
+    content: var(--char-8);
+  }
+  90% {
+    content: var(--char-9);
+  }
+  100% {
+    content: var(--char-0);
+  }
+}
+@keyframes glitch-switch {
+  0% {
+    content: var(--char-0);
+  }
+  10% {
+    content: var(--char-1);
+  }
+  20% {
+    content: var(--char-2);
+  }
+  30% {
+    content: var(--char-3);
+  }
+  40% {
+    content: var(--char-4);
+  }
+  50% {
+    content: var(--char-5);
+  }
+  60% {
+    content: var(--char-6);
+  }
+  70% {
+    content: var(--char-7);
+  }
+  80% {
+    content: var(--char-8);
+  }
+  90% {
+    content: var(--char-9);
+  }
+  100% {
+    content: var(--char-0);
+  }
 }
 
 @media (min-width: 1025px) {
