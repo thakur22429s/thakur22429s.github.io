@@ -33,7 +33,7 @@ h1 {
   float: none;
   color: white;
   padding: 12px 16px;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bold;
   text-decoration: none;
   display: block;
@@ -207,10 +207,10 @@ h1 {
 
 .flexbox-item-2 {
   color: white;
-  font-size: 1.5vh;
+  font-size: 2vh;
   padding: 2%;
   word-break: break-word;
-  font-weight: normal;
+  font-weight: bold;
   justify-content: center;
   align-items: center;
 }
