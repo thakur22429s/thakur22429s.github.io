@@ -1,16 +1,42 @@
+.left-nav-conatiner {
+  position: absolute;
+  width: 50%;
+  top: 0;
+  left: 0;
+  padding-left: 1%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /*border-style: dashed;
+  border-color: aquamarine;*/
+}
+
+.overall-flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 88%;
+  margin-top: 7%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  border-style: dashed;
+  border-color: cadetblue;
+}
 
 .flexbox-skills {
-  width: 80%;
-  margin-bottom: 0;
+  width: 50%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
+  border-style: dashed;
+  border-color: blueviolet;
 }
 
 .flip-card {
   background-color: transparent;
-  height: 65vh;
-  width: 26vw;
+  height: 40vh;
+  width: 40vw;
   padding: 3vh 3vh 3vh 3vh;
   perspective: 80vw; /* Remove this if you don't want the 3D effect */
 }
@@ -27,7 +53,7 @@
   transform-style: preserve-3d;
 }
 
-/* Do an horizontal flip when you move the mouse over the flip box container */
+/* Do a horizontal flip when you move the mouse over the flip box container */
 .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
 }

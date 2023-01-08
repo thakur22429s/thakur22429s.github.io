@@ -23,10 +23,52 @@ h1 {
   font-weight: bold;
 }
 
+.type {
+  display:inline-block;
+}
+
+.type > span {
+  display:grid;
+  overflow: hidden;
+  height:1.2em;
+}
+
+.type span span {
+  width:0%;
+  max-width:max-content;
+  overflow: hidden;
+  height:inherit;
+  word-break:break-all;
+  animation:
+    c 0s infinite steps(1),  
+    t 2s linear infinite alternate,
+    m 16s steps(4) infinite;
+}
+
+.type span span:before {
+  content:" ";
+  display:inline-block;
+}
+
+@keyframes t{
+  90%, 100% {width: 100%}
+}
+
+@keyframes c{
+  0%,100% {box-shadow: 2px 0 0 #0000}
+  50%     {box-shadow: 2px 0 0 coral}
+}
+
+@keyframes m{
+  100% {transform:translateY(-400%)}
+}
+
 .back {
   float: left;
   overflow: hidden;
   padding-left: 5px;
+  /*border-style: dashed;
+  border-color: crimson;*/
 }
 
 .back a {
@@ -59,6 +101,8 @@ h1 {
   float: left;
   overflow: hidden;
   padding-left: 1%;
+  /*border-style: dashed;
+  border-color: chartreuse;*/
 }
 
 .dropdown .dropbtn,
@@ -138,6 +182,8 @@ h1 {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  border-style: dashed;
+  border-color: aquamarine;
 }
 
 .navbar-links ul {
@@ -184,7 +230,7 @@ h1 {
 
 .flexbox-item {
   width: 100%;
-  height: 50%;
+  height: 75%;
   overflow: hidden;
 }
 
@@ -196,7 +242,7 @@ h1 {
 
 .flexbox-header {
   color: coral;
-  font-size: 4vh;
+  font-size: 5vh;
   font-weight: bold;
 }
 
@@ -207,10 +253,10 @@ h1 {
 
 .flexbox-item-2 {
   color: white;
-  font-size: 2vh;
+  font-size: 2.5vh;
   padding: 2%;
   word-break: break-word;
-  font-weight: bold;
+  font-weight: medium;
   justify-content: center;
   align-items: center;
 }
@@ -220,7 +266,7 @@ h1 {
   text-decoration: none;
   text-transform: uppercase;
   font-family: monospace;
-  font-size: 2vh;
+  font-size: 2.5vh;
   font-weight: bold;
 }
 
