@@ -67,8 +67,8 @@ h1 {
   float: left;
   overflow: hidden;
   padding-left: 5px;
-  /*border-style: dashed;
-  border-color: crimson;*/
+  border-style: dashed;
+  border-color: crimson;
 }
 
 .back a {

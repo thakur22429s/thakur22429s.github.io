@@ -11,32 +11,47 @@
   border-color: aquamarine;*/
 }
 
-.overall-flexbox {
+.about-text {
+  color: white;
+  font-family: inherit;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 25px;
+  width: 90%;
+  margin: 5% 0 3% 5%;
+}
+
+.flexbox-container {
+  margin: 5% 5% 5% 5%;
+  height: 80%;
+  width: 90%;
+  border-style: dashed;
+  border-color: pink;
+}
+
+.row {
   display: flex;
+  width: 50%;
   flex-wrap: wrap;
-  flex-direction: column;
-  height: 88%;
-  margin-top: 7%;
-  margin-bottom: 5%;
-  margin-left: 5%;
-  margin-right: 5%;
+  flex-direction: row;
   border-style: dashed;
   border-color: cadetblue;
 }
 
-.flexbox-skills {
-  width: 50%;
+.column {
   display: flex;
+  width: 100%;
+  height: 50%;
   flex-direction: column;
-  justify-content: space-around;
+  flex-wrap: wrap;
   border-style: dashed;
-  border-color: blueviolet;
+  border-color: greenyellow;
 }
 
 .flip-card {
   background-color: transparent;
   height: 40vh;
-  width: 40vw;
+  width: 100%;
   padding: 3vh 3vh 3vh 3vh;
   perspective: 80vw; /* Remove this if you don't want the 3D effect */
 }
@@ -83,7 +98,8 @@
 /* Style the back side */
 .flip-card-back {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
   justify-content: center;
   background-color: transparent;
   font: inherit;
@@ -92,6 +108,8 @@
   font-weight: bold;
   line-height: 40px;
   transform: rotateY(180deg);
+  border-style: dashed;
+  border-color: white;
 }
 
 @media screen and (max-width: 1024px) {

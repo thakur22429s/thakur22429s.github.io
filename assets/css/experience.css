@@ -1,6 +1,7 @@
 .edu-container {
+  position: absolute;
+  margin-top: 30vh;
   display: flex;
-  height: 80vh;
   width: 90vw;
   flex-direction: column;
   align-items: center;
@@ -21,32 +22,14 @@
 .edu1-content {
   color: white;
   font-family: inherit;
-  font-size: 1.97vh;
+  font-size: 2vh;
   font-weight: normal;
-  line-height: 2.58vh;
-}
-
-.edu2 {
-  width: 100%;
-}
-
-.edu2 h2 {
-  color: coral;
-  font-family: inherit;
-  font-size: 3.81vh;
-  font-weight: bold;
-}
-
-.edu2-content {
-  color: white;
-  font-family: inherit;
-  font-size: 1.97vh;
-  font-weight: normal;
-  line-height: 2.58vh;
+  line-height: 3vh;
 }
 
 @media (min-width: 600px) {
   .edu-container {
+    margin-top: 0;
     display: flex;
     height: 80vh;
     width: 90vw;
@@ -56,28 +39,19 @@
   }
 
   .edu1 h2 {
-    font-size: 40px;
+    font-size: 25px;
     font-weight: bold;
   }
 
   .edu1-content {
-    font-size: 20px;
-    line-height: 25px;
-  }
-
-  .edu2 h2 {
-    font-size: 40px;
-    font-weight: bold;
-  }
-
-  .edu2-content {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 25px;
   }
 }
 
 @media (min-width: 1024px) {
   .edu-container {
+    margin-top: 0;
     position: fixed;
     transform: translate(-50%, -50%);
     padding: 5%;
