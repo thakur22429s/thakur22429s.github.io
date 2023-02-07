@@ -67,8 +67,6 @@ h1 {
   float: left;
   overflow: hidden;
   padding-left: 5px;
-  border-style: dashed;
-  border-color: crimson;
 }
 
 .back a {
@@ -182,8 +180,6 @@ h1 {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-style: dashed;
-  border-color: aquamarine;
 }
 
 .navbar-links ul {
