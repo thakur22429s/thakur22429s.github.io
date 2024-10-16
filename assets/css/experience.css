@@ -56,14 +56,6 @@
   }
 }
 
-@media (min-width: 1024px) {
-  .edu-container {
-    margin-top: 0;
-    position: fixed;
-    transform: translate(-50%, -50%);
-    padding: 5%;
-  }
-
   .edu1 {
     margin-top: -10vh;
   }
