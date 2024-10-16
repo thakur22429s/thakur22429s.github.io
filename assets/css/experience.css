@@ -6,9 +6,9 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
   width: 90vw;
+  height: 80vh;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .edu-container::-webkit-scrollbar {
