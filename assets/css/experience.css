@@ -2,10 +2,17 @@
   position: absolute;
   margin-top: 30vh;
   display: flex;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   width: 90vw;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.edu-container::-webkit-scrollbar {
+  display: none; /* hides scrollbar for WebKit browsers (Chrome, Safari) */
 }
 
 .edu1 {
