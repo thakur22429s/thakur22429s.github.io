@@ -12,6 +12,7 @@
       src="https://kit.fontawesome.com/2e8a3c4d79.js"
       crossorigin="anonymous"
     ></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   </head>
   <body>
     <div class="dropdown">
@@ -49,32 +50,69 @@
       <form
         id="contact-form-id"
         class="contact-form-class"
-        method="POST"
-        action="https://formsubmit.co/thakur22429s@gmail.com"
       >
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_subject" value="Personal Website Mail">
-        <input
-          type="hidden"
-          name="_next"
-          value="https://thakur22429s.github.io/"
-        />
         <div class="txtb">
-          <input type="text" name="name" placeholder="Name" required/>
+          <input type="text" id="name" placeholder="Name" required/>
         </div>
 
         <div class="txtb">
-          <input type="email" name="email" placeholder="Email" required/>
+          <input type="email" id="email" placeholder="Email" required/>
         </div>
 
         <div class="txtb">
-          <textarea name="message" placeholder="Your message"></textarea>
+          <textarea id="message" placeholder="Your message"></textarea>
         </div>
-        <button class="btn" type="submit">Send</button>
+        <button class="btn" type="button" onclick="sendEmail()">Send</button>
         <button class="btn-reset" type="reset">
           <i class="fas fa-redo-alt"></i>
         </button>
       </form>
+      <script>
+        // Initialize EmailJS
+        (function(){
+          emailjs.init("F9mNR1mzWFvcXb1FN"); // Replace with your EmailJS public key
+        })();
+
+        function sendEmail() {
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const message = document.getElementById('message').value;
+          
+          // Validate form
+          if (!name || !email || !message) {
+            alert('Please fill in all fields');
+            return;
+          }
+          
+          // Show loading state
+          const submitBtn = document.querySelector('.btn');
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = 'Sending...';
+          submitBtn.disabled = true;
+          
+          // Send email using EmailJS
+          emailjs.send("service_6kpd5tc", "template_h0m0inb", {
+            from_name: name,
+            from_email: email,
+            message: message,
+            to_email: "thakur22429s@gmail.com",
+            time: new Date().toLocaleString()
+          }).then(function(response) {
+            // Success
+            alert('Message sent successfully!');
+            document.getElementById('contact-form-id').reset();
+            window.location.href = 'thanks.html';
+          }, function(error) {
+            // Error
+            alert('Failed to send message. Please try again.');
+            console.error('EmailJS error:', error);
+          }).finally(function() {
+            // Reset button
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+          });
+        }
+      </script>
     </div>
     <div class="footer">&copy; 2025, Abhay Singh Thakur</div>
   </body>
