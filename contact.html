@@ -1,119 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact</title>
-    <link rel="shortcut icon" href="./images/icons8-circled-envelope-96.png" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/contact.css" />
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <script
-      src="https://kit.fontawesome.com/2e8a3c4d79.js"
-      crossorigin="anonymous"
-    ></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  </head>
-  <body>
-    <div class="dropdown">
-      <button class="dropbtn">
-        <i class="fas fa-bars"></i>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link rel="shortcut icon" href="./images/icons8-circled-envelope-96.png" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/contact.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <script src="https://kit.fontawesome.com/2e8a3c4d79.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+
+<body>
+  <div class="dropdown">
+    <button class="dropbtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="about.html">About</a>
+      <a href="experience.html">Experience</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="back">
+    <a href="index.html"><i class="fas fa-home"></i></a>
+  </div>
+  <nav class="navbar">
+    <div class="navbar-links">
+      <ul>
+        <li>
+          <a href="https://www.linkedin.com/in/abhay-singh-thakur/"><i class="fab fa-linkedin"></i></a>
+        </li>
+        <li>
+          <a href="https://github.com/thakur22429s"><i class="fab fa-github"></i></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="contact-form center">
+    <h1>Let's connect! <i class="fas fa-paper-plane"></i></h1>
+    <form id="contact-form-id" class="contact-form-class">
+      <div class="txtb">
+        <input type="text" id="name" placeholder="Name" required />
+      </div>
+
+      <div class="txtb">
+        <input type="email" id="email" placeholder="Email" required />
+      </div>
+
+      <div class="txtb">
+        <textarea id="message" placeholder="Your message"></textarea>
+      </div>
+      <button class="btn" type="button" onclick="sendEmail()">Send</button>
+      <button class="btn-reset" type="reset">
+        <i class="fas fa-redo-alt"></i>
       </button>
-      <div class="dropdown-content">
-        <a href="about.html">About</a>
-        <a href="experience.html">Experience</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-      </div>
-    </div>
-    <div class="back">
-      <a href="index.html"><i class="fas fa-home"></i></a>
-    </div>
-    <nav class="navbar">
-      <div class="navbar-links">
-        <ul>
-          <li>
-            <a href="https://www.linkedin.com/in/abhay-singh-thakur/"
-              ><i class="fab fa-linkedin"></i
-            ></a>
-          </li>
-          <li>
-            <a href="https://github.com/thakur22429s"
-              ><i class="fab fa-github"></i
-            ></a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <div class="contact-form center">
-      <h1>Let's connect! <i class="fas fa-paper-plane"></i></h1>
-      <form
-        id="contact-form-id"
-        class="contact-form-class"
-      >
-        <div class="txtb">
-          <input type="text" id="name" placeholder="Name" required/>
-        </div>
+    </form>
+    <script>
+      // Initialize EmailJS
+      (function () {
+        emailjs.init("F9mNR1mzWFvcXb1FN"); // Replace with your EmailJS public key
+      })();
 
-        <div class="txtb">
-          <input type="email" id="email" placeholder="Email" required/>
-        </div>
+      function sendEmail() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
 
-        <div class="txtb">
-          <textarea id="message" placeholder="Your message"></textarea>
-        </div>
-        <button class="btn" type="button" onclick="sendEmail()">Send</button>
-        <button class="btn-reset" type="reset">
-          <i class="fas fa-redo-alt"></i>
-        </button>
-      </form>
-      <script>
-        // Initialize EmailJS
-        (function(){
-          emailjs.init("F9mNR1mzWFvcXb1FN"); // Replace with your EmailJS public key
-        })();
-
-        function sendEmail() {
-          const name = document.getElementById('name').value;
-          const email = document.getElementById('email').value;
-          const message = document.getElementById('message').value;
-          
-          // Validate form
-          if (!name || !email || !message) {
-            alert('Please fill in all fields');
-            return;
-          }
-          
-          // Show loading state
-          const submitBtn = document.querySelector('.btn');
-          const originalText = submitBtn.innerHTML;
-          submitBtn.innerHTML = 'Sending...';
-          submitBtn.disabled = true;
-          
-          // Send email using EmailJS
-          emailjs.send("service_6kpd5tc", "template_h0m0inb", {
-            from_name: name,
-            from_email: email,
-            message: message,
-            to_email: "thakur22429s@gmail.com",
-            time: new Date().toLocaleString()
-          }).then(function(response) {
-            // Success
-            alert('Message sent successfully!');
-            document.getElementById('contact-form-id').reset();
-            window.location.href = 'thanks.html';
-          }, function(error) {
-            // Error
-            alert('Failed to send message. Please try again.');
-            console.error('EmailJS error:', error);
-          }).finally(function() {
-            // Reset button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-          });
+        // Validate form
+        if (!name || !email || !message) {
+          alert('Please fill in all fields');
+          return;
         }
-      </script>
-    </div>
-    <div class="footer">&copy; 2025, Abhay Singh Thakur</div>
-  </body>
+
+        // Show loading state
+        const submitBtn = document.querySelector('.btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = 'Sending...';
+        submitBtn.disabled = true;
+
+        // Send email using EmailJS
+        emailjs.send("service_6kpd5tc", "template_h0m0inb", {
+          from_name: name,
+          from_email: email,
+          message: message,
+          to_email: "thakur22429s@gmail.com",
+          time: new Date().toLocaleString()
+        }).then(function (response) {
+          // Success
+          alert('Message sent successfully!');
+          document.getElementById('contact-form-id').reset();
+          window.location.href = 'thanks.html';
+        }, function (error) {
+          // Error
+          alert('Failed to send message. Please try again.');
+          console.error('EmailJS error:', error);
+        }).finally(function () {
+          // Reset button
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+        });
+      }
+    </script>
+  </div>
+  <div class="footer">&copy; 2026, Abhay Singh Thakur</div>
+</body>
+
 </html>
