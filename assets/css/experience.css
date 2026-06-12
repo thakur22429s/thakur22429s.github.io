@@ -9,6 +9,7 @@
   height: 80vh;
   flex-direction: column;
   align-items: center;
+  gap: 4vh;
 }
 
 .edu-container::-webkit-scrollbar {
@@ -53,10 +54,5 @@
   .edu1-content {
     font-size: 18px;
     line-height: 25px;
-  }
-}
-
-  .edu1 {
-    margin-top: -10vh;
   }
 }
