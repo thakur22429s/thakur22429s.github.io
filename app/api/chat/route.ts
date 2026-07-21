@@ -5,15 +5,16 @@ import {
   toUIMessageStream,
   type UIMessage,
 } from "ai";
-import { anthropic } from "@ai-sdk/anthropic";
+import { google } from "@ai-sdk/google";
 import { SYSTEM_PROMPT } from "@/lib/persona";
 
 // Runs as a Vercel Function; allow up to 30s for streaming.
 export const maxDuration = 30;
 
-// claude-haiku-4-5: fast + cheap, ample for grounded persona Q&A.
-// Bump to "claude-sonnet-5" if you want more depth per answer.
-const MODEL = "claude-haiku-4-5";
+// Google's open Gemma model via the free AI Studio API tier.
+// Gemma has no system role; the provider prepends `system` to the first
+// user message automatically. "gemma-4-26b-a4b-it" (MoE) is faster/lighter.
+const MODEL = "gemma-4-31b-it";
 
 // Light guards for a public endpoint.
 const MAX_MESSAGES = 24;
@@ -44,7 +45,7 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: anthropic(MODEL),
+    model: google(MODEL),
     system: SYSTEM_PROMPT,
     messages: await convertToModelMessages(trimmed),
     temperature: 0.6,

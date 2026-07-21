@@ -47,7 +47,7 @@ export default function AskAbhay() {
             I&apos;d fit your team.
           </p>
           <p className="ai-note mono">
-            Powered by Claude · answers only from my own history. For anything
+            Powered by Google Gemma · answers only from my own history. For anything
             real, email{" "}
             <a href="mailto:thakur22429s@gmail.com">thakur22429s@gmail.com</a>.
           </p>
