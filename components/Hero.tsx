@@ -35,9 +35,9 @@ export default function Hero() {
             >
               Résumé <span className="a">→</span>
             </a>
-            <a className="btn ghost" href="#ask">
+            <button type="button" className="btn ghost" data-open-chat>
               Talk to AI Abhay <span className="a">→</span>
-            </a>
+            </button>
             <a className="btn ghost" href="#work">
               See the work <span className="a">↓</span>
             </a>

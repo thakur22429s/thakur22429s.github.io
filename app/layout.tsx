@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import CustomCursor from "@/components/CustomCursor";
 import Reveals from "@/components/Reveals";
-import AskSpark from "@/components/AskSpark";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "Abhay Singh Thakur — AI/ML Engineer",
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CustomCursor />
         <Reveals />
         {children}
-        <AskSpark />
+        <ChatWidget />
       </body>
     </html>
   );
