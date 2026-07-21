@@ -34,15 +34,28 @@ export default function Nav() {
         {profile.name}
       </a>
       <span className="links">
-        {LINKS.map((l) => (
-          <a
-            key={l.id}
-            href={`#${l.id}`}
-            className={active === l.id ? "active" : undefined}
-          >
-            {l.label}
+        <span className="nav-sections">
+          {LINKS.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              className={active === l.id ? "active" : undefined}
+            >
+              {l.label}
+            </a>
+          ))}
+        </span>
+        <span className="nav-external">
+          <a href={profile.github} target="_blank" rel="noopener noreferrer">
+            GitHub
           </a>
-        ))}
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+            LinkedIn
+          </a>
+          <a href={profile.resume} target="_blank" rel="noopener noreferrer">
+            Résumé
+          </a>
+        </span>
       </span>
     </nav>
   );

@@ -69,8 +69,24 @@ export default function ChatWidget() {
         onClick={() => setOpen(true)}
       >
         <span className="spark-label">Ask AI Abhay</span>
-        <span className="spark-orbit" aria-hidden>
-          <span className="spark-core" />
+        <span className="spirit" aria-hidden>
+          <svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              className="s-body"
+              d="M30 5C43 5 49.5 21 48 43C47 61.5 39.5 75 30 75C20.5 75 13 61.5 12 43C10.5 21 17 5 30 5Z"
+              fill="rgba(20,20,27,0.6)"
+            />
+            <ellipse cx="30" cy="31" rx="12.5" ry="15.5" fill="rgba(240,234,222,0.9)" />
+            <ellipse cx="24.6" cy="31" rx="2" ry="3.2" fill="#26262c" />
+            <ellipse cx="35.4" cy="31" rx="2" ry="3.2" fill="#26262c" />
+            <path
+              d="M24 40.5C27.5 43.5 32.5 43.5 36 40.5"
+              stroke="rgba(120,108,128,0.5)"
+              strokeWidth="1.3"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
         </span>
       </button>
 

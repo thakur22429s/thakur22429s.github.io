@@ -47,12 +47,6 @@ export default function Life() {
           </span>
           <h2 className="dsp">Through the viewfinder</h2>
         </div>
-        <p className="sub reveal" style={{ paddingBottom: 20 }}>
-          Scroll and the section behaves like a camera — frame lines, a focus
-          reticle, an exposure readout, and a frame counter that ticks as each
-          shot pulls into focus. Photography, the Airbnb story, and badminton
-          live here.
-        </p>
       </div>
 
       <div className="vf" ref={vfRef}>

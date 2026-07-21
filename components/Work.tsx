@@ -303,12 +303,6 @@ export default function Work() {
         </span>
         <h2 className="dsp">A nervous system of work</h2>
       </div>
-      <p className="sub reveal">
-        Every project is a neuron; two of them wire together when they share a
-        tool. Hover one to wake the cell and trace its connections — click to
-        fire the synapse and open it.
-      </p>
-
       <div className="nn" ref={wrapRef}>
         <canvas ref={canvasRef} />
         {pos.length === projects.length &&
