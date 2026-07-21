@@ -1,37 +1,19 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { experience } from "@/data/content";
 
 export default function Experience() {
-  const [open, setOpen] = useState<Set<number>>(new Set([0]));
-  const fpRef = useRef<HTMLDivElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
 
-  // Draw the path in when the section scrolls into view.
-  useEffect(() => {
-    const el = fpRef.current;
+  const scrollByCard = (dir: number) => {
+    const el = stripRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            el.classList.add("in");
-            io.disconnect();
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    const card = el.querySelector<HTMLElement>(".frame");
+    const w = card ? card.offsetWidth + 20 : 400;
+    el.scrollBy({ left: dir * w, behavior: "smooth" });
+  };
 
-  const toggle = (i: number) =>
-    setOpen((prev) => {
-      const next = new Set(prev);
-      if (next.has(i)) next.delete(i);
-      else next.add(i);
-      return next;
-    });
+  const total = String(experience.length).padStart(2, "0");
 
   return (
     <section className="blk wrap" id="experience">
@@ -39,44 +21,47 @@ export default function Experience() {
         <span className="idx">
           <b>02</b> / path
         </span>
-        <h2 className="dsp">The route so far</h2>
+        <h2 className="dsp">Where I&apos;ve worked</h2>
       </div>
 
-      <div className="fp" ref={fpRef}>
-        <ol className="fp-stops">
-          {experience.map((e, i) => {
-            const isOpen = open.has(i);
-            return (
-              <li
-                className={`fp-stop${isOpen ? " open" : ""}${i === 0 ? " now" : ""}`}
-                key={e.role + e.period}
-                style={{ ["--i" as string]: String(i) } as React.CSSProperties}
-              >
-                <button
-                  className="fp-head"
-                  onClick={() => toggle(i)}
-                  aria-expanded={isOpen}
-                >
-                  <span className="fp-when">{e.period}</span>
-                  <span className="fp-role dsp">
-                    {e.role}
-                    <span className="fp-chev" aria-hidden>
-                      ›
-                    </span>
-                  </span>
-                  <span className="fp-org">
-                    {e.org} · {e.place}
-                  </span>
-                </button>
-                <ul className="fp-points">
-                  {e.points.map((p, j) => (
-                    <li key={j}>{p}</li>
-                  ))}
-                </ul>
-              </li>
-            );
-          })}
-        </ol>
+      <div className="strip-wrap reveal">
+        <div className="strip" ref={stripRef}>
+          {experience.map((e, i) => (
+            <article className="frame" key={e.role + e.period}>
+              <div className="frame-top mono">
+                <span>
+                  {String(i + 1).padStart(2, "0")} / {total}
+                </span>
+                <span className="frame-when">{e.period}</span>
+              </div>
+              <h3 className="frame-role dsp">{e.role}</h3>
+              <div className="frame-org">
+                {e.org} · {e.place}
+              </div>
+              <ul className="frame-points">
+                {e.points.map((p, j) => (
+                  <li key={j}>{p}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <div className="strip-nav">
+          <button
+            className="strip-btn"
+            onClick={() => scrollByCard(-1)}
+            aria-label="Previous role"
+          >
+            ←
+          </button>
+          <button
+            className="strip-btn"
+            onClick={() => scrollByCard(1)}
+            aria-label="Next role"
+          >
+            →
+          </button>
+        </div>
       </div>
     </section>
   );
