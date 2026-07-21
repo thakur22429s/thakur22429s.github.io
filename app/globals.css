@@ -218,13 +218,32 @@ a{color:inherit;text-decoration:none}
 /* ask-abhay spark — a roaming glow that pulls the eye to the chat */
 .ask-spark{position:fixed;right:30px;bottom:30px;z-index:70;width:96px;height:96px;border:0;background:none;cursor:none;display:flex;align-items:center;justify-content:center;transition:opacity .4s,transform .4s}
 .ask-spark.gone{opacity:0;transform:scale(.5);pointer-events:none}
-.spirit{width:100%;height:100%;display:flex;align-items:center;justify-content:center;animation:sparkFloat 6s ease-in-out infinite;opacity:.92;filter:drop-shadow(0 8px 16px rgba(0,0,0,.35));transition:opacity .3s,transform .3s}
-.ask-spark:hover .spirit{opacity:1;transform:scale(1.08)}
-.spirit svg{width:50px;height:auto;overflow:visible}
-.fc-tail{transform-box:fill-box;transform-origin:50% 0%;animation:fcTail 3.6s ease-in-out infinite}
-.fc-wing{transform-box:fill-box;transform-origin:15% 5%;animation:fcWing 2.6s ease-in-out infinite}
-@keyframes fcTail{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(4deg)}}
-@keyframes fcWing{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-9deg)}}
+.spirit{width:100%;height:100%;display:flex;align-items:center;justify-content:center;animation:sparkFloat 6s ease-in-out infinite;transition:transform .3s}
+.ask-spark:hover .spirit{transform:scale(1.12)}
+.firefly{position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.ff-core{position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 42% 38%,#fff,#ffdd8a 45%,rgba(255,196,80,0) 78%);box-shadow:0 0 16px 6px rgba(255,201,90,.55),0 0 30px 12px rgba(255,176,66,.28);animation:ffGlow 2.1s ease-in-out infinite}
+.ff-t{position:absolute;border-radius:50%;background:rgba(255,205,120,.5);filter:blur(2px);animation:ffGlow 2.1s ease-in-out infinite}
+.ff-t1{width:7px;height:7px;top:9px;left:10px;animation-delay:.35s;opacity:.5}
+.ff-t2{width:5px;height:5px;top:22px;left:18px;animation-delay:.6s;opacity:.35}
+.ask-spark:hover .ff-core{box-shadow:0 0 22px 8px rgba(255,201,90,.7),0 0 40px 16px rgba(255,176,66,.35)}
+@keyframes ffGlow{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.18)}}
+
+/* nav brand icons */
+.nav-ico{display:inline-flex;align-items:center}
+.nav-ico svg{width:17px;height:17px;fill:currentColor;display:block}
+.nav-ico::after{display:none}
+
+/* contact form */
+.cform{display:flex;flex-direction:column;gap:14px;max-width:560px;margin:26px 0 34px}
+.cform-row{display:flex;gap:14px}
+.cf-in{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:var(--body);font-size:16px;padding:13px 15px;outline:none;transition:border-color .2s;width:100%}
+.cf-in:focus{border-color:var(--teal)}
+.cf-in::placeholder{color:var(--ink-faint)}
+.cf-msg{resize:vertical;min-height:110px}
+.cform-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cf-err{color:var(--rose);font-size:14px}
+.cf-done{max-width:560px;margin:26px 0 34px;padding:20px 22px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--sage);border-radius:10px;color:var(--ink-soft);font-size:17px}
+@media(max-width:560px){.cform-row{flex-direction:column}}
 .spark-label{position:absolute;right:74px;white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);background:var(--panel);border:1px solid var(--line);padding:7px 11px;border-radius:7px;opacity:0;transform:translateX(8px);transition:.25s;pointer-events:none}
 .ask-spark:hover .spark-label{opacity:1;transform:none}
 @keyframes sparkFloat{0%{transform:translate(0,0)}20%{transform:translate(9px,-11px)}40%{transform:translate(-8px,-5px)}60%{transform:translate(7px,7px)}80%{transform:translate(-9px,5px)}100%{transform:translate(0,0)}}

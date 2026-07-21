@@ -1,10 +1,12 @@
 import { profile } from "@/data/content";
+import ContactForm from "@/components/ContactForm";
 
 export default function Footer() {
   return (
     <footer className="foot wrap" id="contact">
       <span className="eyebrow">the last page</span>
-      <h2 className="dsp">Let&apos;s build something worth writing down.</h2>
+      <h2 className="dsp">Let&apos;s connect.</h2>
+      <ContactForm />
       <div className="row">
         <a href={`mailto:${profile.email}`}>Email</a>
         <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">

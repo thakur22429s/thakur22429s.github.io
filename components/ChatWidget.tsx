@@ -70,26 +70,11 @@ export default function ChatWidget() {
       >
         <span className="spark-label">Ask AI Abhay</span>
         <span className="spirit" aria-hidden>
-          <svg viewBox="0 0 64 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* long paradise-flycatcher tail streamers */}
-            <g className="fc-tail">
-              <path d="M31 54C27 66 31 76 25 92" stroke="#b8977e" strokeWidth="2.4" strokeLinecap="round" fill="none" />
-              <path d="M35 54C33 66 37 78 33 94" stroke="#a9876e" strokeWidth="2" strokeLinecap="round" fill="none" />
-              <ellipse cx="25" cy="92" rx="2.4" ry="3.4" transform="rotate(20 25 92)" fill="#b8977e" />
-              <ellipse cx="33" cy="94" rx="2" ry="3" fill="#a9876e" />
-            </g>
-            {/* body + belly */}
-            <ellipse cx="34" cy="42" rx="11" ry="14" transform="rotate(-18 34 42)" fill="#c2a48c" />
-            <ellipse cx="31" cy="46" rx="6" ry="9" transform="rotate(-18 31 46)" fill="#e6dccb" />
-            {/* wing */}
-            <path className="fc-wing" d="M36 34C46 36 46 50 38 52C40 44 39 38 36 34Z" fill="#a9876e" />
-            {/* head + crest + beak */}
-            <circle cx="41" cy="24" r="8.5" fill="#7d6353" />
-            <path d="M41 15L38 8L44 12Z" fill="#7d6353" />
-            <path d="M49 24L56 23L49 27Z" fill="#33312e" />
-            <circle cx="44" cy="23" r="1.6" fill="#26262c" />
-            <circle cx="44.5" cy="22.4" r="0.5" fill="#fff" />
-          </svg>
+          <span className="firefly">
+            <span className="ff-t ff-t1" />
+            <span className="ff-t ff-t2" />
+            <span className="ff-core" />
+          </span>
         </span>
       </button>
 

@@ -11,6 +11,7 @@
     "@ai-sdk/anthropic": "^4.0.16",
     "@ai-sdk/google": "^4.0.21",
     "@ai-sdk/react": "^4.0.35",
+    "@emailjs/browser": "^4.4.1",
     "@types/d3-force": "^3.0.10",
     "ai": "^7.0.32",
     "d3-force": "^3.0.0",
