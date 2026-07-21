@@ -139,12 +139,12 @@ export type Project = {
 
 // Flagship projects — rendered as the neural constellation.
 export const projects: Project[] = [
-  { id: "det", x: 18, y: 34, color: "#2FD9C6", category: "Perception", title: "3D Object Detection", blurb: "LIDAR + camera fusion for autonomous perception, improving localization accuracy 25% over baseline.", tech: "Rutgers Research · PyTorch · OpenCV" },
-  { id: "pharma", x: 42, y: 60, color: "#FF6F9C", category: "Safety", title: "PharmaGuard", blurb: "A distilled language model + RAG that warns before medications collide, across 1M+ interactions.", tech: "Python · HuggingFace · FAISS", link: "https://github.com/thakur22429s/DrugLM", linkLabel: "GitHub" },
-  { id: "badminton", x: 63, y: 26, color: "#9FD05C", category: "Sport", title: "Badminton-Sense", blurb: "Classifies badminton strokes from broadcast video using pose estimation and sequence models.", tech: "PyTorch · MediaPipe · BiLSTM", link: "https://github.com/thakur22429s/BadmintonSense", linkLabel: "GitHub" },
-  { id: "nocta", x: 82, y: 50, color: "#FFC24B", category: "Shipped", title: "Nocta", blurb: "A card-deck social discovery app for college students, live on the Apple App Store.", tech: "Flutter · Firebase · iOS", link: "https://apps.apple.com/us/app/nocta/id6758424070", linkLabel: "App Store" },
-  { id: "acp", x: 30, y: 82, color: "#7C86FF", category: "In flight", title: "ACP", blurb: "An AI career platform surfacing role and skill matches with RAG over your profile.", tech: "Next.js · Supabase · pgvector" },
-  { id: "boardroom", x: 70, y: 80, color: "#FF7A45", category: "In flight", title: "Investor Boardroom", blurb: "Pitch to a panel of AI investor personas that grill you in character and return a structured critique.", tech: "Next.js · Supabase · LLM" },
+  { id: "det", x: 18, y: 34, color: "#84B3AC", category: "Perception", title: "3D Object Detection", blurb: "LIDAR + camera fusion for autonomous perception, improving localization accuracy 25% over baseline.", tech: "Rutgers Research · PyTorch · OpenCV" },
+  { id: "pharma", x: 42, y: 60, color: "#BBA0A0", category: "Safety", title: "PharmaGuard", blurb: "A distilled language model + RAG that warns before medications collide, across 1M+ interactions.", tech: "Python · HuggingFace · FAISS", link: "https://github.com/thakur22429s/DrugLM", linkLabel: "GitHub" },
+  { id: "badminton", x: 63, y: 26, color: "#A2B295", category: "Sport", title: "Badminton-Sense", blurb: "Classifies badminton strokes from broadcast video using pose estimation and sequence models.", tech: "PyTorch · MediaPipe · BiLSTM", link: "https://github.com/thakur22429s/BadmintonSense", linkLabel: "GitHub" },
+  { id: "nocta", x: 82, y: 50, color: "#C9B79A", category: "Shipped", title: "Nocta", blurb: "A card-deck social discovery app for college students, live on the Apple App Store.", tech: "Flutter · Firebase · iOS", link: "https://apps.apple.com/us/app/nocta/id6758424070", linkLabel: "App Store" },
+  { id: "acp", x: 30, y: 82, color: "#939CB0", category: "In flight", title: "ACP", blurb: "An AI career platform surfacing role and skill matches with RAG over your profile.", tech: "Next.js · Supabase · pgvector" },
+  { id: "boardroom", x: 70, y: 80, color: "#BE9B85", category: "In flight", title: "Investor Boardroom", blurb: "Pitch to a panel of AI investor personas that grill you in character and return a structured critique.", tech: "Next.js · Supabase · LLM" },
 ];
 
 // How flagship projects connect in the neural graph (indices into `projects`).

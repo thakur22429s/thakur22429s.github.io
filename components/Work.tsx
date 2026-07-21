@@ -116,14 +116,14 @@ export default function Work() {
       if (st.started) st.intro = Math.min(1, (now - st.started) / 900);
       const t = now / 1000;
 
-      if (!reduce && st.started && now - st.lastAmb > 2600) {
+      if (!reduce && st.started && now - st.lastAmb > 4400) {
         st.lastAmb = now;
         if (st.HL < 0) fire(Math.floor(Math.random() * projects.length));
       }
 
       for (let i = 0; i < projects.length; i++) {
-        st.act[i] += (st.target[i] - st.act[i]) * 0.12;
-        st.flash[i] *= 0.92;
+        st.act[i] += (st.target[i] - st.act[i]) * 0.08;
+        st.flash[i] *= 0.94;
       }
 
       // faint field
@@ -166,40 +166,40 @@ export default function Work() {
         ctx.beginPath();
         ctx.moveTo(A.x, A.y);
         ctx.quadraticCurveTo(C.x, C.y, B.x, B.y);
-        ctx.strokeStyle = hex(REST, (0.16 + 0.1 * bright) * st.intro);
+        ctx.strokeStyle = hex(REST, (0.12 + 0.08 * bright) * st.intro);
         ctx.lineWidth = 1;
         ctx.stroke();
         if (bright > 0.02) {
           const g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
-          g.addColorStop(0, hex(projects[ea].color, 0.9 * bright * st.intro));
-          g.addColorStop(1, hex(projects[eb].color, 0.9 * bright * st.intro));
+          g.addColorStop(0, hex(projects[ea].color, 0.5 * bright * st.intro));
+          g.addColorStop(1, hex(projects[eb].color, 0.5 * bright * st.intro));
           ctx.strokeStyle = g;
-          ctx.lineWidth = 1.2 + 1.4 * bright;
+          ctx.lineWidth = 1 + 0.7 * bright;
           ctx.stroke();
           if (!reduce) {
-            const spd = 0.12 + ((k * 29) % 16) / 100;
+            const spd = 0.07 + ((k * 29) % 12) / 100;
             const tt = (t * spd + k * 0.13) % 1;
             const sp = qpt(A, C, B, tt);
-            ctx.fillStyle = hex(projects[ea].color, bright * st.intro);
+            ctx.fillStyle = hex(projects[ea].color, 0.6 * bright * st.intro);
             ctx.beginPath();
-            ctx.arc(sp.x, sp.y, 2.4, 0, 6.29);
+            ctx.arc(sp.x, sp.y, 1.6, 0, 6.29);
             ctx.fill();
           }
         }
       });
 
       // firing pulses
-      const DUR = 620;
+      const DUR = 950;
       st.fires = st.fires.filter((f) => {
         const el = now - f.start;
         if (el > DUR) return false;
         const pr = el / DUR,
           ease = 1 - Math.pow(1 - pr, 2);
         const O = st.pos[f.i];
-        ctx.strokeStyle = hex(projects[f.i].color, (1 - pr) * 0.9 * st.intro);
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = hex(projects[f.i].color, (1 - pr) * 0.45 * st.intro);
+        ctx.lineWidth = 1.1;
         ctx.beginPath();
-        ctx.arc(O.x, O.y, 8 + ease * 46, 0, 6.29);
+        ctx.arc(O.x, O.y, 6 + ease * 32, 0, 6.29);
         ctx.stroke();
         projectEdges.forEach(([ea, eb], k) => {
           if (ea !== f.i && eb !== f.i) return;
@@ -208,9 +208,9 @@ export default function Work() {
             B = st.pos[far],
             C = st.ctrl[k];
           const sp = qpt(A, C, B, ease);
-          ctx.fillStyle = hex(projects[f.i].color, (1 - pr * 0.6) * st.intro);
+          ctx.fillStyle = hex(projects[f.i].color, (1 - pr * 0.6) * 0.7 * st.intro);
           ctx.beginPath();
-          ctx.arc(sp.x, sp.y, 4.2, 0, 6.29);
+          ctx.arc(sp.x, sp.y, 2.8, 0, 6.29);
           ctx.fill();
           if (pr > 0.92) st.flash[far] = 1;
         });
@@ -221,27 +221,27 @@ export default function Work() {
       projects.forEach((n, i) => {
         const P = st.pos[i];
         const a = Math.max(st.act[i], st.flash[i]);
-        const glow = 6 + a * 22;
+        const glow = 5 + a * 15;
         const rg = ctx.createRadialGradient(P.x, P.y, 0, P.x, P.y, glow);
-        rg.addColorStop(0, hex(n.color, (0.2 + 0.75 * a) * st.intro));
+        rg.addColorStop(0, hex(n.color, (0.12 + 0.45 * a) * st.intro));
         rg.addColorStop(1, hex(n.color, 0));
         ctx.fillStyle = rg;
         ctx.beginPath();
         ctx.arc(P.x, P.y, glow, 0, 6.29);
         ctx.fill();
-        ctx.strokeStyle = hex(a > 0.05 ? n.color : REST, (0.22 + 0.5 * a) * st.intro);
+        ctx.strokeStyle = hex(a > 0.05 ? n.color : REST, (0.14 + 0.4 * a) * st.intro);
         ctx.lineWidth = 1;
         for (let s = 0; s < 5; s++) {
           const ang = (s / 5) * 6.28 + i;
-          const l = 7 + a * 7;
+          const l = 5 + a * 5;
           ctx.beginPath();
           ctx.moveTo(P.x + Math.cos(ang) * 5, P.y + Math.sin(ang) * 5);
           ctx.lineTo(P.x + Math.cos(ang) * (5 + l), P.y + Math.sin(ang) * (5 + l));
           ctx.stroke();
         }
-        ctx.fillStyle = hex(n.color, st.intro);
+        ctx.fillStyle = hex(n.color, 0.82 * st.intro);
         ctx.beginPath();
-        ctx.arc(P.x, P.y, 4.5 + a * 2.5, 0, 6.29);
+        ctx.arc(P.x, P.y, 3.8 + a * 2, 0, 6.29);
         ctx.fill();
       });
 
