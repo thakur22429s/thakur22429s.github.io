@@ -14,30 +14,21 @@ export const profile = {
 export const hero = {
   // Rendered with <em class="t|g|r"> accent spans on the highlighted words.
   headline: [
-    { text: "An engineer who " },
-    { text: "teaches", accent: "t" },
-    { text: " machines to see, " },
-    { text: "ship", accent: "g" },
+    { text: "Software engineer", accent: "t" },
+    { text: ", " },
+    { text: "machine learning engineer", accent: "g" },
     { text: ", and " },
-    { text: "tell stories", accent: "r" },
+    { text: "graduate researcher", accent: "r" },
     { text: "." },
   ] as { text: string; accent?: "t" | "g" | "r" }[],
   lede:
-    "I'm Abhay — a Master's CS student at Rutgers doing graduate research in 3D perception, lecturing ML to undergrads, and shipping products between semesters. Off the page: a camera, a badminton racket, and an apartment I quietly turned into an Airbnb.",
+    "I'm Abhay — a Master's student in Computer Science at Rutgers (graduating May 2026), specializing in AI and machine learning. I lecture the ML Principles course, do graduate research in 3D object detection, and ship my own products on the side.",
 };
 
 export const about = {
-  statement: [
-    { text: "I build ML systems that " },
-    { text: "learn", accent: "teal" },
-    { text: " and software that " },
-    { text: "ships", accent: "ember" },
-    { text: " — then I go " },
-    { text: "teach", accent: "gold" },
-    { text: " someone how it works, or go " },
-    { text: "photograph", accent: "rose" },
-    { text: " something far from a screen." },
-  ] as { text: string; accent?: string }[],
+  photo: "/abhay.jpg",
+  paragraph:
+    "I am a Master's student in Computer Science at Rutgers University (graduating May 2026), specializing in AI and Machine Learning. At Rutgers I lecture the undergraduate Machine Learning Principles course and have worked on graduate research in 3D object detection, fusing LIDAR and camera sensor data. Before that, I earned my B.S. in Computer Science and Data Science at Purdue University, where I built backend services used by 10,000+ students and taught Data Structures and Algorithms as an undergraduate TA. I have also interned at Pacific Northwest National Lab, automating infrastructure for security research testbeds with Terraform and Ansible. Outside of coursework and research, I ship my own products — including a Flutter app live on the Apple App Store — and build full-stack and ML projects ranging from RAG-based medication safety tools to deep learning pipelines for sports video. Hackathons got me started (1st place at Purdue Hackers' Hackathon, top 10 at BoilerMake VIII), and that habit of building things end-to-end has stuck. I am currently looking for software engineering and machine learning roles where I can keep doing exactly that.",
   facts: [
     { k: "Now", v: "M.S. Computer Science, Rutgers — AI/ML, grad May 2026" },
     { k: "Doing", v: "3D object-detection research · lecturing ML Principles" },
