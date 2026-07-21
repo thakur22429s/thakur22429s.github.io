@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import CustomCursor from "@/components/CustomCursor";
 import Reveals from "@/components/Reveals";
+import AskSpark from "@/components/AskSpark";
 
 export const metadata: Metadata = {
   title: "Abhay Singh Thakur — AI/ML Engineer",
@@ -14,11 +15,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <div className="bg-layer" aria-hidden />
+        <div className="bg-layer" aria-hidden>
+          <span className="blob b1" />
+          <span className="blob b2" />
+          <span className="blob b3" />
+        </div>
         <div className="grain-layer" aria-hidden />
         <CustomCursor />
         <Reveals />
         {children}
+        <AskSpark />
       </body>
     </html>
   );

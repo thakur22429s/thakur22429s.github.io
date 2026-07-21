@@ -10,22 +10,14 @@ export default function About() {
         <h2 className="dsp">The short version</h2>
       </div>
       <div className="about-grid">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="about-photo reveal"
-          src={about.photo}
-          alt="Abhay Singh Thakur"
-        />
-        <div className="about-body reveal">
-          <p className="about-para">{about.paragraph}</p>
-          <div className="facts">
-            {about.facts.map((f) => (
-              <div className="f" key={f.k}>
-                <span className="k">{f.k}</span>
-                <span>{f.v}</span>
-              </div>
-            ))}
-          </div>
+        <p className="about-para reveal">{about.paragraph}</p>
+        <div className="facts reveal">
+          {about.facts.map((f) => (
+            <div className="f" key={f.k}>
+              <span className="k">{f.k}</span>
+              <span>{f.v}</span>
+            </div>
+          ))}
         </div>
       </div>
       <div className="edu reveal">
