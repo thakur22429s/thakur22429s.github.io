@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { profile } from "@/data/content";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const LINKS = [
   { id: "about", label: "About" },
@@ -71,6 +72,7 @@ export default function Nav() {
           <a href={profile.resume} target="_blank" rel="noopener noreferrer">
             Résumé
           </a>
+          <ThemeToggle />
         </span>
       </span>
     </nav>

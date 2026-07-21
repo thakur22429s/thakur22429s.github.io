@@ -97,6 +97,15 @@ export default function Work() {
     const ctx = cv.getContext("2d")!;
     const st = S.current;
 
+    let isLight = document.documentElement.dataset.theme === "light";
+    const themeMO = new MutationObserver(() => {
+      isLight = document.documentElement.dataset.theme === "light";
+    });
+    themeMO.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     let W = 0,
       H = 0,
       raf = 0;
@@ -165,6 +174,17 @@ export default function Work() {
       const n = parseInt(c.slice(1), 16);
       return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
     };
+    const darken = (c: string, f: number) => {
+      const n = parseInt(c.slice(1), 16);
+      return `#${(
+        (1 << 24) +
+        (Math.round(((n >> 16) & 255) * f) << 16) +
+        (Math.round(((n >> 8) & 255) * f) << 8) +
+        Math.round((n & 255) * f)
+      )
+        .toString(16)
+        .slice(1)}`;
+    };
     const bob = (i: number, t: number): Pt => ({
       x: Math.sin(t * 0.4 + i * 1.7) * 3,
       y: Math.cos(t * 0.34 + i * 2.1) * 3,
@@ -174,6 +194,14 @@ export default function Work() {
       ctx.clearRect(0, 0, W, H);
       if (st.started) st.intro = Math.min(1, (now - st.started) / 1100);
       const t = now / 1000;
+      // Light theme: boost alpha and darken colors so pulses read on cream.
+      const AB = isLight ? 1.9 : 1;
+      const ab = (v: number) => {
+        const x = v * AB;
+        return x > 1 ? 1 : x;
+      };
+      const RESTc = isLight ? "#5c584f" : REST;
+      const nc = (c: string) => (isLight ? darken(c, 0.52) : c);
       if (!st.base.length) {
         raf = requestAnimationFrame(frame);
         return;
@@ -208,13 +236,13 @@ export default function Work() {
         ctx.beginPath();
         ctx.moveTo(A.x, A.y);
         ctx.quadraticCurveTo(cx, cy, B.x, B.y);
-        ctx.strokeStyle = hex(REST, (0.08 + 0.05 * e.w + 0.14 * a) * st.intro);
+        ctx.strokeStyle = hex(RESTc, ab(0.08 + 0.05 * e.w + 0.14 * a) * st.intro);
         ctx.lineWidth = 0.7 + e.w * 0.25;
         ctx.stroke();
         if (a > 0.03) {
           const g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
-          g.addColorStop(0, hex(projects[e.a].color, 0.5 * a * st.intro));
-          g.addColorStop(1, hex(projects[e.b].color, 0.5 * a * st.intro));
+          g.addColorStop(0, hex(nc(projects[e.a].color), ab(0.5 * a) * st.intro));
+          g.addColorStop(1, hex(nc(projects[e.b].color), ab(0.5 * a) * st.intro));
           ctx.strokeStyle = g;
           ctx.lineWidth = 0.9 + 0.8 * a;
           ctx.stroke();
@@ -229,7 +257,7 @@ export default function Work() {
         const pr = el / DUR,
           ease = 1 - Math.pow(1 - pr, 2);
         const O = P(f.i);
-        ctx.strokeStyle = hex(projects[f.i].color, (1 - pr) * 0.4 * st.intro);
+        ctx.strokeStyle = hex(nc(projects[f.i].color), ab((1 - pr) * 0.4) * st.intro);
         ctx.lineWidth = 1.1;
         ctx.beginPath();
         ctx.arc(O.x, O.y, 6 + ease * 30, 0, 6.29);
@@ -244,11 +272,11 @@ export default function Work() {
       projects.forEach((n, i) => {
         const c = P(i);
         const a = Math.max(st.act[i], st.flash[i]);
-        const col = a > 0.04 ? n.color : REST;
+        const col = a > 0.04 ? nc(n.color) : RESTc;
 
         for (const s of st.dend[i]) {
           const fade = 1 - s.depth * 0.22;
-          ctx.strokeStyle = hex(col, (0.09 + 0.34 * a) * fade * st.intro);
+          ctx.strokeStyle = hex(col, ab(0.09 + 0.34 * a) * fade * st.intro);
           ctx.lineWidth = Math.max(0.5, 1.5 - s.depth * 0.35);
           ctx.beginPath();
           ctx.moveTo(c.x + s.x1, c.y + s.y1);
@@ -258,14 +286,14 @@ export default function Work() {
 
         const glow = 5 + a * 14;
         const rg = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, glow);
-        rg.addColorStop(0, hex(n.color, (0.12 + 0.42 * a) * st.intro));
-        rg.addColorStop(1, hex(n.color, 0));
+        rg.addColorStop(0, hex(nc(n.color), ab(0.12 + 0.42 * a) * st.intro));
+        rg.addColorStop(1, hex(nc(n.color), 0));
         ctx.fillStyle = rg;
         ctx.beginPath();
         ctx.arc(c.x, c.y, glow, 0, 6.29);
         ctx.fill();
 
-        ctx.fillStyle = hex(n.color, (0.7 + 0.3 * a) * st.intro);
+        ctx.fillStyle = hex(nc(n.color), ab(0.7 + 0.3 * a) * st.intro);
         ctx.beginPath();
         ctx.arc(c.x, c.y, 3.4 + a * 1.8, 0, 6.29);
         ctx.fill();
@@ -279,6 +307,7 @@ export default function Work() {
       cancelAnimationFrame(raf);
       removeEventListener("resize", layout);
       io.disconnect();
+      themeMO.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
