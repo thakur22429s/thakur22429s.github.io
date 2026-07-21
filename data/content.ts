@@ -15,7 +15,7 @@ export const hero = {
   photo: "/abhay.jpg",
   // Role line under the name — <em class="t|g|r"> accent spans per role.
   roles: [
-    { text: "Software engineer", accent: "t" },
+    { text: "software engineer", accent: "t" },
     { text: " · " },
     { text: "machine learning engineer", accent: "g" },
     { text: " · " },
