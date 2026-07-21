@@ -1,37 +1,79 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { projects, projectEdges, moreProjects } from "@/data/content";
+import {
+  forceSimulation,
+  forceManyBody,
+  forceLink,
+  forceCenter,
+  forceCollide,
+  forceX,
+  forceY,
+  type SimulationNodeDatum,
+} from "d3-force";
+import { projects, computeEdges } from "@/data/content";
 
 const REST = "#6f6a60";
 
 type Pt = { x: number; y: number };
+type Seg = { x1: number; y1: number; x2: number; y2: number; depth: number };
+
+// Deterministic RNG so each neuron's dendrites are stable across renders.
+function mulberry32(a: number) {
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// A branching dendritic arbor in local coordinates (relative to the soma).
+function buildDendrites(seed: number): Seg[] {
+  const rng = mulberry32(seed * 2654435761);
+  const segs: Seg[] = [];
+  const grow = (x: number, y: number, ang: number, len: number, depth: number) => {
+    if (depth > 3 || len < 3.5) return;
+    const x2 = x + Math.cos(ang) * len;
+    const y2 = y + Math.sin(ang) * len;
+    segs.push({ x1: x, y1: y, x2, y2, depth });
+    const children = depth < 2 ? 2 : 1;
+    for (let i = 0; i < children; i++) {
+      grow(x2, y2, ang + (rng() - 0.5) * 0.95, len * (0.6 + rng() * 0.16), depth + 1);
+    }
+  };
+  const branches = 5 + Math.floor(rng() * 3);
+  for (let b = 0; b < branches; b++) {
+    grow(0, 0, (b / branches) * Math.PI * 2 + rng() * 0.6, 15 + rng() * 9, 0);
+  }
+  return segs;
+}
 
 export default function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
   const [modal, setModal] = useState<number | null>(null);
+  const [pos, setPos] = useState<Pt[]>([]);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // adjacency
+  const edges = useMemo(() => computeEdges(), []);
   const adj = useMemo(() => {
     const a = projects.map(() => new Set<number>());
-    projectEdges.forEach(([i, j]) => {
-      a[i].add(j);
-      a[j].add(i);
+    edges.forEach((e) => {
+      a[e.a].add(e.b);
+      a[e.b].add(e.a);
     });
     return a;
-  }, []);
+  }, [edges]);
 
-  // mutable animation state (not React state — read inside RAF)
   const S = useRef({
     act: projects.map(() => 0),
     target: projects.map(() => 0),
     flash: projects.map(() => 0),
     fires: [] as { i: number; start: number }[],
     HL: -1,
-    pos: [] as Pt[],
-    ctrl: [] as Pt[],
-    field: [] as { x: number; y: number; p: number; s: number }[],
+    base: [] as Pt[],
+    dend: projects.map((_, i) => buildDendrites(i + 1)),
     intro: 0,
     started: 0,
     lastAmb: 0,
@@ -40,7 +82,7 @@ export default function Work() {
   function setHL(i: number) {
     S.current.HL = i;
     S.current.target = projects.map((_, j) =>
-      i < 0 ? 0 : j === i ? 1 : adj[i].has(j) ? 0.8 : 0
+      i < 0 ? 0 : j === i ? 1 : adj[i].has(j) ? 0.75 : 0
     );
     setHovered(i < 0 ? null : i);
   }
@@ -55,17 +97,10 @@ export default function Work() {
     const ctx = cv.getContext("2d")!;
     const st = S.current;
 
-    for (let i = 0; i < 50; i++)
-      st.field.push({
-        x: Math.random(),
-        y: Math.random(),
-        p: Math.random() * 6.28,
-        s: 0.4 + Math.random() * 0.6,
-      });
-
     let W = 0,
       H = 0,
       raf = 0;
+
     const layout = () => {
       const dpr = Math.min(2, devicePixelRatio || 1);
       const r = wrap.getBoundingClientRect();
@@ -74,18 +109,45 @@ export default function Work() {
       cv.width = W * dpr;
       cv.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      st.pos = projects.map((n) => ({ x: (n.x / 100) * W, y: (n.y / 100) * H }));
-      st.ctrl = projectEdges.map(([a, b], k) => {
-        const A = st.pos[a],
-          B = st.pos[b];
-        const mx = (A.x + B.x) / 2,
-          my = (A.y + B.y) / 2;
-        const dx = B.x - A.x,
-          dy = B.y - A.y;
-        const len = Math.hypot(dx, dy) || 1;
-        const off = (k % 2 ? 1 : -1) * len * 0.12;
-        return { x: mx + (-dy / len) * off, y: my + (dx / len) * off };
+
+      // Force-directed layout of the tech-shared graph.
+      const nodes: SimulationNodeDatum[] = projects.map(() => ({}));
+      const links = edges.map((e) => ({ source: e.a, target: e.b, w: e.w }));
+      const sim = forceSimulation(nodes)
+        .force("charge", forceManyBody().strength(-230))
+        .force(
+          "link",
+          forceLink(links)
+            .distance((l: { w: number }) => 78 - l.w * 8)
+            .strength((l: { w: number }) => 0.25 + l.w * 0.2)
+        )
+        .force("collide", forceCollide(50))
+        .force("center", forceCenter(W / 2, H / 2))
+        .force("x", forceX(W / 2).strength(0.05))
+        .force("y", forceY(H / 2).strength(0.07))
+        .stop();
+      for (let i = 0; i < 340; i++) sim.tick();
+
+      // Fit the settled layout into the canvas with padding for arbors + labels.
+      let minX = Infinity,
+        minY = Infinity,
+        maxX = -Infinity,
+        maxY = -Infinity;
+      nodes.forEach((n) => {
+        minX = Math.min(minX, n.x!);
+        minY = Math.min(minY, n.y!);
+        maxX = Math.max(maxX, n.x!);
+        maxY = Math.max(maxY, n.y!);
       });
+      const padX = 90,
+        padY = 76;
+      const bw = maxX - minX || 1,
+        bh = maxY - minY || 1;
+      const scale = Math.min((W - 2 * padX) / bw, (H - 2 * padY) / bh);
+      const ox = (W - bw * scale) / 2 - minX * scale;
+      const oy = (H - bh * scale) / 2 - minY * scale;
+      st.base = nodes.map((n) => ({ x: n.x! * scale + ox, y: n.y! * scale + oy }));
+      setPos(st.base.map((p) => ({ ...p })));
     };
     layout();
     addEventListener("resize", layout);
@@ -103,88 +165,59 @@ export default function Work() {
       const n = parseInt(c.slice(1), 16);
       return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
     };
-    const qpt = (A: Pt, C: Pt, B: Pt, t: number): Pt => {
-      const u = 1 - t;
-      return {
-        x: u * u * A.x + 2 * u * t * C.x + t * t * B.x,
-        y: u * u * A.y + 2 * u * t * C.y + t * t * B.y,
-      };
-    };
+    const bob = (i: number, t: number): Pt => ({
+      x: Math.sin(t * 0.4 + i * 1.7) * 3,
+      y: Math.cos(t * 0.34 + i * 2.1) * 3,
+    });
 
     const frame = (now: number) => {
       ctx.clearRect(0, 0, W, H);
-      if (st.started) st.intro = Math.min(1, (now - st.started) / 900);
+      if (st.started) st.intro = Math.min(1, (now - st.started) / 1100);
       const t = now / 1000;
+      if (!st.base.length) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
 
-      if (!reduce && st.started && now - st.lastAmb > 4400) {
+      if (!reduce && st.started && now - st.lastAmb > 4600) {
         st.lastAmb = now;
         if (st.HL < 0) fire(Math.floor(Math.random() * projects.length));
       }
-
       for (let i = 0; i < projects.length; i++) {
         st.act[i] += (st.target[i] - st.act[i]) * 0.08;
         st.flash[i] *= 0.94;
       }
 
-      // faint field
-      const fp = st.field.map((f) => ({
-        x: (f.x + Math.sin(t * 0.05 * f.s + f.p) * 0.018) * W,
-        y: (f.y + Math.cos(t * 0.045 * f.s + f.p) * 0.018) * H,
-      }));
-      ctx.lineWidth = 1;
-      for (let a = 0; a < fp.length; a++)
-        for (let b = a + 1; b < fp.length; b++) {
-          const dx = fp[a].x - fp[b].x,
-            dy = fp[a].y - fp[b].y,
-            dd = dx * dx + dy * dy;
-          if (dd < 8000) {
-            ctx.strokeStyle = `rgba(243,236,222,${0.04 * st.intro * (1 - dd / 8000)})`;
-            ctx.beginPath();
-            ctx.moveTo(fp[a].x, fp[a].y);
-            ctx.lineTo(fp[b].x, fp[b].y);
-            ctx.stroke();
-          }
-        }
-      ctx.fillStyle = `rgba(243,236,222,${0.07 * st.intro})`;
-      fp.forEach((p) => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1, 0, 6.29);
-        ctx.fill();
-      });
+      const P = (i: number): Pt => {
+        const b = reduce ? { x: 0, y: 0 } : bob(i, t);
+        return { x: st.base[i].x + b.x, y: st.base[i].y + b.y };
+      };
 
-      // edges
-      projectEdges.forEach(([ea, eb], k) => {
-        const A = st.pos[ea],
-          B = st.pos[eb],
-          C = st.ctrl[k];
-        const bright = Math.max(
-          st.act[ea],
-          st.act[eb],
-          st.flash[ea] * 0.6,
-          st.flash[eb] * 0.6
-        );
+      // axons — the shared-tech connections
+      edges.forEach((e) => {
+        const A = P(e.a),
+          B = P(e.b);
+        const a = Math.max(st.act[e.a], st.act[e.b], st.flash[e.a] * 0.6, st.flash[e.b] * 0.6);
+        const mx = (A.x + B.x) / 2,
+          my = (A.y + B.y) / 2;
+        const dx = B.x - A.x,
+          dy = B.y - A.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const cx = mx + (-dy / len) * len * 0.08;
+        const cy = my + (dx / len) * len * 0.08;
         ctx.beginPath();
         ctx.moveTo(A.x, A.y);
-        ctx.quadraticCurveTo(C.x, C.y, B.x, B.y);
-        ctx.strokeStyle = hex(REST, (0.12 + 0.08 * bright) * st.intro);
-        ctx.lineWidth = 1;
+        ctx.quadraticCurveTo(cx, cy, B.x, B.y);
+        ctx.strokeStyle = hex(REST, (0.08 + 0.05 * e.w + 0.14 * a) * st.intro);
+        ctx.lineWidth = 0.7 + e.w * 0.25;
         ctx.stroke();
-        if (bright > 0.02) {
+        if (a > 0.03) {
           const g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
-          g.addColorStop(0, hex(projects[ea].color, 0.5 * bright * st.intro));
-          g.addColorStop(1, hex(projects[eb].color, 0.5 * bright * st.intro));
+          g.addColorStop(0, hex(projects[e.a].color, 0.5 * a * st.intro));
+          g.addColorStop(1, hex(projects[e.b].color, 0.5 * a * st.intro));
           ctx.strokeStyle = g;
-          ctx.lineWidth = 1 + 0.7 * bright;
+          ctx.lineWidth = 0.9 + 0.8 * a;
           ctx.stroke();
-          if (!reduce) {
-            const spd = 0.07 + ((k * 29) % 12) / 100;
-            const tt = (t * spd + k * 0.13) % 1;
-            const sp = qpt(A, C, B, tt);
-            ctx.fillStyle = hex(projects[ea].color, 0.6 * bright * st.intro);
-            ctx.beginPath();
-            ctx.arc(sp.x, sp.y, 1.6, 0, 6.29);
-            ctx.fill();
-          }
         }
       });
 
@@ -195,53 +228,46 @@ export default function Work() {
         if (el > DUR) return false;
         const pr = el / DUR,
           ease = 1 - Math.pow(1 - pr, 2);
-        const O = st.pos[f.i];
-        ctx.strokeStyle = hex(projects[f.i].color, (1 - pr) * 0.45 * st.intro);
+        const O = P(f.i);
+        ctx.strokeStyle = hex(projects[f.i].color, (1 - pr) * 0.4 * st.intro);
         ctx.lineWidth = 1.1;
         ctx.beginPath();
-        ctx.arc(O.x, O.y, 6 + ease * 32, 0, 6.29);
+        ctx.arc(O.x, O.y, 6 + ease * 30, 0, 6.29);
         ctx.stroke();
-        projectEdges.forEach(([ea, eb], k) => {
-          if (ea !== f.i && eb !== f.i) return;
-          const far = ea === f.i ? eb : ea;
-          const A = st.pos[f.i],
-            B = st.pos[far],
-            C = st.ctrl[k];
-          const sp = qpt(A, C, B, ease);
-          ctx.fillStyle = hex(projects[f.i].color, (1 - pr * 0.6) * 0.7 * st.intro);
-          ctx.beginPath();
-          ctx.arc(sp.x, sp.y, 2.8, 0, 6.29);
-          ctx.fill();
-          if (pr > 0.92) st.flash[far] = 1;
+        adj[f.i].forEach((far) => {
+          if (pr > 0.9) st.flash[far] = 1;
         });
         return true;
       });
 
-      // somas
+      // neurons — dendritic arbor + soma
       projects.forEach((n, i) => {
-        const P = st.pos[i];
+        const c = P(i);
         const a = Math.max(st.act[i], st.flash[i]);
-        const glow = 5 + a * 15;
-        const rg = ctx.createRadialGradient(P.x, P.y, 0, P.x, P.y, glow);
-        rg.addColorStop(0, hex(n.color, (0.12 + 0.45 * a) * st.intro));
+        const col = a > 0.04 ? n.color : REST;
+
+        for (const s of st.dend[i]) {
+          const fade = 1 - s.depth * 0.22;
+          ctx.strokeStyle = hex(col, (0.09 + 0.34 * a) * fade * st.intro);
+          ctx.lineWidth = Math.max(0.5, 1.5 - s.depth * 0.35);
+          ctx.beginPath();
+          ctx.moveTo(c.x + s.x1, c.y + s.y1);
+          ctx.lineTo(c.x + s.x2, c.y + s.y2);
+          ctx.stroke();
+        }
+
+        const glow = 5 + a * 14;
+        const rg = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, glow);
+        rg.addColorStop(0, hex(n.color, (0.12 + 0.42 * a) * st.intro));
         rg.addColorStop(1, hex(n.color, 0));
         ctx.fillStyle = rg;
         ctx.beginPath();
-        ctx.arc(P.x, P.y, glow, 0, 6.29);
+        ctx.arc(c.x, c.y, glow, 0, 6.29);
         ctx.fill();
-        ctx.strokeStyle = hex(a > 0.05 ? n.color : REST, (0.14 + 0.4 * a) * st.intro);
-        ctx.lineWidth = 1;
-        for (let s = 0; s < 5; s++) {
-          const ang = (s / 5) * 6.28 + i;
-          const l = 5 + a * 5;
-          ctx.beginPath();
-          ctx.moveTo(P.x + Math.cos(ang) * 5, P.y + Math.sin(ang) * 5);
-          ctx.lineTo(P.x + Math.cos(ang) * (5 + l), P.y + Math.sin(ang) * (5 + l));
-          ctx.stroke();
-        }
-        ctx.fillStyle = hex(n.color, 0.82 * st.intro);
+
+        ctx.fillStyle = hex(n.color, (0.7 + 0.3 * a) * st.intro);
         ctx.beginPath();
-        ctx.arc(P.x, P.y, 3.8 + a * 2, 0, 6.29);
+        ctx.arc(c.x, c.y, 3.4 + a * 1.8, 0, 6.29);
         ctx.fill();
       });
 
@@ -254,9 +280,9 @@ export default function Work() {
       removeEventListener("resize", layout);
       io.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Esc closes modal
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setModal(null);
     addEventListener("keydown", onKey);
@@ -265,9 +291,8 @@ export default function Work() {
 
   const openProject = (i: number) => {
     fire(i);
-    setTimeout(() => setModal(i), 360);
+    setTimeout(() => setModal(i), 420);
   };
-
   const m = modal != null ? projects[modal] : null;
 
   return (
@@ -279,52 +304,46 @@ export default function Work() {
         <h2 className="dsp">A nervous system of work</h2>
       </div>
       <p className="sub reveal">
-        At rest the neurons sit dormant. Hover one to wake it and trace its
-        connections; click to fire the synapse — and open the project.
+        Every project is a neuron; two of them wire together when they share a
+        tool. Hover one to wake the cell and trace its connections — click to
+        fire the synapse and open it.
       </p>
 
       <div className="nn" ref={wrapRef}>
         <canvas ref={canvasRef} />
-        {projects.map((p, i) => {
-          const cls =
-            hovered === i
-              ? "nn-node host"
-              : hovered != null && adj[hovered].has(i)
-              ? "nn-node lit"
-              : "nn-node";
-          return (
-            <div
-              key={p.id}
-              className={cls}
-              style={
-                {
-                  left: `${p.x}%`,
-                  top: `${p.y}%`,
-                  ["--c" as string]: p.color,
-                } as React.CSSProperties
-              }
-              onMouseEnter={() => setHL(i)}
-              onMouseLeave={() => setHL(-1)}
-              onClick={() => openProject(i)}
-            >
-              <div className="hit" />
-              <div className="lab">
-                <span className="k">{p.category}</span>
-                <h3>{p.title}</h3>
+        {pos.length === projects.length &&
+          projects.map((p, i) => {
+            const cls =
+              hovered === i
+                ? "nn-node host"
+                : hovered != null && adj[hovered].has(i)
+                ? "nn-node lit"
+                : "nn-node";
+            return (
+              <div
+                key={p.id}
+                className={cls}
+                style={
+                  {
+                    left: `${pos[i].x}px`,
+                    top: `${pos[i].y}px`,
+                    ["--c" as string]: p.color,
+                  } as React.CSSProperties
+                }
+                onMouseEnter={() => setHL(i)}
+                onMouseLeave={() => setHL(-1)}
+                onClick={() => openProject(i)}
+              >
+                <div className="hit" />
+                <div className="lab">
+                  <span className="k">{p.category}</span>
+                  <h3>{p.title}</h3>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
-      <div className="nn-hint">hover to wake · click to fire</div>
-
-      <div className="more">
-        {moreProjects.map((mp) => (
-          <span className="m" key={mp.title}>
-            <b>{mp.title}</b> — {mp.note}
-          </span>
-        ))}
-      </div>
+      <div className="nn-hint">hover to wake · click to open · wired by shared tech</div>
 
       <div
         className={modal != null ? "nn-modal open" : "nn-modal"}

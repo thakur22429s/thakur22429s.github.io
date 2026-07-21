@@ -126,40 +126,43 @@ export const education = [
 
 export type Project = {
   id: string;
-  x: number; // % position in the neural canvas
-  y: number;
   color: string;
   category: string;
   title: string;
   blurb: string;
-  tech: string;
+  tech: string; // display string
+  tags: string[]; // normalized tech tags — the basis for neuron connections
   link?: string;
   linkLabel?: string;
 };
 
-// Flagship projects — rendered as the neural constellation.
+// Every project is a neuron; two neurons wire together when they share a tech
+// tag (see computeEdges). The layout is force-directed at runtime.
 export const projects: Project[] = [
-  { id: "det", x: 18, y: 34, color: "#84B3AC", category: "Perception", title: "3D Object Detection", blurb: "LIDAR + camera fusion for autonomous perception, improving localization accuracy 25% over baseline.", tech: "Rutgers Research · PyTorch · OpenCV" },
-  { id: "pharma", x: 42, y: 60, color: "#BBA0A0", category: "Safety", title: "PharmaGuard", blurb: "A distilled language model + RAG that warns before medications collide, across 1M+ interactions.", tech: "Python · HuggingFace · FAISS", link: "https://github.com/thakur22429s/DrugLM", linkLabel: "GitHub" },
-  { id: "badminton", x: 63, y: 26, color: "#A2B295", category: "Sport", title: "Badminton-Sense", blurb: "Classifies badminton strokes from broadcast video using pose estimation and sequence models.", tech: "PyTorch · MediaPipe · BiLSTM", link: "https://github.com/thakur22429s/BadmintonSense", linkLabel: "GitHub" },
-  { id: "nocta", x: 82, y: 50, color: "#C9B79A", category: "Shipped", title: "Nocta", blurb: "A card-deck social discovery app for college students, live on the Apple App Store.", tech: "Flutter · Firebase · iOS", link: "https://apps.apple.com/us/app/nocta/id6758424070", linkLabel: "App Store" },
-  { id: "acp", x: 30, y: 82, color: "#939CB0", category: "In flight", title: "ACP", blurb: "An AI career platform surfacing role and skill matches with RAG over your profile.", tech: "Next.js · Supabase · pgvector" },
-  { id: "boardroom", x: 70, y: 80, color: "#BE9B85", category: "In flight", title: "Investor Boardroom", blurb: "Pitch to a panel of AI investor personas that grill you in character and return a structured critique.", tech: "Next.js · Supabase · LLM" },
+  { id: "det", color: "#84B3AC", category: "Perception", title: "3D Object Detection", blurb: "LIDAR + camera fusion for autonomous perception, improving localization accuracy 25% over baseline.", tech: "PyTorch · OpenCV · Rutgers research", tags: ["python", "pytorch", "opencv"] },
+  { id: "pharma", color: "#BBA0A0", category: "Safety", title: "PharmaGuard", blurb: "A distilled language model + RAG that warns before medications collide, across 1M+ interactions.", tech: "Python · HuggingFace · FAISS", tags: ["python", "huggingface", "rag"], link: "https://github.com/thakur22429s/DrugLM", linkLabel: "GitHub" },
+  { id: "badminton", color: "#A2B295", category: "Sport", title: "Badminton-Sense", blurb: "Classifies badminton strokes from broadcast video using pose estimation and sequence models.", tech: "PyTorch · MediaPipe · scikit-learn", tags: ["python", "pytorch", "mediapipe", "scikit"], link: "https://github.com/thakur22429s/BadmintonSense", linkLabel: "GitHub" },
+  { id: "nocta", color: "#C9B79A", category: "Shipped", title: "Nocta", blurb: "A card-deck social discovery app for college students, live on the Apple App Store.", tech: "Flutter · Dart · Firebase", tags: ["flutter", "dart", "firebase"], link: "https://apps.apple.com/us/app/nocta/id6758424070", linkLabel: "App Store" },
+  { id: "acp", color: "#939CB0", category: "In flight", title: "ACP", blurb: "An AI career platform surfacing role and skill matches with RAG over your profile.", tech: "Next.js · Supabase · pgvector", tags: ["nextjs", "typescript", "supabase", "pgvector", "rag", "tailwind"] },
+  { id: "boardroom", color: "#BE9B85", category: "In flight", title: "Investor Boardroom", blurb: "Pitch to a panel of AI investor personas that grill you in character and return a structured critique.", tech: "Next.js · Supabase · LLM", tags: ["nextjs", "typescript", "supabase", "llm"] },
+  { id: "apex", color: "#9DB0AE", category: "Data", title: "Apex Analytics", blurb: "An F1 telemetry dashboard processing 2GB+ of data with interactive Plotly/Dash visualizations.", tech: "Python · Flask · Dash · PostgreSQL", tags: ["python", "flask", "dash", "postgres"] },
+  { id: "circle", color: "#A8A2B5", category: "Social", title: "Purdue Circle", blurb: "A student social app on a headless GraphQL CMS, cutting response payloads by 60%.", tech: "Next.js · React · GraphQL", tags: ["nextjs", "react", "graphql", "typescript", "tailwind"] },
+  { id: "magpie", color: "#BFB49A", category: "Recs", title: "Movie Magpie", blurb: "A recommendation system over 10k+ films with Firebase-backed profiles and feedback.", tech: "React · Firebase", tags: ["react", "firebase"] },
+  { id: "arb", color: "#B0A48F", category: "Markets", title: "Betting Arbitrage", blurb: "Scrapes odds from 10+ books to surface 1–5% arbitrage opportunities in real time.", tech: "React · Selenium · PostgreSQL", tags: ["python", "react", "selenium", "postgres"] },
+  { id: "myshell", color: "#9AA0A6", category: "Systems", title: "MyShell", blurb: "A Unix-style shell interpreter in C++ with piping, redirection, and job control via Flex + Bison.", tech: "C++ · Flex · Bison", tags: ["cpp"] },
 ];
 
-// How flagship projects connect in the neural graph (indices into `projects`).
-export const projectEdges: [number, number][] = [
-  [0, 1], [0, 2], [1, 2], [2, 3], [3, 5], [4, 5], [1, 4], [1, 5], [2, 4],
-];
-
-// Older / additional work, listed compactly below the constellation.
-export const moreProjects = [
-  { title: "Apex Analytics", note: "F1 telemetry dashboard — 2GB+ processed, Flask + Plotly/Dash + PostgreSQL." },
-  { title: "Sports Betting Arbitrage", note: "Scrapes odds from 10+ books to surface arbitrage opportunities." },
-  { title: "Purdue Circle", note: "Student social app — Next.js + GraphQL, 60% smaller payloads." },
-  { title: "Movie Magpie", note: "Recommendation system over 10k+ films with Firebase CRUD." },
-  { title: "MyShell", note: "Unix-style shell interpreter in C++ with Flex + Bison." },
-];
+// Two neurons connect when they share tech; edge weight = number shared.
+export function computeEdges(): { a: number; b: number; w: number }[] {
+  const edges: { a: number; b: number; w: number }[] = [];
+  for (let i = 0; i < projects.length; i++) {
+    for (let j = i + 1; j < projects.length; j++) {
+      const shared = projects[i].tags.filter((t) => projects[j].tags.includes(t));
+      if (shared.length) edges.push({ a: i, b: j, w: shared.length });
+    }
+  }
+  return edges;
+}
 
 export type Shot = {
   t: string;
