@@ -17,7 +17,7 @@ const textOf = (parts: { type: string; text?: string }[] | undefined) =>
 
 export default function AskAbhay() {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status, error, stop } = useChat();
+  const { messages, sendMessage, status, error, stop, setMessages } = useChat();
   const busy = status === "submitted" || status === "streaming";
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +54,19 @@ export default function AskAbhay() {
         </div>
 
         <div className="chatbox">
-          <div className="hd">◆ ask-abhay</div>
+          <div className="hd">
+            <span>◆ ask-abhay</span>
+            {messages.length > 0 && (
+              <button
+                type="button"
+                className="chat-reset"
+                onClick={() => setMessages([])}
+                disabled={busy}
+              >
+                clear
+              </button>
+            )}
+          </div>
 
           <div className="chat-log" ref={scrollRef}>
             {empty && (

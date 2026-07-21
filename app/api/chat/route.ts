@@ -7,6 +7,7 @@ import {
 } from "ai";
 import { google } from "@ai-sdk/google";
 import { SYSTEM_PROMPT } from "@/lib/persona";
+import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 
 // Runs as a Vercel Function; allow up to 30s for streaming.
 export const maxDuration = 30;
@@ -21,6 +22,14 @@ const MAX_MESSAGES = 24;
 const MAX_CHARS = 2000;
 
 export async function POST(req: Request) {
+  const rl = checkRateLimit(clientIp(req));
+  if (!rl.ok) {
+    return new Response("Too many requests — give me a few seconds.", {
+      status: 429,
+      headers: { "Retry-After": String(rl.retryAfter) },
+    });
+  }
+
   let messages: UIMessage[];
   try {
     ({ messages } = await req.json());
