@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import CustomCursor from "@/components/CustomCursor";
 import Reveals from "@/components/Reveals";
 import ChatWidget from "@/components/ChatWidget";
-import ForestFX from "@/components/ForestFX";
 
 export const metadata: Metadata = {
   title: "Abhay Singh Thakur — AI/ML Engineer",
@@ -28,7 +27,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="blob b3" />
         </div>
         <div className="grain-layer" aria-hidden />
-        <ForestFX />
         <CustomCursor />
         <Reveals />
         {children}
