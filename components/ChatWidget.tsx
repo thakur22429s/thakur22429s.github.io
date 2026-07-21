@@ -70,22 +70,25 @@ export default function ChatWidget() {
       >
         <span className="spark-label">Ask AI Abhay</span>
         <span className="spirit" aria-hidden>
-          <svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              className="s-body"
-              d="M30 5C43 5 49.5 21 48 43C47 61.5 39.5 75 30 75C20.5 75 13 61.5 12 43C10.5 21 17 5 30 5Z"
-              fill="rgba(20,20,27,0.6)"
-            />
-            <ellipse cx="30" cy="31" rx="12.5" ry="15.5" fill="rgba(240,234,222,0.9)" />
-            <ellipse cx="24.6" cy="31" rx="2" ry="3.2" fill="#26262c" />
-            <ellipse cx="35.4" cy="31" rx="2" ry="3.2" fill="#26262c" />
-            <path
-              d="M24 40.5C27.5 43.5 32.5 43.5 36 40.5"
-              stroke="rgba(120,108,128,0.5)"
-              strokeWidth="1.3"
-              strokeLinecap="round"
-              fill="none"
-            />
+          <svg viewBox="0 0 64 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* long paradise-flycatcher tail streamers */}
+            <g className="fc-tail">
+              <path d="M31 54C27 66 31 76 25 92" stroke="#b8977e" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+              <path d="M35 54C33 66 37 78 33 94" stroke="#a9876e" strokeWidth="2" strokeLinecap="round" fill="none" />
+              <ellipse cx="25" cy="92" rx="2.4" ry="3.4" transform="rotate(20 25 92)" fill="#b8977e" />
+              <ellipse cx="33" cy="94" rx="2" ry="3" fill="#a9876e" />
+            </g>
+            {/* body + belly */}
+            <ellipse cx="34" cy="42" rx="11" ry="14" transform="rotate(-18 34 42)" fill="#c2a48c" />
+            <ellipse cx="31" cy="46" rx="6" ry="9" transform="rotate(-18 31 46)" fill="#e6dccb" />
+            {/* wing */}
+            <path className="fc-wing" d="M36 34C46 36 46 50 38 52C40 44 39 38 36 34Z" fill="#a9876e" />
+            {/* head + crest + beak */}
+            <circle cx="41" cy="24" r="8.5" fill="#7d6353" />
+            <path d="M41 15L38 8L44 12Z" fill="#7d6353" />
+            <path d="M49 24L56 23L49 27Z" fill="#33312e" />
+            <circle cx="44" cy="23" r="1.6" fill="#26262c" />
+            <circle cx="44.5" cy="22.4" r="0.5" fill="#fff" />
           </svg>
         </span>
       </button>

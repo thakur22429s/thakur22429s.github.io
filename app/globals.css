@@ -218,11 +218,13 @@ a{color:inherit;text-decoration:none}
 /* ask-abhay spark — a roaming glow that pulls the eye to the chat */
 .ask-spark{position:fixed;right:30px;bottom:30px;z-index:70;width:96px;height:96px;border:0;background:none;cursor:none;display:flex;align-items:center;justify-content:center;transition:opacity .4s,transform .4s}
 .ask-spark.gone{opacity:0;transform:scale(.5);pointer-events:none}
-.spirit{width:100%;height:100%;display:flex;align-items:center;justify-content:center;animation:sparkFloat 6.5s ease-in-out infinite;opacity:.82;filter:drop-shadow(0 8px 16px rgba(0,0,0,.4));transition:opacity .3s,transform .3s}
-.ask-spark:hover .spirit{opacity:1;transform:scale(1.06)}
-.spirit svg{width:52px;height:auto;overflow:visible}
-.spirit .s-body{animation:spiritBreathe 4.5s ease-in-out infinite}
-@keyframes spiritBreathe{0%,100%{opacity:.9}50%{opacity:1}}
+.spirit{width:100%;height:100%;display:flex;align-items:center;justify-content:center;animation:sparkFloat 6s ease-in-out infinite;opacity:.92;filter:drop-shadow(0 8px 16px rgba(0,0,0,.35));transition:opacity .3s,transform .3s}
+.ask-spark:hover .spirit{opacity:1;transform:scale(1.08)}
+.spirit svg{width:50px;height:auto;overflow:visible}
+.fc-tail{transform-box:fill-box;transform-origin:50% 0%;animation:fcTail 3.6s ease-in-out infinite}
+.fc-wing{transform-box:fill-box;transform-origin:15% 5%;animation:fcWing 2.6s ease-in-out infinite}
+@keyframes fcTail{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(4deg)}}
+@keyframes fcWing{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-9deg)}}
 .spark-label{position:absolute;right:74px;white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);background:var(--panel);border:1px solid var(--line);padding:7px 11px;border-radius:7px;opacity:0;transform:translateX(8px);transition:.25s;pointer-events:none}
 .ask-spark:hover .spark-label{opacity:1;transform:none}
 @keyframes sparkFloat{0%{transform:translate(0,0)}20%{transform:translate(9px,-11px)}40%{transform:translate(-8px,-5px)}60%{transform:translate(7px,7px)}80%{transform:translate(-9px,5px)}100%{transform:translate(0,0)}}
