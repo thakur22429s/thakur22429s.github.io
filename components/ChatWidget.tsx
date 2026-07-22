@@ -102,32 +102,38 @@ export default function ChatWidget() {
       >
         <span className="bl-label">Ask AI Abhay</span>
         <svg className="bl-svg" viewBox="0 0 170 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-          {/* branch from the right edge */}
+          {/* branch */}
           <path d="M170 92C150 88 132 96 116 102" stroke="#6f5a45" strokeWidth="6" strokeLinecap="round" />
           <path d="M150 92C154 82 162 78 168 76" stroke="#6f5a45" strokeWidth="3.5" strokeLinecap="round" />
           <ellipse cx="163" cy="74" rx="6" ry="3.4" transform="rotate(-30 163 74)" fill="#7f8a5e" />
           <ellipse cx="156" cy="80" rx="5" ry="3" transform="rotate(-20 156 80)" fill="#8b9568" />
-          {/* long tail streamers */}
+          {/* long flowing tail streamers */}
           <g className="bl-tail">
-            <path d="M108 118C98 160 118 205 74 280" stroke="#b8784e" strokeWidth="6" strokeLinecap="round" />
-            <path d="M116 116C112 158 128 200 92 288" stroke="#a96a3f" strokeWidth="5" strokeLinecap="round" />
-            <ellipse cx="74" cy="281" rx="5" ry="8" transform="rotate(30 74 281)" fill="#b8784e" />
-            <ellipse cx="92" cy="290" rx="4.2" ry="6.6" fill="#a96a3f" />
+            <path d="M107 120C97 162 118 206 74 282" stroke="#b8784e" strokeWidth="6.2" strokeLinecap="round" />
+            <path d="M115 118C111 160 128 202 92 290" stroke="#a96a3f" strokeWidth="5.2" strokeLinecap="round" />
+            <ellipse cx="74" cy="283" rx="5.2" ry="8.4" transform="rotate(30 74 283)" fill="#b8784e" />
+            <ellipse cx="92" cy="292" rx="4.4" ry="7" fill="#a96a3f" />
           </g>
-          {/* feet */}
-          <path d="M104 108L108 100M114 108L118 100" stroke="#3a3a40" strokeWidth="2" strokeLinecap="round" />
+          {/* feet gripping the branch */}
+          <path d="M103 110L103 101M103 110L99 113M103 110L107 113" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />
+          <path d="M115 110L115 101M115 110L111 113M115 110L119 113" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />
           {/* body + belly */}
-          <ellipse cx="110" cy="82" rx="21" ry="27" transform="rotate(-16 110 82)" fill="#bc7245" />
-          <path className="bl-wing" d="M116 62C132 66 133 92 120 100C123 86 121 70 116 62Z" fill="#8f542f" />
-          <path d="M118 70C127 74 128 88 122 96" stroke="#3a2a20" strokeWidth="1.2" opacity="0.5" />
-          <ellipse cx="102" cy="88" rx="9" ry="15" transform="rotate(-16 102 88)" fill="#e7ded0" />
-          {/* head, crest, beak, eye */}
+          <ellipse cx="110" cy="84" rx="19" ry="26" transform="rotate(-14 110 84)" fill="#bd7446" />
+          <ellipse cx="101" cy="92" rx="8" ry="14" transform="rotate(-14 101 92)" fill="#ece2d2" />
+          {/* folded wing with feather tips */}
+          <path className="bl-wing" d="M114 60C131 64 133 93 121 105C122 99 118 97 116 101C118 93 113 91 112 95C115 82 112 66 114 60Z" fill="#92562f" />
+          <path d="M117 67C126 73 127 89 121 99" stroke="#3a2a1e" strokeWidth="1" opacity="0.45" />
+          <path d="M120 72C127 78 128 90 123 98" stroke="#3a2a1e" strokeWidth="1" opacity="0.35" />
+          {/* head, swept crest, beak, eye */}
           <g className="bl-head">
-            <path d="M96 34L104 22M101 33L112 24M105 36L116 30" stroke="#1b1b21" strokeWidth="4" strokeLinecap="round" />
-            <circle cx="96" cy="44" r="15" fill="#1b1b21" />
-            <path d="M82 44L68 41L82 49Z" fill="#5b7a97" />
-            <circle cx="92" cy="41" r="3.4" fill="#6a9bd0" />
-            <circle cx="92" cy="41" r="1.7" fill="#0d0d10" />
+            <path d="M100 30C106 19 112 15 120 13" stroke="#1a1a20" strokeWidth="4" strokeLinecap="round" />
+            <path d="M97 31C102 22 108 18 115 17" stroke="#1a1a20" strokeWidth="3.4" strokeLinecap="round" />
+            <path d="M102 33C109 26 116 24 123 24" stroke="#1a1a20" strokeWidth="3" strokeLinecap="round" />
+            <circle cx="94" cy="43" r="15" fill="#1a1a20" />
+            <path d="M80 45L65 42L80 49Z" fill="#566f8a" />
+            <circle cx="89" cy="41" r="3.4" fill="none" stroke="#6a9bd0" strokeWidth="1.4" />
+            <circle cx="89" cy="41" r="1.9" fill="#0d0d12" />
+            <circle cx="90" cy="40.2" r="0.7" fill="#fff" />
           </g>
         </svg>
       </button>

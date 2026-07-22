@@ -325,12 +325,12 @@ export default function Work() {
   const m = modal != null ? projects[modal] : null;
 
   return (
-    <section className="blk wrap" id="work">
+    <section className="blk wrap" id="projects">
       <div className="sechd">
         <span className="idx">
-          <b>03</b> / work
+          <b>03</b> / projects
         </span>
-        <h2 className="dsp">What I&apos;ve built</h2>
+        <h2 className="dsp">Projects</h2>
       </div>
       <div className="nn" ref={wrapRef}>
         <canvas ref={canvasRef} />

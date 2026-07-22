@@ -3,31 +3,33 @@ import { useEffect, useRef, useState } from "react";
 import { experience } from "@/data/content";
 
 type Pt = { x: number; y: number };
+// Gentle single-side wind for the trail nodes.
+const windX = (i: number) => 32 + Math.sin(i * 0.8) * 12;
 
 export default function Experience() {
   const [open, setOpen] = useState<Set<number>>(new Set());
+  const [seen, setSeen] = useState<Set<number>>(new Set());
   const [pts, setPts] = useState<Pt[]>([]);
   const [dims, setDims] = useState({ w: 0, h: 0 });
+  const [progress, setProgress] = useState(0);
+  const [pathLen, setPathLen] = useState(0);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const drawRef = useRef<SVGPathElement>(null);
   const anchors = useRef<(HTMLSpanElement | null)[]>([]);
 
   const measure = () => {
     const wrap = wrapRef.current;
     if (!wrap) return;
     const wr = wrap.getBoundingClientRect();
-    const next = anchors.current.map((el) => {
-      if (!el) return { x: 0, y: 0 };
-      const r = el.getBoundingClientRect();
-      return { x: r.left - wr.left, y: r.top - wr.top };
-    });
-    setPts(next);
+    setPts(
+      anchors.current.map((el) => {
+        if (!el) return { x: 0, y: 0 };
+        const r = el.getBoundingClientRect();
+        return { x: r.left - wr.left, y: r.top - wr.top };
+      })
+    );
     setDims({ w: wr.width, h: wr.height });
   };
-
-  useEffect(() => {
-    measure();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
 
   useEffect(() => {
     measure();
@@ -40,6 +42,62 @@ export default function Experience() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    measure();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  // Path length for the draw-in animation.
+  useEffect(() => {
+    if (drawRef.current) {
+      try {
+        setPathLen(drawRef.current.getTotalLength());
+      } catch {}
+    }
+  }, [pts]);
+
+  // Scroll progress through the section (0 → 1).
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const wrap = wrapRef.current;
+      if (!wrap) return;
+      const r = wrap.getBoundingClientRect();
+      const p = Math.min(
+        1,
+        Math.max(0, (innerHeight * 0.62 - r.top) / (r.height || 1))
+      );
+      setProgress(p);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => {
+      removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // Reveal each stop once it scrolls into view.
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const i = Number((e.target as HTMLElement).dataset.i);
+            setSeen((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+    wrapRef.current?.querySelectorAll(".trail-stop").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   const toggle = (i: number) =>
     setOpen((prev) => {
@@ -49,7 +107,6 @@ export default function Experience() {
       return n;
     });
 
-  // Smooth dotted path through the measured nodes.
   const path =
     pts.length > 1
       ? pts.reduce((acc, p, i) => {
@@ -59,14 +116,15 @@ export default function Experience() {
           return `${acc} C ${prev.x} ${my} ${p.x} ${my} ${p.x} ${p.y}`;
         }, "")
       : "";
+  const reachedY = progress * dims.h;
 
   return (
     <section className="blk wrap" id="experience">
       <div className="sechd">
         <span className="idx">
-          <b>02</b> / path
+          <b>02</b> / work
         </span>
-        <h2 className="dsp">The path</h2>
+        <h2 className="dsp">Work I&apos;ve done</h2>
       </div>
 
       <div className="trail" ref={wrapRef}>
@@ -77,11 +135,22 @@ export default function Experience() {
           viewBox={`0 0 ${dims.w} ${dims.h}`}
           aria-hidden
         >
-          {path && <path className="trail-path" d={path} />}
+          {path && <path className="trail-track" d={path} />}
+          {path && (
+            <path
+              ref={drawRef}
+              className="trail-draw"
+              d={path}
+              style={{
+                strokeDasharray: pathLen,
+                strokeDashoffset: pathLen * (1 - progress),
+              }}
+            />
+          )}
           {pts.map((p, i) => (
             <circle
               key={i}
-              className={`trail-node${open.has(i) ? " on" : ""}`}
+              className={`trail-node${p.y <= reachedY + 6 ? " on" : ""}`}
               cx={p.x}
               cy={p.y}
               r={6}
@@ -92,11 +161,15 @@ export default function Experience() {
         <ol className="trail-stops">
           {experience.map((e, i) => (
             <li
-              className={`trail-stop${open.has(i) ? " open" : ""}`}
+              className={`trail-stop${open.has(i) ? " open" : ""}${
+                seen.has(i) ? " in" : ""
+              }`}
               key={e.role + e.period}
+              data-i={i}
             >
               <span
                 className="trail-anchor"
+                style={{ ["--wx" as string]: `${windX(i)}px` } as React.CSSProperties}
                 ref={(el) => {
                   anchors.current[i] = el;
                 }}
