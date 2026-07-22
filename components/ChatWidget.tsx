@@ -141,11 +141,12 @@ export default function ChatWidget() {
           <span className="bl-note">♩</span>
         </span>
         <svg className="bl-svg" viewBox="0 0 170 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-          {/* branch */}
-          <path d="M170 92C150 88 132 96 116 102" stroke="#6f5a45" strokeWidth="6" strokeLinecap="round" />
+          {/* branch - juts out both sides */}
+          <path d="M170 92C150 88 132 96 116 102C96 108 72 108 46 115" stroke="#6f5a45" strokeWidth="6" strokeLinecap="round" />
           <path d="M150 92C154 82 162 78 168 76" stroke="#6f5a45" strokeWidth="3.5" strokeLinecap="round" />
           <ellipse cx="163" cy="74" rx="6" ry="3.4" transform="rotate(-30 163 74)" fill="#7f8a5e" />
           <ellipse cx="156" cy="80" rx="5" ry="3" transform="rotate(-20 156 80)" fill="#8b9568" />
+          <ellipse cx="49" cy="111" rx="5" ry="3" transform="rotate(28 49 111)" fill="#7f8a5e" />
           {/* long flowing tail streamers */}
           <g className="bl-tail">
             {/* back feather - rooted under the body, tapered vane + shaft */}
@@ -219,20 +220,21 @@ export default function ChatWidget() {
               from what I&apos;ve actually done.
             </div>
           )}
-          {messages.map((m) => (
-            <div
-              key={m.id}
-              className={`bub ${m.role === "user" ? "me" : "ai-b"}`}
-            >
-              {m.role === "assistant" ? (
-                <Typewriter text={textOf(m.parts)} />
-              ) : (
-                textOf(m.parts)
-              )}
-            </div>
-          ))}
+          {messages.map((m) => {
+            const text = textOf(m.parts);
+            // Don't render an empty assistant bubble while we wait for text.
+            if (m.role === "assistant" && text.length === 0) return null;
+            return (
+              <div
+                key={m.id}
+                className={`bub ${m.role === "user" ? "me" : "ai-b"}`}
+              >
+                {m.role === "assistant" ? <Typewriter text={text} /> : text}
+              </div>
+            );
+          })}
           {thinking && (
-            <div className="bub ai-b">
+            <div className="typing-row">
               <span className="typing">
                 <i />
                 <i />

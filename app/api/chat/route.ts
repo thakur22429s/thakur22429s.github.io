@@ -12,10 +12,11 @@ import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 // Runs as a Vercel Function; allow up to 30s for streaming.
 export const maxDuration = 30;
 
-// Google's open Gemma model via the free AI Studio API tier.
-// Gemma has no system role; the provider prepends `system` to the first
-// user message automatically. "gemma-4-26b-a4b-it" (MoE) is faster/lighter.
-const MODEL = "gemma-4-31b-it";
+// Gemini 2.0 Flash via the free AI Studio API tier. Chosen for speed: the
+// available Gemma 4 models (26B/31B) run a mandatory multi-second "thinking"
+// pass that can't be disabled, so they can't hit the sub-3s target. Flash has
+// no reasoning phase and replies in ~1s.
+const MODEL = "gemini-2.0-flash";
 
 // Light guards for a public endpoint.
 const MAX_MESSAGES = 24;
@@ -58,7 +59,7 @@ export async function POST(req: Request) {
     system: SYSTEM_PROMPT,
     messages: await convertToModelMessages(trimmed),
     temperature: 0.6,
-    maxOutputTokens: 700,
+    maxOutputTokens: 500,
   });
 
   return createUIMessageStreamResponse({

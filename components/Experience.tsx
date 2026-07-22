@@ -196,12 +196,7 @@ export default function Experience() {
                 aria-expanded={open.has(i)}
               >
                 <span className="trail-when">{e.period}</span>
-                <span className="trail-role">
-                  {e.role}
-                  <span className="trail-chev" aria-hidden>
-                    ›
-                  </span>
-                </span>
+                <span className="trail-role">{e.role}</span>
                 <span className="trail-org">
                   {e.org} · {e.place}
                 </span>
