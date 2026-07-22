@@ -109,6 +109,14 @@ a{color:inherit;text-decoration:none}
 /* about */
 .about-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:48px;align-items:start;margin-top:26px}
 .about-para{font-size:18px;line-height:1.68;color:var(--ink-soft);max-width:64ch}
+.about-right{display:flex;flex-direction:column;gap:26px}
+.skills{display:flex;flex-direction:column;gap:13px}
+.skills-label{font-family:var(--hand),cursive;font-size:20px;color:var(--gold)}
+.skill-group{display:flex;flex-direction:column;gap:6px}
+.skill-cat{font-family:var(--mono);font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-faint)}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px}
+.skill-tag{font-family:var(--mono);font-size:11px;letter-spacing:.2px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px;transition:border-color .2s,color .2s}
+.skill-tag:hover{border-color:var(--teal);color:var(--ink)}
 .about-statement{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,34px);line-height:1.4;max-width:24ch;letter-spacing:-.01em}
 .about-statement b{font-weight:600}
 .about-statement .a-teal{color:var(--teal)}.about-statement .a-ember{color:var(--ember)}.about-statement .a-gold{color:var(--gold)}.about-statement .a-rose{color:var(--rose)}
@@ -275,10 +283,9 @@ a{color:inherit;text-decoration:none}
 @keyframes blFlap{0%,84%,100%{transform:rotate(0)}87%{transform:rotate(-24deg)}90%{transform:rotate(-5deg)}93%{transform:rotate(-17deg)}}
 @keyframes blHead{0%,80%,100%{transform:rotate(0)}83%{transform:rotate(-6deg)}87%{transform:rotate(3deg)}}
 @media(max-width:600px){.bl-svg{width:108px}.birdlaunch{right:2px}}
-/* comic chirp bubble + musical notes */
-.bl-bubble{position:absolute;top:2px;left:2px;min-width:40px;height:30px;padding:0 9px;border-radius:15px 15px 15px 4px;background:var(--panel);border:1.6px solid var(--line);display:flex;align-items:center;justify-content:center;gap:5px;opacity:0;transform:scale(0);transform-origin:bottom left;pointer-events:none;z-index:3;box-shadow:0 4px 10px rgba(0,0,0,.25)}
-.bl-bubble::after{content:"";position:absolute;left:7px;bottom:-7px;width:11px;height:11px;background:var(--panel);border-right:1.6px solid var(--line);border-bottom:1.6px solid var(--line);transform:rotate(38deg)}
-.bl-note{font-size:15px;line-height:1;color:var(--teal);opacity:0}
+/* chirp musical notes (no bubble) */
+.bl-notes{position:absolute;top:12px;left:6px;display:flex;gap:8px;pointer-events:none;z-index:3}
+.bl-note{opacity:0;font-size:16px;line-height:1;color:var(--teal);text-shadow:0 1px 3px rgba(0,0,0,.4)}
 
 /* experience — flight path */
 .fp{position:relative;margin-top:32px;padding-left:42px}
@@ -359,10 +366,10 @@ a{color:inherit;text-decoration:none}
 .trail-stop.in{opacity:1;transform:none}
 .trail-stop:last-child{padding-bottom:0}
 .trail-anchor{position:absolute;left:calc(50% + var(--wx,0px));top:18px;width:2px;height:2px}
-.trail-head{display:flex;flex-direction:column;align-items:stretch;gap:4px;width:min(42%,400px);background:none;border:0;cursor:none;padding:2px 0}
+.trail-head{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:4px;width:min(42%,400px);background:none;border:0;cursor:none;padding:2px 0}
 .trail-when{font-family:var(--mono);font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-faint)}
-.trail-role{font-family:var(--display);font-weight:600;font-size:clamp(21px,2.7vw,30px);line-height:1.1;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.trail-chev{font-family:var(--body);color:var(--ink-faint);transition:transform .3s,color .2s;font-size:22px}
+.trail-role{font-family:var(--display);font-weight:600;font-size:clamp(21px,2.7vw,30px);line-height:1.1;color:var(--ink);display:block;padding-right:28px}
+.trail-chev{position:absolute;top:2px;right:0;font-family:var(--body);color:var(--ink-faint);transition:transform .3s,color .2s;font-size:22px}
 .trail-stop.open .trail-chev{transform:rotate(90deg);color:var(--teal)}
 .trail-org{font-family:var(--mono);font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-faint);margin-top:3px}
 .trail-points{list-style:none;width:min(42%,400px);max-height:0;opacity:0;overflow:hidden;transition:max-height .45s ease,opacity .35s ease,margin-top .3s}

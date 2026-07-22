@@ -100,26 +100,14 @@ export default function ChatWidget() {
     const a = animeRef.current;
     const bird = document.querySelector(".birdlaunch");
     if (!a || !bird || bird.classList.contains("gone")) return;
-    a.animate(".bl-bubble", {
-      scale: [0, 1],
-      opacity: [0, 1],
-      duration: 260,
-      ease: "outBack",
-    });
     a.animate(".bl-note", {
-      translateY: [0, -24],
+      translateY: [0, -30],
+      translateX: () => -6 + Math.random() * 12,
       opacity: [0, 1, 0],
-      rotate: () => -14 + Math.random() * 28,
-      delay: a.stagger(130),
-      duration: 1200,
+      rotate: () => -16 + Math.random() * 32,
+      delay: a.stagger(150),
+      duration: 1300,
       ease: "out(2)",
-    });
-    a.animate(".bl-bubble", {
-      scale: [1, 0.4],
-      opacity: [1, 0],
-      delay: 1150,
-      duration: 280,
-      ease: "in(2)",
     });
   };
 
@@ -147,9 +135,10 @@ export default function ChatWidget() {
         onMouseEnter={chirp}
       >
         <span className="bl-label">Ask AI Abhay</span>
-        <span className="bl-bubble" aria-hidden>
+        <span className="bl-notes" aria-hidden>
           <span className="bl-note">♪</span>
           <span className="bl-note">♫</span>
+          <span className="bl-note">♩</span>
         </span>
         <svg className="bl-svg" viewBox="0 0 170 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
           {/* branch */}

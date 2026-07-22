@@ -50,7 +50,7 @@ export const experience: Experience[] = [
     role: "Graduate Research Assistant",
     org: "Rutgers University",
     place: "New Brunswick, NJ",
-    period: "Jun 2025 – Aug 2025",
+    period: "Jun 2025 - Aug 2025",
     points: [
       "Engineered a high-throughput pipeline for 3D object detection fusing LIDAR and camera data, improving localization accuracy 25% over baseline.",
       "Built backend modules that auto-generate 3D bounding-box metadata from raw sensor inputs, cutting manual annotation ~40%.",
@@ -61,7 +61,7 @@ export const experience: Experience[] = [
     role: "Lecturer / Teaching Assistant",
     org: "Rutgers University",
     place: "New Brunswick, NJ",
-    period: "2024 – Present",
+    period: "2024 - Present",
     points: [
       "Lecture the undergraduate Machine Learning Principles course - supervised learning, model evaluation, neural networks.",
       "Run weekly office hours and help sessions, improving overall class performance and engagement.",
@@ -81,7 +81,7 @@ export const experience: Experience[] = [
     role: "Software Engineer",
     org: "Purdue University",
     place: "West Lafayette, IN",
-    period: "Aug 2022 – Jul 2023",
+    period: "Aug 2022 - Jul 2023",
     points: [
       "Built and maintained Circuit, a Java backend integrated with Brightspace LMS via REST APIs, enabling anonymous peer review for 10,000+ students.",
       "Designed API contracts and integration patterns handling edge cases for concurrent submissions; wrote JUnit test suites.",
@@ -92,7 +92,7 @@ export const experience: Experience[] = [
     role: "Software Developer Intern",
     org: "Pacific Northwest National Lab (US DOE)",
     place: "Richland, WA",
-    period: "Jun 2022 – Oct 2022",
+    period: "Jun 2022 - Oct 2022",
     points: [
       "Automated provisioning with Terraform and Ansible, cutting deployment time 3× and saving 130+ hours/year across research teams.",
       "Deployed on-prem testbeds to simulate and monitor system behavior under threat scenarios.",
@@ -103,7 +103,7 @@ export const experience: Experience[] = [
     role: "Undergraduate Teaching Assistant",
     org: "Purdue University",
     place: "West Lafayette, IN",
-    period: "Aug 2021 – May 2023",
+    period: "Aug 2021 - May 2023",
     points: [
       "TA'd CS 251 Data Structures & Algorithms - developed curriculum and graded for 200+ students.",
       "Held 3+ weekly office hours resolving student queries and debugging assignments.",
@@ -115,13 +115,21 @@ export const education = [
   {
     school: "Rutgers University",
     degree: "M.S. Computer Science - AI/ML",
-    period: "Jan 2024 – May 2026",
+    period: "Jan 2024 - May 2026",
   },
   {
     school: "Purdue University",
     degree: "B.S. Computer Science & Data Science (Dean's List)",
-    period: "Aug 2019 – Aug 2023",
+    period: "Aug 2019 - Aug 2023",
   },
+];
+
+export const skills = [
+  { group: "Languages", items: ["Python", "TypeScript", "Java", "C++", "SQL", "Dart"] },
+  { group: "ML / Data", items: ["PyTorch", "HuggingFace", "MediaPipe", "scikit-learn", "Pandas", "OpenCV"] },
+  { group: "Web", items: ["Next.js", "React", "Node", "Flask", "Spring Boot", "GraphQL"] },
+  { group: "Infra", items: ["PostgreSQL", "Supabase", "pgvector", "Docker", "AWS", "Terraform"] },
+  { group: "Mobile", items: ["Flutter", "Riverpod", "Firebase"] },
 ];
 
 export type Project = {
@@ -148,7 +156,7 @@ export const projects: Project[] = [
   { id: "apex", color: "#9DB0AE", category: "Data", title: "Apex Analytics", blurb: "An F1 telemetry dashboard processing 2GB+ of data with interactive Plotly/Dash visualizations.", tech: "Python · Flask · Dash · PostgreSQL", tags: ["python", "flask", "dash", "postgres"] },
   { id: "circle", color: "#A8A2B5", category: "Social", title: "Purdue Circle", blurb: "A student social app on a headless GraphQL CMS, cutting response payloads by 60%.", tech: "Next.js · React · GraphQL", tags: ["nextjs", "react", "graphql", "typescript", "tailwind"] },
   { id: "magpie", color: "#BFB49A", category: "Recs", title: "Movie Magpie", blurb: "A recommendation system over 10k+ films with Firebase-backed profiles and feedback.", tech: "React · Firebase", tags: ["react", "firebase"] },
-  { id: "arb", color: "#B0A48F", category: "Markets", title: "Betting Arbitrage", blurb: "Scrapes odds from 10+ books to surface 1–5% arbitrage opportunities in real time.", tech: "React · Selenium · PostgreSQL", tags: ["python", "react", "selenium", "postgres"] },
+  { id: "arb", color: "#B0A48F", category: "Markets", title: "Betting Arbitrage", blurb: "Scrapes odds from 10+ books to surface 1-5% arbitrage opportunities in real time.", tech: "React · Selenium · PostgreSQL", tags: ["python", "react", "selenium", "postgres"] },
   { id: "myshell", color: "#9AA0A6", category: "Systems", title: "MyShell", blurb: "A Unix-style shell interpreter in C++ with piping, redirection, and job control via Flex + Bison.", tech: "C++ · Flex · Bison", tags: ["cpp"] },
 ];
 

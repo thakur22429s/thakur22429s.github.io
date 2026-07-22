@@ -1,4 +1,4 @@
-import { about, education } from "@/data/content";
+import { about, education, skills } from "@/data/content";
 
 export default function About() {
   return (
@@ -11,13 +11,30 @@ export default function About() {
       </div>
       <div className="about-grid">
         <p className="about-para reveal">{about.paragraph}</p>
-        <div className="facts reveal">
-          {about.facts.map((f) => (
-            <div className="f" key={f.k}>
-              <span className="k">{f.k}</span>
-              <span>{f.v}</span>
-            </div>
-          ))}
+        <div className="about-right reveal">
+          <div className="facts">
+            {about.facts.map((f) => (
+              <div className="f" key={f.k}>
+                <span className="k">{f.k}</span>
+                <span>{f.v}</span>
+              </div>
+            ))}
+          </div>
+          <div className="skills">
+            <span className="skills-label">toolkit</span>
+            {skills.map((g) => (
+              <div className="skill-group" key={g.group}>
+                <span className="skill-cat">{g.group}</span>
+                <div className="skill-tags">
+                  {g.items.map((it) => (
+                    <span className="skill-tag" key={it}>
+                      {it}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="edu reveal">
