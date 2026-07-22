@@ -99,6 +99,22 @@ export default function Experience() {
     return () => io.disconnect();
   }, []);
 
+  // Pop each node in (anime.js) as its stop is revealed.
+  const poppedNodes = useRef<Set<number>>(new Set());
+  useEffect(() => {
+    if (seen.size === 0) return;
+    import("animejs").then(({ animate }) => {
+      const circles = wrapRef.current?.querySelectorAll(".trail-node");
+      if (!circles) return;
+      seen.forEach((i) => {
+        if (poppedNodes.current.has(i)) return;
+        poppedNodes.current.add(i);
+        const c = circles[i];
+        if (c) animate(c, { scale: [0.2, 1], duration: 650, ease: "outBack" });
+      });
+    });
+  }, [seen]);
+
   const toggle = (i: number) =>
     setOpen((prev) => {
       const n = new Set(prev);

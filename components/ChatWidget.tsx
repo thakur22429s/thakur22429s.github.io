@@ -40,6 +40,8 @@ export default function ChatWidget() {
   const thinking = busy && lastAssistantText.length === 0;
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  // anime.js module, loaded on the client only.
+  const animeRef = useRef<typeof import("animejs") | null>(null);
 
   // Openable from anywhere: an `open-chat` event or any [data-open-chat] click.
   useEffect(() => {
@@ -93,14 +95,62 @@ export default function ChatWidget() {
 
   const empty = messages.length === 0;
 
+  // The bird chirps: a comic bubble pops and musical notes float up.
+  const chirp = () => {
+    const a = animeRef.current;
+    const bird = document.querySelector(".birdlaunch");
+    if (!a || !bird || bird.classList.contains("gone")) return;
+    a.animate(".bl-bubble", {
+      scale: [0, 1],
+      opacity: [0, 1],
+      duration: 260,
+      ease: "outBack",
+    });
+    a.animate(".bl-note", {
+      translateY: [0, -24],
+      opacity: [0, 1, 0],
+      rotate: () => -14 + Math.random() * 28,
+      delay: a.stagger(130),
+      duration: 1200,
+      ease: "out(2)",
+    });
+    a.animate(".bl-bubble", {
+      scale: [1, 0.4],
+      opacity: [1, 0],
+      delay: 1150,
+      duration: 280,
+      ease: "in(2)",
+    });
+  };
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval> | undefined;
+    let cancelled = false;
+    import("animejs").then((m) => {
+      if (cancelled) return;
+      animeRef.current = m;
+      interval = setInterval(chirp, 9000);
+    });
+    return () => {
+      cancelled = true;
+      if (interval) clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <button
         className={`birdlaunch${open || atContact ? " gone" : ""}`}
         aria-label="Ask AI Abhay"
         onClick={() => setOpen(true)}
+        onMouseEnter={chirp}
       >
         <span className="bl-label">Ask AI Abhay</span>
+        <span className="bl-bubble" aria-hidden>
+          <span className="bl-note">♪</span>
+          <span className="bl-note">♫</span>
+        </span>
         <svg className="bl-svg" viewBox="0 0 170 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
           {/* branch */}
           <path d="M170 92C150 88 132 96 116 102" stroke="#6f5a45" strokeWidth="6" strokeLinecap="round" />
