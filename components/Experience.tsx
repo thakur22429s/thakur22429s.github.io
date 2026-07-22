@@ -1,18 +1,67 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { experience } from "@/data/content";
 
-// Abstract US layout (left→right ≈ west→east) so pins read geographically
-// without needing a literal map outline.
-const PINS = [
-  { place: "Richland, WA", x: 15, y: 20 },
-  { place: "West Lafayette, IN", x: 53, y: 31 },
-  { place: "New Brunswick, NJ", x: 86, y: 25 },
-];
+// Horizontal winding offset for each stop's node (px).
+const nodeX = (i: number) => 30 + Math.sin(i * 0.95) * 16;
+
+type Pt = { x: number; y: number };
 
 export default function Experience() {
-  const [active, setActive] = useState("New Brunswick, NJ");
-  const roles = experience.filter((e) => e.place === active);
+  const [open, setOpen] = useState<Set<number>>(new Set());
+  const [pts, setPts] = useState<Pt[]>([]);
+  const [dims, setDims] = useState({ w: 0, h: 0 });
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const anchors = useRef<(HTMLSpanElement | null)[]>([]);
+
+  const measure = () => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const wr = wrap.getBoundingClientRect();
+    const next = anchors.current.map((el) => {
+      if (!el) return { x: 0, y: 0 };
+      const r = el.getBoundingClientRect();
+      return { x: r.left - wr.left, y: r.top - wr.top };
+    });
+    setPts(next);
+    setDims({ w: wr.width, h: wr.height });
+  };
+
+  useEffect(() => {
+    measure();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  useEffect(() => {
+    measure();
+    const ro = new ResizeObserver(() => measure());
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      removeEventListener("resize", measure);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toggle = (i: number) =>
+    setOpen((prev) => {
+      const n = new Set(prev);
+      if (n.has(i)) n.delete(i);
+      else n.add(i);
+      return n;
+    });
+
+  // Smooth dotted path through the measured nodes.
+  const path =
+    pts.length > 1
+      ? pts.reduce((acc, p, i) => {
+          if (i === 0) return `M ${p.x} ${p.y}`;
+          const prev = pts[i - 1];
+          const my = (prev.y + p.y) / 2;
+          return `${acc} C ${prev.x} ${my} ${p.x} ${my} ${p.x} ${p.y}`;
+        }, "")
+      : "";
 
   return (
     <section className="blk wrap" id="experience">
@@ -20,51 +69,66 @@ export default function Experience() {
         <span className="idx">
           <b>02</b> / path
         </span>
-        <h2 className="dsp">Where I&apos;ve been</h2>
+        <h2 className="dsp">The trail so far</h2>
       </div>
 
-      <div className="geo">
-        <div className="geo-map">
-          <svg viewBox="0 0 100 52" className="geo-svg">
-            <path className="geo-arc" d="M15 20 Q 34 3 53 31" />
-            <path className="geo-arc" d="M53 31 Q 70 5 86 25" />
-            {PINS.map((p) => (
-              <g
-                key={p.place}
-                className={`pin${active === p.place ? " on" : ""}`}
-                onMouseEnter={() => setActive(p.place)}
-                onClick={() => setActive(p.place)}
-              >
-                <circle className="pin-halo" cx={p.x} cy={p.y} r="4.6" />
-                <circle className="pin-dot" cx={p.x} cy={p.y} r="1.9" />
-                <text
-                  className="pin-city"
-                  x={p.x}
-                  y={p.y + 6.6}
-                  textAnchor="middle"
-                >
-                  {p.place}
-                </text>
-              </g>
-            ))}
-          </svg>
-        </div>
+      <div className="trail" ref={wrapRef}>
+        <svg
+          className="trail-svg"
+          width={dims.w}
+          height={dims.h}
+          viewBox={`0 0 ${dims.w} ${dims.h}`}
+          aria-hidden
+        >
+          {path && <path className="trail-path" d={path} />}
+          {pts.map((p, i) => (
+            <circle
+              key={i}
+              className={`trail-node${open.has(i) ? " on" : ""}`}
+              cx={p.x}
+              cy={p.y}
+              r={6}
+            />
+          ))}
+        </svg>
 
-        <div className="geo-panel">
-          <div className="geo-place mono">{active}</div>
-          {roles.map((e, i) => (
-            <div className="geo-role" key={e.role + i}>
-              <div className="geo-when mono">{e.period}</div>
-              <div className="geo-title dsp">{e.role}</div>
-              <div className="geo-org">{e.org}</div>
-              <ul className="geo-points">
+        <ol className="trail-stops">
+          {experience.map((e, i) => (
+            <li
+              className={`trail-stop${open.has(i) ? " open" : ""}`}
+              key={e.role + e.period}
+              style={{ ["--wx" as string]: `${nodeX(i)}px` } as React.CSSProperties}
+            >
+              <span
+                className="trail-anchor"
+                ref={(el) => {
+                  anchors.current[i] = el;
+                }}
+              />
+              <button
+                className="trail-head"
+                onClick={() => toggle(i)}
+                aria-expanded={open.has(i)}
+              >
+                <span className="trail-when">{e.period}</span>
+                <span className="trail-role">
+                  {e.role}
+                  <span className="trail-chev" aria-hidden>
+                    ›
+                  </span>
+                </span>
+                <span className="trail-org">
+                  {e.org} · {e.place}
+                </span>
+              </button>
+              <ul className="trail-points">
                 {e.points.map((p, j) => (
                   <li key={j}>{p}</li>
                 ))}
               </ul>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
