@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- leaf -->
+  <path d="M28 58c14-26 40-14 44 2-20 14-40 6-44-2z"/>
+  <path d="M36 54l22-8"/>
+  <!-- star -->
+  <path d="M146 26l6 14 15 1-11 10 4 15-14-8-14 8 4-15-11-10 15-1z"/>
+  <!-- spiral sun -->
+  <circle cx="240" cy="46" r="9"/>
+  <path d="M240 30v-6M240 68v-6M256 46h6M218 46h6M251 35l4-4M225 61l4-4M251 57l4 4M225 31l4 4"/>
+  <!-- wavy underline -->
+  <path d="M22 126q9-9 18 0t18 0t18 0"/>
+  <!-- plant sprig -->
+  <path d="M150 150v-34"/>
+  <path d="M150 128c-8-2-14-8-16-16 9 0 15 4 16 12"/>
+  <path d="M150 136c8-2 14-8 16-16-9 0-15 4-16 12"/>
+  <!-- heart -->
+  <path d="M240 116c-6-9-19-3-15 7 2 7 15 13 15 13s13-6 15-13c4-10-9-16-15-7z"/>
+  <!-- cloud -->
+  <path d="M28 214a11 11 0 0 1 21-3 9 9 0 0 1 13 3z"/>
+  <!-- little arrow -->
+  <path d="M132 210q18 6 34-2"/>
+  <path d="M160 200l8 6-9 6"/>
+  <!-- mountains -->
+  <path d="M226 224l14-22 11 15 9-11 12 18z"/>
+  <!-- dots -->
+  <circle cx="40" cy="262" r="1.6"/>
+  <circle cx="52" cy="256" r="1.6"/>
+  <circle cx="48" cy="268" r="1.6"/>
+  <!-- small swirl -->
+  <path d="M150 252c10-2 8 12-2 10-8-2-6-14 4-14 9 0 12 10 6 16"/>
+</svg>

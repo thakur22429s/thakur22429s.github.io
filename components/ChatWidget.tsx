@@ -2,18 +2,30 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 
-const SUGGESTIONS = [
-  "What's his strongest project?",
-  "Researcher or builder?",
-  "Tell me about Badminton-Sense",
-  "Is he open to SWE or ML roles?",
-];
-
 const textOf = (parts: { type: string; text?: string }[] | undefined) =>
   (parts ?? [])
     .filter((p) => p.type === "text")
     .map((p) => p.text ?? "")
     .join("");
+
+// Reveals assistant text progressively (typewriter), even as it streams in.
+function Typewriter({ text }: { text: string }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (n >= text.length) return;
+    const id = setTimeout(() => setN((v) => Math.min(text.length, v + 1)), 18);
+    return () => clearTimeout(id);
+  }, [n, text]);
+  useEffect(() => {
+    setN((v) => (v > text.length ? text.length : v));
+  }, [text]);
+  return (
+    <>
+      {text.slice(0, n)}
+      {n < text.length && <span className="tw-caret" aria-hidden />}
+    </>
+  );
+}
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -160,7 +172,11 @@ export default function ChatWidget() {
               key={m.id}
               className={`bub ${m.role === "user" ? "me" : "ai-b"}`}
             >
-              {textOf(m.parts)}
+              {m.role === "assistant" ? (
+                <Typewriter text={textOf(m.parts)} />
+              ) : (
+                textOf(m.parts)
+              )}
             </div>
           ))}
           {status === "submitted" && (
@@ -178,21 +194,6 @@ export default function ChatWidget() {
             </div>
           )}
         </div>
-
-        {empty && (
-          <div className="chat-chips">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                type="button"
-                className="chip"
-                onClick={() => send(s)}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        )}
 
         <form
           className="chat-input"

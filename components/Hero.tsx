@@ -1,4 +1,5 @@
 import { hero, profile } from "@/data/content";
+import MagicInk from "@/components/MagicInk";
 
 export default function Hero() {
   return (
@@ -15,15 +16,7 @@ export default function Hero() {
           </span>
           <h1 className="hero-name">{profile.name}</h1>
           <p className="hero-roles">
-            {hero.roles.map((part, i) =>
-              part.accent ? (
-                <em key={i} className={part.accent}>
-                  {part.text}
-                </em>
-              ) : (
-                <span key={i}>{part.text}</span>
-              )
-            )}
+            <MagicInk />
           </p>
           <p className="lede">{hero.lede}</p>
           <div className="cta">
