@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="foot wrap" id="contact">
       <span className="eyebrow">the last page</span>
-      <h2 className="dsp">Let&apos;s connect.</h2>
+      <h2 className="dsp">Let&apos;s talk.</h2>
       <ContactForm />
       <div className="row">
         <a href={`mailto:${profile.email}`}>Email</a>

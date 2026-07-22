@@ -33,6 +33,11 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const { messages, sendMessage, status, error, stop, setMessages } = useChat();
   const busy = status === "submitted" || status === "streaming";
+  const last = messages[messages.length - 1];
+  const lastAssistantText =
+    last && last.role === "assistant" ? textOf(last.parts) : "";
+  // Keep the dots looping until the reply actually starts rendering.
+  const thinking = busy && lastAssistantText.length === 0;
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -104,10 +109,10 @@ export default function ChatWidget() {
           <ellipse cx="156" cy="80" rx="5" ry="3" transform="rotate(-20 156 80)" fill="#8b9568" />
           {/* long tail streamers */}
           <g className="bl-tail">
-            <path d="M108 118C98 160 118 205 74 280" stroke="#b8784e" strokeWidth="3.2" strokeLinecap="round" />
-            <path d="M116 116C112 158 128 200 92 288" stroke="#a96a3f" strokeWidth="2.6" strokeLinecap="round" />
-            <ellipse cx="74" cy="280" rx="2.8" ry="4.4" transform="rotate(30 74 280)" fill="#b8784e" />
-            <ellipse cx="92" cy="288" rx="2.4" ry="3.8" fill="#a96a3f" />
+            <path d="M108 118C98 160 118 205 74 280" stroke="#b8784e" strokeWidth="6" strokeLinecap="round" />
+            <path d="M116 116C112 158 128 200 92 288" stroke="#a96a3f" strokeWidth="5" strokeLinecap="round" />
+            <ellipse cx="74" cy="281" rx="5" ry="8" transform="rotate(30 74 281)" fill="#b8784e" />
+            <ellipse cx="92" cy="290" rx="4.2" ry="6.6" fill="#a96a3f" />
           </g>
           {/* feet */}
           <path d="M104 108L108 100M114 108L118 100" stroke="#3a3a40" strokeWidth="2" strokeLinecap="round" />
@@ -179,7 +184,7 @@ export default function ChatWidget() {
               )}
             </div>
           ))}
-          {status === "submitted" && (
+          {thinking && (
             <div className="bub ai-b">
               <span className="typing">
                 <i />

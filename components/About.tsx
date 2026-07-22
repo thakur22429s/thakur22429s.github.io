@@ -7,7 +7,7 @@ export default function About() {
         <span className="idx">
           <b>01</b> / about
         </span>
-        <h2 className="dsp">The short version</h2>
+        <h2 className="dsp">Who I am</h2>
       </div>
       <div className="about-grid">
         <p className="about-para reveal">{about.paragraph}</p>

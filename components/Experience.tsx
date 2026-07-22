@@ -2,9 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { experience } from "@/data/content";
 
-// Horizontal winding offset for each stop's node (px).
-const nodeX = (i: number) => 30 + Math.sin(i * 0.95) * 16;
-
 type Pt = { x: number; y: number };
 
 export default function Experience() {
@@ -69,7 +66,7 @@ export default function Experience() {
         <span className="idx">
           <b>02</b> / path
         </span>
-        <h2 className="dsp">The trail so far</h2>
+        <h2 className="dsp">The path</h2>
       </div>
 
       <div className="trail" ref={wrapRef}>
@@ -97,7 +94,6 @@ export default function Experience() {
             <li
               className={`trail-stop${open.has(i) ? " open" : ""}`}
               key={e.role + e.period}
-              style={{ ["--wx" as string]: `${nodeX(i)}px` } as React.CSSProperties}
             >
               <span
                 className="trail-anchor"

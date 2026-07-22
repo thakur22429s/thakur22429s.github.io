@@ -330,7 +330,7 @@ export default function Work() {
         <span className="idx">
           <b>03</b> / work
         </span>
-        <h2 className="dsp">A nervous system of work</h2>
+        <h2 className="dsp">What I&apos;ve built</h2>
       </div>
       <div className="nn" ref={wrapRef}>
         <canvas ref={canvasRef} />

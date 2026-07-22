@@ -45,7 +45,7 @@ export default function Life() {
           <span className="idx">
             <b>04</b> / life
           </span>
-          <h2 className="dsp">Through the viewfinder</h2>
+          <h2 className="dsp">Off the clock</h2>
         </div>
       </div>
 
