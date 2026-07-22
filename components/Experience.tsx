@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { experience } from "@/data/content";
 
 type Pt = { x: number; y: number };
-// Gentle single-side wind for the trail nodes.
-const windX = (i: number) => 32 + Math.sin(i * 0.8) * 12;
+// Gentle wind offset from the center line (px, can be negative).
+const windX = (i: number) => Math.sin(i * 0.9) * 30;
 
 export default function Experience() {
   const [open, setOpen] = useState<Set<number>>(new Set());

@@ -109,10 +109,12 @@ export default function ChatWidget() {
           <ellipse cx="156" cy="80" rx="5" ry="3" transform="rotate(-20 156 80)" fill="#8b9568" />
           {/* long flowing tail streamers */}
           <g className="bl-tail">
-            <path d="M107 120C97 162 118 206 74 282" stroke="#b8784e" strokeWidth="6.2" strokeLinecap="round" />
-            <path d="M115 118C111 160 128 202 92 290" stroke="#a96a3f" strokeWidth="5.2" strokeLinecap="round" />
-            <ellipse cx="74" cy="283" rx="5.2" ry="8.4" transform="rotate(30 74 283)" fill="#b8784e" />
-            <ellipse cx="92" cy="292" rx="4.4" ry="7" fill="#a96a3f" />
+            {/* back feather — tapered vane + shaft */}
+            <path d="M111 116C106 118 107 125 109 129C116 161 127 201 90 286C88 292 97 294 101 288C132 205 117 162 118 129C119 124 117 117 111 116Z" fill="#a96a3f" />
+            <path d="M113 121C111 160 124 200 93 287" stroke="#6f4526" strokeWidth="0.9" opacity="0.4" fill="none" />
+            {/* front feather — tapered vane + shaft */}
+            <path d="M103 119C98 121 99 127 101 131C108 163 117 203 71 280C69 286 78 288 82 282C121 205 109 163 111 131C112 126 110 120 103 119Z" fill="#b8784e" />
+            <path d="M105 123C101 162 113 202 75 281" stroke="#7d4e2b" strokeWidth="0.9" opacity="0.45" fill="none" />
           </g>
           {/* feet gripping the branch */}
           <path d="M103 110L103 101M103 110L99 113M103 110L107 113" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />

@@ -73,6 +73,7 @@ export default function Work() {
     fires: [] as { i: number; start: number }[],
     HL: -1,
     base: [] as Pt[],
+    mesh: [] as { a: number; b: number; w: number; seed: number }[],
     dend: projects.map((_, i) => buildDendrites(i + 1)),
     intro: 0,
     started: 0,
@@ -157,6 +158,30 @@ export default function Work() {
       const oy = (H - bh * scale) / 2 - minY * scale;
       st.base = nodes.map((n) => ({ x: n.x! * scale + ox, y: n.y! * scale + oy }));
       setPos(st.base.map((p) => ({ ...p })));
+
+      // Dense organic mesh: shared-tech edges + nearest-neighbour filaments.
+      const meshMap = new Map<string, { a: number; b: number; w: number }>();
+      edges.forEach((e) => meshMap.set(`${e.a}-${e.b}`, { a: e.a, b: e.b, w: e.w }));
+      for (let i = 0; i < st.base.length; i++) {
+        const near = st.base
+          .map((p, j) => ({
+            j,
+            d: (p.x - st.base[i].x) ** 2 + (p.y - st.base[i].y) ** 2,
+          }))
+          .filter((o) => o.j !== i)
+          .sort((p, q) => p.d - q.d);
+        for (let k = 0; k < 4 && k < near.length; k++) {
+          const j = near[k].j;
+          const a = Math.min(i, j),
+            b = Math.max(i, j);
+          const key = `${a}-${b}`;
+          if (!meshMap.has(key)) meshMap.set(key, { a, b, w: 0.35 });
+        }
+      }
+      st.mesh = [...meshMap.values()].map((e, idx) => ({
+        ...e,
+        seed: (e.a + 1) * 131 + (e.b + 1) * 977 + idx * 37,
+      }));
     };
     layout();
     addEventListener("resize", layout);
@@ -221,32 +246,44 @@ export default function Work() {
         return { x: st.base[i].x + b.x, y: st.base[i].y + b.y };
       };
 
-      // axons — the shared-tech connections
-      edges.forEach((e) => {
+      // organic filament mesh — dendrite-like connections, densely woven
+      st.mesh.forEach((e) => {
         const A = P(e.a),
           B = P(e.b);
-        const a = Math.max(st.act[e.a], st.act[e.b], st.flash[e.a] * 0.6, st.flash[e.b] * 0.6);
-        const mx = (A.x + B.x) / 2,
-          my = (A.y + B.y) / 2;
+        const act = Math.max(
+          st.act[e.a],
+          st.act[e.b],
+          st.flash[e.a] * 0.6,
+          st.flash[e.b] * 0.6
+        );
         const dx = B.x - A.x,
           dy = B.y - A.y;
         const len = Math.hypot(dx, dy) || 1;
-        const cx = mx + (-dy / len) * len * 0.08;
-        const cy = my + (dx / len) * len * 0.08;
+        const nx = -dy / len,
+          ny = dx / len;
+        const rng = mulberry32(e.seed);
+        const dir = e.seed % 2 ? 1 : -1;
+        const segs = 6;
         ctx.beginPath();
         ctx.moveTo(A.x, A.y);
-        ctx.quadraticCurveTo(cx, cy, B.x, B.y);
-        ctx.strokeStyle = hex(RESTc, ab(0.08 + 0.05 * e.w + 0.14 * a) * st.intro);
-        ctx.lineWidth = 0.7 + e.w * 0.25;
-        ctx.stroke();
-        if (a > 0.03) {
-          const g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
-          g.addColorStop(0, hex(nc(projects[e.a].color), ab(0.5 * a) * st.intro));
-          g.addColorStop(1, hex(nc(projects[e.b].color), ab(0.5 * a) * st.intro));
-          ctx.strokeStyle = g;
-          ctx.lineWidth = 0.9 + 0.8 * a;
-          ctx.stroke();
+        for (let s = 1; s < segs; s++) {
+          const t = s / segs;
+          const bulge = Math.sin(t * Math.PI) * (3 + rng() * 5) * dir;
+          const j = (rng() - 0.5) * 3.5;
+          ctx.lineTo(A.x + dx * t + nx * (bulge + j), A.y + dy * t + ny * (bulge + j));
         }
+        ctx.lineTo(B.x, B.y);
+        if (act > 0.03) {
+          const g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
+          g.addColorStop(0, hex(nc(projects[e.a].color), ab(0.4 * act) * st.intro));
+          g.addColorStop(1, hex(nc(projects[e.b].color), ab(0.4 * act) * st.intro));
+          ctx.strokeStyle = g;
+          ctx.lineWidth = 0.8 + 0.9 * act;
+        } else {
+          ctx.strokeStyle = hex(RESTc, ab(0.05 + 0.045 * e.w) * st.intro);
+          ctx.lineWidth = 0.7;
+        }
+        ctx.stroke();
       });
 
       // firing pulses
