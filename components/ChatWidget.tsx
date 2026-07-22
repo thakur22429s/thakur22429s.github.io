@@ -149,23 +149,23 @@ export default function ChatWidget() {
           <ellipse cx="49" cy="111" rx="5" ry="3" transform="rotate(28 49 111)" fill="#7f8a5e" />
           {/* long flowing tail streamers */}
           <g className="bl-tail">
-            {/* back feather - rooted under the body, tapered vane + shaft */}
-            <path d="M111 100C106 102 107 110 109 116C116 156 127 198 90 286C88 292 97 294 101 288C132 203 117 158 118 116C119 109 117 101 111 100Z" fill="#a96a3f" />
-            <path d="M113 104C111 156 124 198 93 287" stroke="#6f4526" strokeWidth="0.9" opacity="0.4" fill="none" />
-            {/* front feather - rooted under the body, tapered vane + shaft */}
-            <path d="M103 102C98 104 99 112 101 118C108 158 117 200 71 280C69 286 78 288 82 282C121 203 109 158 111 118C112 111 110 103 103 102Z" fill="#b8784e" />
-            <path d="M105 106C101 158 113 200 75 281" stroke="#7d4e2b" strokeWidth="0.9" opacity="0.45" fill="none" />
+            {/* back feather - rooted at the rump (right of feet), curving down-left */}
+            <path d="M123 98C118 100 119 108 121 114C132 148 126 192 92 288C90 294 99 296 103 290C136 192 130 148 131 114C132 107 130 99 123 98Z" fill="#a96a3f" />
+            <path d="M125 102C130 148 124 192 96 289" stroke="#6f4526" strokeWidth="0.9" opacity="0.4" fill="none" />
+            {/* front feather - rooted at the rump (right of feet), curving down-left */}
+            <path d="M117 100C112 102 113 110 115 116C126 150 120 194 74 282C72 288 81 290 85 284C128 194 124 150 125 116C126 109 124 101 117 100Z" fill="#b8784e" />
+            <path d="M119 104C124 150 118 194 78 283" stroke="#7d4e2b" strokeWidth="0.9" opacity="0.45" fill="none" />
           </g>
           {/* feet gripping the branch */}
-          <path d="M103 110L103 101M103 110L99 113M103 110L107 113" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />
-          <path d="M115 110L115 101M115 110L111 113M115 110L119 113" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />
+          <path d="M103 99L103 105M103 105L107 108M103 105L99 108" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />
+          <path d="M115 99L115 102M115 102L119 105M115 102L111 105" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />
           {/* body + belly */}
           <ellipse cx="110" cy="84" rx="19" ry="26" transform="rotate(-14 110 84)" fill="#bd7446" />
           <ellipse cx="101" cy="92" rx="8" ry="14" transform="rotate(-14 101 92)" fill="#ece2d2" />
-          {/* folded wing with feather tips */}
-          <path className="bl-wing" d="M114 60C131 64 133 93 121 105C122 99 118 97 116 101C118 93 113 91 112 95C115 82 112 66 114 60Z" fill="#92562f" />
-          <path d="M117 67C126 73 127 89 121 99" stroke="#3a2a1e" strokeWidth="1" opacity="0.45" />
-          <path d="M120 72C127 78 128 90 123 98" stroke="#3a2a1e" strokeWidth="1" opacity="0.35" />
+          {/* folded wing - a full, solid main feather */}
+          <path className="bl-wing" d="M116 57C138 61 141 95 124 112C121 103 122 88 118 76C116 68 114 62 116 57Z" fill="#8a4e2a" />
+          <path d="M119 64C130 74 131 95 125 108" stroke="#3a2418" strokeWidth="1" opacity="0.5" fill="none" />
+          <path d="M123 72C131 80 131 96 126 106" stroke="#3a2418" strokeWidth="1" opacity="0.4" fill="none" />
           {/* head, swept crest, beak, eye */}
           <g className="bl-head">
             <path d="M100 30C106 19 112 15 120 13" stroke="#1a1a20" strokeWidth="4" strokeLinecap="round" />

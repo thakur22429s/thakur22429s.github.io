@@ -12,14 +12,6 @@ export default function About() {
       <div className="about-grid">
         <p className="about-para reveal">{about.paragraph}</p>
         <div className="about-right reveal">
-          <div className="facts">
-            {about.facts.map((f) => (
-              <div className="f" key={f.k}>
-                <span className="k">{f.k}</span>
-                <span>{f.v}</span>
-              </div>
-            ))}
-          </div>
           <div className="skills">
             <span className="skills-label">toolkit</span>
             {skills.map((g) => (

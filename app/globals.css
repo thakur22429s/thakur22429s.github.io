@@ -100,11 +100,11 @@ a{color:inherit;text-decoration:none}
 
 /* section header */
 .sechd{display:flex;align-items:baseline;gap:16px;margin:0 0 12px;padding-top:60px}
-.sechd .idx{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:1px}
+.sechd .idx{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:1px;flex:0 0 auto;min-width:104px}
 .sechd .idx b{color:var(--teal)}
 .sechd h2{font-family:var(--display);font-weight:600;font-size:clamp(30px,4vw,50px)}
 .sub{color:var(--ink-soft);max-width:58ch;margin-bottom:8px}
-.blk{padding:80px 0;position:relative}
+.blk{padding-top:80px;padding-bottom:80px;position:relative}
 
 /* about */
 .about-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:48px;align-items:start;margin-top:26px}
