@@ -246,7 +246,7 @@ export default function Work() {
         return { x: st.base[i].x + b.x, y: st.base[i].y + b.y };
       };
 
-      // organic filament mesh — dendrite-like connections, densely woven
+      // organic filament mesh - dendrite-like connections, densely woven
       st.mesh.forEach((e) => {
         const A = P(e.a),
           B = P(e.b);
@@ -305,7 +305,7 @@ export default function Work() {
         return true;
       });
 
-      // neurons — dendritic arbor + soma
+      // neurons - dendritic arbor + soma
       projects.forEach((n, i) => {
         const c = P(i);
         const a = Math.max(st.act[i], st.flash[i]);

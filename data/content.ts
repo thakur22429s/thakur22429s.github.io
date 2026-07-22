@@ -13,7 +13,7 @@ export const profile = {
 
 export const hero = {
   photo: "/abhay.jpg",
-  // Role line under the name — <em class="t|g|r"> accent spans per role.
+  // Role line under the name - <em class="t|g|r"> accent spans per role.
   roles: [
     { text: "software engineer", accent: "t" },
     { text: " · " },
@@ -27,12 +27,12 @@ export const hero = {
 
 export const about = {
   paragraph:
-    "I am a Master's student in Computer Science at Rutgers University (graduating May 2026), specializing in AI and Machine Learning. At Rutgers I lecture the undergraduate Machine Learning Principles course and have worked on graduate research in 3D object detection, fusing LIDAR and camera sensor data. Before that, I earned my B.S. in Computer Science and Data Science at Purdue University, where I built backend services used by 10,000+ students and taught Data Structures and Algorithms as an undergraduate TA. I have also interned at Pacific Northwest National Lab, automating infrastructure for security research testbeds with Terraform and Ansible. Outside of coursework and research, I ship my own products — including a Flutter app live on the Apple App Store — and build full-stack and ML projects ranging from RAG-based medication safety tools to deep learning pipelines for sports video. Hackathons got me started (1st place at Purdue Hackers' Hackathon, top 10 at BoilerMake VIII), and that habit of building things end-to-end has stuck. I am currently looking for software engineering and machine learning roles where I can keep doing exactly that.",
+    "I am a Master's student in Computer Science at Rutgers University (graduating May 2026), specializing in AI and Machine Learning. At Rutgers I lecture the undergraduate Machine Learning Principles course and have worked on graduate research in 3D object detection, fusing LIDAR and camera sensor data. Before that, I earned my B.S. in Computer Science and Data Science at Purdue University, where I built backend services used by 10,000+ students and taught Data Structures and Algorithms as an undergraduate TA. I have also interned at Pacific Northwest National Lab, automating infrastructure for security research testbeds with Terraform and Ansible. Outside of coursework and research, I ship my own products - including a Flutter app live on the Apple App Store - and build full-stack and ML projects ranging from RAG-based medication safety tools to deep learning pipelines for sports video. Hackathons got me started (1st place at Purdue Hackers' Hackathon, top 10 at BoilerMake VIII), and that habit of building things end-to-end has stuck. I am currently looking for software engineering and machine learning roles where I can keep doing exactly that.",
   facts: [
-    { k: "Now", v: "M.S. Computer Science, Rutgers — AI/ML, grad May 2026" },
+    { k: "Now", v: "M.S. Computer Science, Rutgers - AI/ML, grad May 2026" },
     { k: "Doing", v: "3D object-detection research · lecturing ML Principles" },
     { k: "Before", v: "Purdue CS · PNNL (US DOE) · Purdue backend engineering" },
-    { k: "Shipped", v: "Nocta — live on the Apple App Store" },
+    { k: "Shipped", v: "Nocta - live on the Apple App Store" },
     { k: "Offscreen", v: "Photography · badminton · Airbnb host" },
   ],
 };
@@ -63,7 +63,7 @@ export const experience: Experience[] = [
     place: "New Brunswick, NJ",
     period: "2024 – Present",
     points: [
-      "Lecture the undergraduate Machine Learning Principles course — supervised learning, model evaluation, neural networks.",
+      "Lecture the undergraduate Machine Learning Principles course - supervised learning, model evaluation, neural networks.",
       "Run weekly office hours and help sessions, improving overall class performance and engagement.",
     ],
   },
@@ -73,7 +73,7 @@ export const experience: Experience[] = [
     place: "New Brunswick, NJ",
     period: "2024",
     points: [
-      "Led graduate-level Data Structures & Algorithms for 40+ master's students — dynamic programming, graph theory, complexity.",
+      "Led graduate-level Data Structures & Algorithms for 40+ master's students - dynamic programming, graph theory, complexity.",
       "Held weekly sessions assisting 20+ students/week with problem-solving and Java assignments.",
     ],
   },
@@ -105,7 +105,7 @@ export const experience: Experience[] = [
     place: "West Lafayette, IN",
     period: "Aug 2021 – May 2023",
     points: [
-      "TA'd CS 251 Data Structures & Algorithms — developed curriculum and graded for 200+ students.",
+      "TA'd CS 251 Data Structures & Algorithms - developed curriculum and graded for 200+ students.",
       "Held 3+ weekly office hours resolving student queries and debugging assignments.",
     ],
   },
@@ -114,7 +114,7 @@ export const experience: Experience[] = [
 export const education = [
   {
     school: "Rutgers University",
-    degree: "M.S. Computer Science — AI/ML",
+    degree: "M.S. Computer Science - AI/ML",
     period: "Jan 2024 – May 2026",
   },
   {
@@ -131,7 +131,7 @@ export type Project = {
   title: string;
   blurb: string;
   tech: string; // display string
-  tags: string[]; // normalized tech tags — the basis for neuron connections
+  tags: string[]; // normalized tech tags - the basis for neuron connections
   link?: string;
   linkLabel?: string;
 };
@@ -171,9 +171,9 @@ export type Shot = {
   exif: [string, string, string];
 };
 
-// Life section — the film viewfinder scroll.
+// Life section - the film viewfinder scroll.
 export const shots: Shot[] = [
-  { t: "Photography", d: "Golden hour on the fire escape — the light I keep chasing.", img: "linear-gradient(160deg,#3a2c22,#FF7A45)", exif: ["ISO 400", "f/2.0", "1/125"] },
+  { t: "Photography", d: "Golden hour on the fire escape - the light I keep chasing.", img: "linear-gradient(160deg,#3a2c22,#FF7A45)", exif: ["ISO 400", "f/2.0", "1/125"] },
   { t: "Host notes", d: "The apartment I quietly turned into an Airbnb, and everyone it brought through.", img: "linear-gradient(160deg,#10242a,#2FD9C6)", exif: ["ISO 800", "f/1.8", "1/60"] },
   { t: "Badminton", d: "Match nights, and the smash that never quite lands.", img: "linear-gradient(160deg,#232a1c,#9FD05C)", exif: ["ISO 200", "f/4.0", "1/250"] },
 ];

@@ -361,20 +361,22 @@ a{color:inherit;text-decoration:none}
 .trail-chev{font-family:var(--body);color:var(--ink-faint);transition:transform .3s,color .2s;font-size:22px}
 .trail-stop.open .trail-chev{transform:rotate(90deg);color:var(--teal)}
 .trail-org{font-family:var(--mono);font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-faint);margin-top:3px}
-.trail-points{list-style:none;max-height:0;opacity:0;overflow:hidden;transition:max-height .45s ease,opacity .35s ease,margin-top .3s}
+.trail-points{list-style:none;width:min(42%,400px);max-height:0;opacity:0;overflow:hidden;transition:max-height .45s ease,opacity .35s ease,margin-top .3s}
 .trail-stop.open .trail-points{max-height:480px;opacity:1;margin-top:14px}
 .trail-points li{color:var(--ink-soft);font-size:15px;line-height:1.5;position:relative;margin-bottom:7px;padding-left:15px}
 .trail-points li::before{content:"";position:absolute;top:9px;left:0;width:5px;height:5px;border-radius:50%;background:var(--teal);opacity:.6}
 .trail-head:hover .trail-role{color:var(--teal)}
 .trail-stop:nth-child(odd) .trail-head{margin-right:58%;text-align:right;align-items:flex-end}
 .trail-stop:nth-child(even) .trail-head{margin-left:58%;text-align:left;align-items:flex-start}
+.trail-stop:nth-child(even) .trail-points{margin-left:58%}
 .trail-stop:nth-child(odd) .trail-role{flex-direction:row-reverse}
-.trail-stop:nth-child(odd) .trail-points{text-align:right}
+.trail-stop:nth-child(odd) .trail-points{text-align:right;margin-right:58%}
 .trail-stop:nth-child(odd) .trail-points li{padding-left:0;padding-right:15px}
 .trail-stop:nth-child(odd) .trail-points li::before{left:auto;right:0}
 @media(max-width:680px){
   .trail-anchor{left:26px}
   .trail-stop .trail-head{width:auto;margin-left:60px;margin-right:0;text-align:left;align-items:flex-start}
+  .trail-stop .trail-points{width:auto;margin-left:60px;margin-right:0}
   .trail-stop:nth-child(odd) .trail-role{flex-direction:row}
   .trail-stop:nth-child(odd) .trail-points{text-align:left}
   .trail-stop:nth-child(odd) .trail-points li{padding-left:15px;padding-right:0}

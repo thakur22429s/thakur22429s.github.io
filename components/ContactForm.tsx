@@ -44,7 +44,7 @@ export default function ContactForm() {
   if (status === "sent") {
     return (
       <div className="cf-done reveal">
-        Thanks — your message is on its way. I&apos;ll get back to you soon.
+        Thanks - your message is on its way. I&apos;ll get back to you soon.
       </div>
     );
   }
@@ -83,7 +83,7 @@ export default function ContactForm() {
         </button>
         {status === "error" && (
           <span className="cf-err">
-            Failed to send — try again, or email me directly.
+            Failed to send - try again, or email me directly.
           </span>
         )}
       </div>

@@ -11,7 +11,7 @@ const caveat = Caveat({
   display: "swap",
 });
 
-// Body copy — a warm, readable storytelling serif.
+// Body copy - a warm, readable storytelling serif.
 const lora = Lora({
   subsets: ["latin"],
   variable: "--font-body",
@@ -22,9 +22,9 @@ import Reveals from "@/components/Reveals";
 import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
-  title: "Abhay Singh Thakur — AI/ML Engineer",
+  title: "Abhay Singh Thakur - AI/ML Engineer",
   description:
-    "AI/ML engineer and Master's CS student at Rutgers — 3D perception research, shipped products, and a camera. SWE / ML roles.",
+    "AI/ML engineer and Master's CS student at Rutgers - 3D perception research, shipped products, and a camera. SWE / ML roles.",
   icons: { icon: "/favicon.svg" },
 };
 

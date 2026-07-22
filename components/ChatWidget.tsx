@@ -109,12 +109,12 @@ export default function ChatWidget() {
           <ellipse cx="156" cy="80" rx="5" ry="3" transform="rotate(-20 156 80)" fill="#8b9568" />
           {/* long flowing tail streamers */}
           <g className="bl-tail">
-            {/* back feather — tapered vane + shaft */}
-            <path d="M111 116C106 118 107 125 109 129C116 161 127 201 90 286C88 292 97 294 101 288C132 205 117 162 118 129C119 124 117 117 111 116Z" fill="#a96a3f" />
-            <path d="M113 121C111 160 124 200 93 287" stroke="#6f4526" strokeWidth="0.9" opacity="0.4" fill="none" />
-            {/* front feather — tapered vane + shaft */}
-            <path d="M103 119C98 121 99 127 101 131C108 163 117 203 71 280C69 286 78 288 82 282C121 205 109 163 111 131C112 126 110 120 103 119Z" fill="#b8784e" />
-            <path d="M105 123C101 162 113 202 75 281" stroke="#7d4e2b" strokeWidth="0.9" opacity="0.45" fill="none" />
+            {/* back feather - rooted under the body, tapered vane + shaft */}
+            <path d="M111 100C106 102 107 110 109 116C116 156 127 198 90 286C88 292 97 294 101 288C132 203 117 158 118 116C119 109 117 101 111 100Z" fill="#a96a3f" />
+            <path d="M113 104C111 156 124 198 93 287" stroke="#6f4526" strokeWidth="0.9" opacity="0.4" fill="none" />
+            {/* front feather - rooted under the body, tapered vane + shaft */}
+            <path d="M103 102C98 104 99 112 101 118C108 158 117 200 71 280C69 286 78 288 82 282C121 203 109 158 111 118C112 111 110 103 103 102Z" fill="#b8784e" />
+            <path d="M105 106C101 158 113 200 75 281" stroke="#7d4e2b" strokeWidth="0.9" opacity="0.45" fill="none" />
           </g>
           {/* feet gripping the branch */}
           <path d="M103 110L103 101M103 110L99 113M103 110L107 113" stroke="#33333a" strokeWidth="1.8" strokeLinecap="round" />
@@ -132,7 +132,7 @@ export default function ChatWidget() {
             <path d="M97 31C102 22 108 18 115 17" stroke="#1a1a20" strokeWidth="3.4" strokeLinecap="round" />
             <path d="M102 33C109 26 116 24 123 24" stroke="#1a1a20" strokeWidth="3" strokeLinecap="round" />
             <circle cx="94" cy="43" r="15" fill="#1a1a20" />
-            <path d="M80 45L65 42L80 49Z" fill="#566f8a" />
+            <path d="M80 44L63 47L80 50Z" fill="#566f8a" />
             <circle cx="89" cy="41" r="3.4" fill="none" stroke="#6a9bd0" strokeWidth="1.4" />
             <circle cx="89" cy="41" r="1.9" fill="#0d0d12" />
             <circle cx="90" cy="40.2" r="0.7" fill="#fff" />
@@ -176,7 +176,7 @@ export default function ChatWidget() {
         <div className="chat-log" ref={scrollRef}>
           {empty && (
             <div className="bub ai-b">
-              Hey — I&apos;m AI Abhay. Ask me about my work and I&apos;ll answer
+              Hey - I&apos;m AI Abhay. Ask me about my work and I&apos;ll answer
               from what I&apos;ve actually done.
             </div>
           )}
