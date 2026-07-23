@@ -28,9 +28,6 @@ export default function Hero() {
             >
               Résumé <span className="a">→</span>
             </a>
-            <a className="btn ghost" href="#work">
-              See the work <span className="a">↓</span>
-            </a>
           </div>
         </div>
       </div>

@@ -1,15 +1,5 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  forceSimulation,
-  forceManyBody,
-  forceLink,
-  forceCenter,
-  forceCollide,
-  forceX,
-  forceY,
-  type SimulationNodeDatum,
-} from "d3-force";
 import { projects, computeEdges } from "@/data/content";
 
 // Neuron palette: white + gold on dark, gold-only on light. No per-project hues.
@@ -34,8 +24,9 @@ export default function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
   const [modal, setModal] = useState<number | null>(null);
   const [pos, setPos] = useState<Pt[]>([]);
-  // Which nodes sit low enough that their label should flip above the dot.
-  const [ups, setUps] = useState<boolean[]>([]);
+  // Outward unit vector per node - the direction its label points (away from
+  // the graph centre, into the open margin) so names never sit on connections.
+  const [dirs, setDirs] = useState<{ ux: number; uy: number }[]>([]);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -102,49 +93,33 @@ export default function Work() {
       cv.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Force-directed layout of the tech-shared graph.
-      const nodes: SimulationNodeDatum[] = projects.map(() => ({}));
-      const links = edges.map((e) => ({ source: e.a, target: e.b, w: e.w }));
-      // Spread hard: strong repulsion + long, weak links push connected
-      // neighbours well away from their hub, and a big collision radius reserves
-      // a label-sized footprint around every node so headings never crowd.
-      const sim = forceSimulation(nodes)
-        .force("charge", forceManyBody().strength(-880))
-        .force(
-          "link",
-          forceLink(links)
-            .distance((l: { w: number }) => 185 - l.w * 10)
-            .strength((l: { w: number }) => 0.09 + l.w * 0.06)
-        )
-        .force("collide", forceCollide(124))
-        .force("center", forceCenter(W / 2, H / 2))
-        .force("x", forceX(W / 2).strength(0.04))
-        .force("y", forceY(H / 2).strength(0.05))
-        .stop();
-      for (let i = 0; i < 340; i++) sim.tick();
-
-      // Fit the settled layout into the canvas with padding for arbors + labels.
-      let minX = Infinity,
-        minY = Infinity,
-        maxX = -Infinity,
-        maxY = -Infinity;
-      nodes.forEach((n) => {
-        minX = Math.min(minX, n.x!);
-        minY = Math.min(minY, n.y!);
-        maxX = Math.max(maxX, n.x!);
-        maxY = Math.max(maxY, n.y!);
+      // Deterministic ellipse ring. Every node sits on ONE loop, so all
+      // connections are chords INSIDE the ring and each label sits just OUTSIDE
+      // it - a name can never land on a connection. The order groups shared-tech
+      // clusters around the loop so the chords stay short instead of tangling.
+      const order = [5, 4, 7, 8, 3, 10, 0, 2, 1, 6, 9];
+      const cxp = W / 2,
+        cyp = H / 2;
+      const rx = W / 2 - 190,
+        ry = H / 2 - 92;
+      st.base = new Array(projects.length);
+      order.forEach((idx, k) => {
+        const ang = -Math.PI / 2 + (k / order.length) * Math.PI * 2;
+        st.base[idx] = {
+          x: cxp + rx * Math.cos(ang),
+          y: cyp + ry * Math.sin(ang),
+        };
       });
-      const padX = 60,
-        padY = 74;
-      const bw = maxX - minX || 1,
-        bh = maxY - minY || 1;
-      const scale = Math.min((W - 2 * padX) / bw, (H - 2 * padY) / bh);
-      const ox = (W - bw * scale) / 2 - minX * scale;
-      const oy = (H - bh * scale) / 2 - minY * scale;
-      st.base = nodes.map((n) => ({ x: n.x! * scale + ox, y: n.y! * scale + oy }));
       setPos(st.base.map((p) => ({ ...p })));
-      // Nodes in the lower ~40% flip their label upward so it clears the mesh below.
-      setUps(st.base.map((p) => p.y > H * 0.58));
+      // Every label points straight out from the ring centre, into the margin.
+      setDirs(
+        st.base.map((p) => {
+          const dx = p.x - cxp,
+            dy = p.y - cyp,
+            l = Math.hypot(dx, dy) || 1;
+          return { ux: dx / l, uy: dy / l };
+        })
+      );
 
       // Connections ARE the dendrites now: only shared-tech edges, plus a single
       // nearest-neighbour lifeline for any node that shares tech with nobody, so
@@ -347,13 +322,13 @@ export default function Work() {
         <canvas ref={canvasRef} />
         {pos.length === projects.length &&
           projects.map((p, i) => {
-            const base =
+            const cls =
               hovered === i
                 ? "nn-node host"
                 : hovered != null && adj[hovered].has(i)
                 ? "nn-node lit"
                 : "nn-node";
-            const cls = ups[i] ? `${base} up` : base;
+            const d = dirs[i] ?? { ux: 0, uy: 1 };
             return (
               <div
                 key={p.id}
@@ -370,8 +345,16 @@ export default function Work() {
                 onClick={() => openProject(i)}
               >
                 <div className="hit" />
-                <div className="lab">
-                  <span className="k">{p.category}</span>
+                <div
+                  className="lab"
+                  style={{
+                    left: `calc(50% + ${(d.ux * 12).toFixed(1)}px)`,
+                    top: `calc(50% + ${(d.uy * 12).toFixed(1)}px)`,
+                    transform: `translate(${
+                      d.ux > 0.25 ? "0" : d.ux < -0.25 ? "-100%" : "-50%"
+                    }, ${d.uy > 0.25 ? "0" : d.uy < -0.25 ? "-100%" : "-50%"})`,
+                  }}
+                >
                   <h3>{p.short ?? p.title}</h3>
                 </div>
               </div>

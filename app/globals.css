@@ -147,9 +147,8 @@ a{color:inherit;text-decoration:none}
 .nn canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1}
 .nn-node{position:absolute;transform:translate(-50%,-50%);z-index:2;width:150px;height:150px;display:flex;align-items:center;justify-content:center;cursor:none}
 .nn-node .hit{width:48px;height:48px;border-radius:50%}
-.nn-node .lab{position:absolute;top:calc(50% + 18px);left:50%;transform:translateX(-50%);width:max-content;max-width:150px;text-align:center;pointer-events:none;opacity:0;transition:opacity .35s;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(3px);padding:5px 11px;border-radius:10px}
+.nn-node .lab{position:absolute;top:50%;left:50%;width:max-content;max-width:140px;text-align:center;pointer-events:none;opacity:0;transition:opacity .3s;background:var(--ground);padding:5px 11px;border-radius:10px}
 .nn-node.host .lab,.nn-node.lit .lab{opacity:1}
-.nn-node.up .lab{top:auto;bottom:calc(50% + 20px)}
 .nn-node .lab .k{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--c)}
 .nn-node .lab h3{font-family:var(--display);font-weight:600;font-size:14.5px;line-height:1.1;margin-top:2px;color:var(--ink)}
 .nn-hint{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faint);text-align:center;margin-top:2px}
