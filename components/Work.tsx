@@ -12,12 +12,14 @@ import {
 } from "d3-force";
 import { projects, computeEdges } from "@/data/content";
 
-const REST = "#6f6a60";
+// Neuron palette: white + gold on dark, gold-only on light. No per-project hues.
+const GOLD_DARK = "#E0B85C";
+const GOLD_LIGHT = "#9C7420";
+const WHITE_REST = "#EAE2D2";
 
 type Pt = { x: number; y: number };
-type Seg = { x1: number; y1: number; x2: number; y2: number; depth: number };
 
-// Deterministic RNG so each neuron's dendrites are stable across renders.
+// Deterministic RNG so each connection's organic wobble is stable across renders.
 function mulberry32(a: number) {
   return function () {
     a |= 0;
@@ -28,31 +30,12 @@ function mulberry32(a: number) {
   };
 }
 
-// A branching dendritic arbor in local coordinates (relative to the soma).
-function buildDendrites(seed: number): Seg[] {
-  const rng = mulberry32(seed * 2654435761);
-  const segs: Seg[] = [];
-  const grow = (x: number, y: number, ang: number, len: number, depth: number) => {
-    if (depth > 3 || len < 3.5) return;
-    const x2 = x + Math.cos(ang) * len;
-    const y2 = y + Math.sin(ang) * len;
-    segs.push({ x1: x, y1: y, x2, y2, depth });
-    const children = depth < 2 ? 2 : 1;
-    for (let i = 0; i < children; i++) {
-      grow(x2, y2, ang + (rng() - 0.5) * 0.95, len * (0.6 + rng() * 0.16), depth + 1);
-    }
-  };
-  const branches = 5 + Math.floor(rng() * 3);
-  for (let b = 0; b < branches; b++) {
-    grow(0, 0, (b / branches) * Math.PI * 2 + rng() * 0.6, 15 + rng() * 9, 0);
-  }
-  return segs;
-}
-
 export default function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
   const [modal, setModal] = useState<number | null>(null);
   const [pos, setPos] = useState<Pt[]>([]);
+  // Which nodes sit low enough that their label should flip above the dot.
+  const [ups, setUps] = useState<boolean[]>([]);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -74,7 +57,6 @@ export default function Work() {
     HL: -1,
     base: [] as Pt[],
     mesh: [] as { a: number; b: number; w: number; seed: number }[],
-    dend: projects.map((_, i) => buildDendrites(i + 1)),
     intro: 0,
     started: 0,
     lastAmb: 0,
@@ -123,18 +105,21 @@ export default function Work() {
       // Force-directed layout of the tech-shared graph.
       const nodes: SimulationNodeDatum[] = projects.map(() => ({}));
       const links = edges.map((e) => ({ source: e.a, target: e.b, w: e.w }));
+      // Spread hard: strong repulsion + long, weak links push connected
+      // neighbours well away from their hub, and a big collision radius reserves
+      // a label-sized footprint around every node so headings never crowd.
       const sim = forceSimulation(nodes)
-        .force("charge", forceManyBody().strength(-230))
+        .force("charge", forceManyBody().strength(-880))
         .force(
           "link",
           forceLink(links)
-            .distance((l: { w: number }) => 78 - l.w * 8)
-            .strength((l: { w: number }) => 0.25 + l.w * 0.2)
+            .distance((l: { w: number }) => 185 - l.w * 10)
+            .strength((l: { w: number }) => 0.09 + l.w * 0.06)
         )
-        .force("collide", forceCollide(50))
+        .force("collide", forceCollide(124))
         .force("center", forceCenter(W / 2, H / 2))
-        .force("x", forceX(W / 2).strength(0.05))
-        .force("y", forceY(H / 2).strength(0.07))
+        .force("x", forceX(W / 2).strength(0.04))
+        .force("y", forceY(H / 2).strength(0.05))
         .stop();
       for (let i = 0; i < 340; i++) sim.tick();
 
@@ -149,8 +134,8 @@ export default function Work() {
         maxX = Math.max(maxX, n.x!);
         maxY = Math.max(maxY, n.y!);
       });
-      const padX = 90,
-        padY = 76;
+      const padX = 60,
+        padY = 74;
       const bw = maxX - minX || 1,
         bh = maxY - minY || 1;
       const scale = Math.min((W - 2 * padX) / bw, (H - 2 * padY) / bh);
@@ -158,24 +143,36 @@ export default function Work() {
       const oy = (H - bh * scale) / 2 - minY * scale;
       st.base = nodes.map((n) => ({ x: n.x! * scale + ox, y: n.y! * scale + oy }));
       setPos(st.base.map((p) => ({ ...p })));
+      // Nodes in the lower ~40% flip their label upward so it clears the mesh below.
+      setUps(st.base.map((p) => p.y > H * 0.58));
 
-      // Dense organic mesh: shared-tech edges + nearest-neighbour filaments.
+      // Connections ARE the dendrites now: only shared-tech edges, plus a single
+      // nearest-neighbour lifeline for any node that shares tech with nobody, so
+      // no dot is left floating. No decorative or random dangling filaments.
       const meshMap = new Map<string, { a: number; b: number; w: number }>();
       edges.forEach((e) => meshMap.set(`${e.a}-${e.b}`, { a: e.a, b: e.b, w: e.w }));
+      const degree = projects.map(() => 0);
+      edges.forEach((e) => {
+        degree[e.a]++;
+        degree[e.b]++;
+      });
       for (let i = 0; i < st.base.length; i++) {
-        const near = st.base
-          .map((p, j) => ({
-            j,
-            d: (p.x - st.base[i].x) ** 2 + (p.y - st.base[i].y) ** 2,
-          }))
-          .filter((o) => o.j !== i)
-          .sort((p, q) => p.d - q.d);
-        for (let k = 0; k < 4 && k < near.length; k++) {
-          const j = near[k].j;
-          const a = Math.min(i, j),
-            b = Math.max(i, j);
-          const key = `${a}-${b}`;
-          if (!meshMap.has(key)) meshMap.set(key, { a, b, w: 0.35 });
+        if (degree[i] > 0) continue; // already wired by shared tech
+        let best = -1,
+          bestD = Infinity;
+        for (let j = 0; j < st.base.length; j++) {
+          if (j === i) continue;
+          const d =
+            (st.base[j].x - st.base[i].x) ** 2 + (st.base[j].y - st.base[i].y) ** 2;
+          if (d < bestD) {
+            bestD = d;
+            best = j;
+          }
+        }
+        if (best >= 0) {
+          const a = Math.min(i, best),
+            b = Math.max(i, best);
+          meshMap.set(`${a}-${b}`, { a, b, w: 0.4 });
         }
       }
       st.mesh = [...meshMap.values()].map((e, idx) => ({
@@ -199,17 +196,6 @@ export default function Work() {
       const n = parseInt(c.slice(1), 16);
       return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
     };
-    const darken = (c: string, f: number) => {
-      const n = parseInt(c.slice(1), 16);
-      return `#${(
-        (1 << 24) +
-        (Math.round(((n >> 16) & 255) * f) << 16) +
-        (Math.round(((n >> 8) & 255) * f) << 8) +
-        Math.round((n & 255) * f)
-      )
-        .toString(16)
-        .slice(1)}`;
-    };
     const bob = (i: number, t: number): Pt => ({
       x: Math.sin(t * 0.4 + i * 1.7) * 3,
       y: Math.cos(t * 0.34 + i * 2.1) * 3,
@@ -219,14 +205,15 @@ export default function Work() {
       ctx.clearRect(0, 0, W, H);
       if (st.started) st.intro = Math.min(1, (now - st.started) / 1100);
       const t = now / 1000;
-      // Light theme: boost alpha and darken colors so pulses read on cream.
+      // Light theme: boost alpha so gold reads on the cream background.
       const AB = isLight ? 1.9 : 1;
       const ab = (v: number) => {
         const x = v * AB;
         return x > 1 ? 1 : x;
       };
-      const RESTc = isLight ? "#5c584f" : REST;
-      const nc = (c: string) => (isLight ? darken(c, 0.52) : c);
+      // White at rest on dark, gold on activation; gold-only on light.
+      const GOLD = isLight ? GOLD_LIGHT : GOLD_DARK;
+      const RESTc = isLight ? GOLD_LIGHT : WHITE_REST;
       if (!st.base.length) {
         raf = requestAnimationFrame(frame);
         return;
@@ -274,13 +261,10 @@ export default function Work() {
         }
         ctx.lineTo(B.x, B.y);
         if (act > 0.03) {
-          const g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
-          g.addColorStop(0, hex(nc(projects[e.a].color), ab(0.4 * act) * st.intro));
-          g.addColorStop(1, hex(nc(projects[e.b].color), ab(0.4 * act) * st.intro));
-          ctx.strokeStyle = g;
-          ctx.lineWidth = 0.8 + 0.9 * act;
+          ctx.strokeStyle = hex(GOLD, ab(0.5 * act) * st.intro);
+          ctx.lineWidth = 0.8 + 1.0 * act;
         } else {
-          ctx.strokeStyle = hex(RESTc, ab(0.05 + 0.045 * e.w) * st.intro);
+          ctx.strokeStyle = hex(RESTc, ab(0.06 + 0.05 * e.w) * st.intro);
           ctx.lineWidth = 0.7;
         }
         ctx.stroke();
@@ -294,7 +278,7 @@ export default function Work() {
         const pr = el / DUR,
           ease = 1 - Math.pow(1 - pr, 2);
         const O = P(f.i);
-        ctx.strokeStyle = hex(nc(projects[f.i].color), ab((1 - pr) * 0.4) * st.intro);
+        ctx.strokeStyle = hex(GOLD, ab((1 - pr) * 0.5) * st.intro);
         ctx.lineWidth = 1.1;
         ctx.beginPath();
         ctx.arc(O.x, O.y, 6 + ease * 30, 0, 6.29);
@@ -305,32 +289,22 @@ export default function Work() {
         return true;
       });
 
-      // neurons - dendritic arbor + soma
-      projects.forEach((n, i) => {
+      // neurons - soma dots. White at rest on dark, gold when active or firing.
+      projects.forEach((_, i) => {
         const c = P(i);
         const a = Math.max(st.act[i], st.flash[i]);
-        const col = a > 0.04 ? nc(n.color) : RESTc;
-
-        for (const s of st.dend[i]) {
-          const fade = 1 - s.depth * 0.22;
-          ctx.strokeStyle = hex(col, ab(0.09 + 0.34 * a) * fade * st.intro);
-          ctx.lineWidth = Math.max(0.5, 1.5 - s.depth * 0.35);
-          ctx.beginPath();
-          ctx.moveTo(c.x + s.x1, c.y + s.y1);
-          ctx.lineTo(c.x + s.x2, c.y + s.y2);
-          ctx.stroke();
-        }
+        const col = a > 0.04 ? GOLD : RESTc;
 
         const glow = 5 + a * 14;
         const rg = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, glow);
-        rg.addColorStop(0, hex(nc(n.color), ab(0.12 + 0.42 * a) * st.intro));
-        rg.addColorStop(1, hex(nc(n.color), 0));
+        rg.addColorStop(0, hex(col, ab(0.14 + 0.44 * a) * st.intro));
+        rg.addColorStop(1, hex(col, 0));
         ctx.fillStyle = rg;
         ctx.beginPath();
         ctx.arc(c.x, c.y, glow, 0, 6.29);
         ctx.fill();
 
-        ctx.fillStyle = hex(nc(n.color), ab(0.7 + 0.3 * a) * st.intro);
+        ctx.fillStyle = hex(col, ab(0.72 + 0.28 * a) * st.intro);
         ctx.beginPath();
         ctx.arc(c.x, c.y, 3.4 + a * 1.8, 0, 6.29);
         ctx.fill();
@@ -373,12 +347,13 @@ export default function Work() {
         <canvas ref={canvasRef} />
         {pos.length === projects.length &&
           projects.map((p, i) => {
-            const cls =
+            const base =
               hovered === i
                 ? "nn-node host"
                 : hovered != null && adj[hovered].has(i)
                 ? "nn-node lit"
                 : "nn-node";
+            const cls = ups[i] ? `${base} up` : base;
             return (
               <div
                 key={p.id}
@@ -387,7 +362,7 @@ export default function Work() {
                   {
                     left: `${pos[i].x}px`,
                     top: `${pos[i].y}px`,
-                    ["--c" as string]: p.color,
+                    ["--c" as string]: "var(--gold)",
                   } as React.CSSProperties
                 }
                 onMouseEnter={() => setHL(i)}
@@ -397,7 +372,7 @@ export default function Work() {
                 <div className="hit" />
                 <div className="lab">
                   <span className="k">{p.category}</span>
-                  <h3>{p.title}</h3>
+                  <h3>{p.short ?? p.title}</h3>
                 </div>
               </div>
             );
@@ -415,14 +390,14 @@ export default function Work() {
         {m && (
           <div
             className="nn-card"
-            style={{ ["--c" as string]: m.color } as React.CSSProperties}
+            style={{ ["--c" as string]: "var(--gold)" } as React.CSSProperties}
           >
             <button className="x" onClick={() => setModal(null)} aria-label="Close">
               ×
             </button>
             <span className="k">{m.category}</span>
             <h3 className="dsp">{m.title}</h3>
-            <p>{m.blurb}</p>
+            <p>{m.detail}</p>
             <span className="tech">{m.tech}</span>
             {m.link && (
               <a

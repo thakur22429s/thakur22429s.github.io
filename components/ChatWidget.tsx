@@ -276,7 +276,7 @@ export default function ChatWidget() {
         </form>
 
         <div className="chat-pop-foot mono">
-          Powered by Google Gemma · for anything real,{" "}
+          Powered by Google Gemini · for anything real,{" "}
           <a href="mailto:thakur22429s@gmail.com">email me</a>.
         </div>
       </div>

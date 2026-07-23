@@ -12,11 +12,11 @@ import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 // Runs as a Vercel Function; allow up to 30s for streaming.
 export const maxDuration = 30;
 
-// Gemini 2.0 Flash via the free AI Studio API tier. Chosen for speed: the
-// available Gemma 4 models (26B/31B) run a mandatory multi-second "thinking"
-// pass that can't be disabled, so they can't hit the sub-3s target. Flash has
-// no reasoning phase and replies in ~1s.
-const MODEL = "gemini-2.0-flash";
+// Google's current free-tier Flash model. Using the "-latest" alias on purpose:
+// Google dropped gemini-2.0-flash from the free tier (quota limit went to 0),
+// and the alias auto-tracks whatever the current free Flash is so this doesn't
+// silently break again. Fast (~2-4s) with no mandatory reasoning pass.
+const MODEL = "gemini-flash-latest";
 
 // Light guards for a public endpoint.
 const MAX_MESSAGES = 24;

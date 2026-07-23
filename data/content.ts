@@ -22,15 +22,15 @@ export const hero = {
     { text: "graduate researcher", accent: "r" },
   ] as { text: string; accent?: "t" | "g" | "r" }[],
   lede:
-    "I'm a Master's student in Computer Science at Rutgers (graduating May 2026), specializing in AI and machine learning. I lecture the ML Principles course, do graduate research in 3D object detection, and ship my own products on the side.",
+    "I recently earned my Master's in Computer Science at Rutgers (May 2026), specializing in AI and machine learning. I lectured the ML Principles course, did graduate research in 3D object detection, and ship my own products on the side.",
 };
 
 export const about = {
   paragraph:
-    "I am a Master's student in Computer Science at Rutgers University (graduating May 2026), specializing in AI and Machine Learning. At Rutgers I lecture the undergraduate Machine Learning Principles course and have worked on graduate research in 3D object detection, fusing LIDAR and camera sensor data. Before that, I earned my B.S. in Computer Science and Data Science at Purdue University, where I built backend services used by 10,000+ students and taught Data Structures and Algorithms as an undergraduate TA. I have also interned at Pacific Northwest National Lab, automating infrastructure for security research testbeds with Terraform and Ansible. Outside of coursework and research, I ship my own products - including a Flutter app live on the Apple App Store - and build full-stack and ML projects ranging from RAG-based medication safety tools to deep learning pipelines for sports video. Hackathons got me started (1st place at Purdue Hackers' Hackathon, top 10 at BoilerMake VIII), and that habit of building things end-to-end has stuck. I am currently looking for software engineering and machine learning roles where I can keep doing exactly that.",
+    "I recently completed my Master's in Computer Science at Rutgers University (May 2026), specializing in AI and Machine Learning. At Rutgers I lectured the undergraduate Machine Learning Principles course and worked on graduate research in 3D object detection, fusing LIDAR and camera sensor data. Before that, I earned my B.S. in Computer Science and Data Science at Purdue University, where I built backend services used by 10,000+ students and taught Data Structures and Algorithms as an undergraduate TA. I have also interned at Pacific Northwest National Lab, automating infrastructure for security research testbeds with Terraform and Ansible. Outside of coursework and research, I ship my own products - including a Flutter app live on the Apple App Store - and build full-stack and ML projects ranging from RAG-based medication safety tools to deep learning pipelines for sports video. Hackathons got me started (1st place at Purdue Hackers' Hackathon, top 10 at BoilerMake VIII), and that habit of building things end-to-end has stuck. I am currently looking for software engineering and machine learning roles where I can keep doing exactly that.",
   facts: [
-    { k: "Now", v: "M.S. Computer Science, Rutgers - AI/ML, grad May 2026" },
-    { k: "Doing", v: "3D object-detection research · lecturing ML Principles" },
+    { k: "Now", v: "M.S. Computer Science, Rutgers - AI/ML (May 2026)" },
+    { k: "Doing", v: "Interviewing for SWE / ML roles · building side projects" },
     { k: "Before", v: "Purdue CS · PNNL (US DOE) · Purdue backend engineering" },
     { k: "Shipped", v: "Nocta - live on the Apple App Store" },
     { k: "Offscreen", v: "Photography · badminton · Airbnb host" },
@@ -125,11 +125,12 @@ export const education = [
 ];
 
 export const skills = [
-  { group: "Languages", items: ["Python", "TypeScript", "Java", "C++", "SQL", "Dart"] },
-  { group: "ML / Data", items: ["PyTorch", "HuggingFace", "MediaPipe", "scikit-learn", "Pandas", "OpenCV"] },
-  { group: "Web", items: ["Next.js", "React", "Node", "Flask", "Spring Boot", "GraphQL"] },
-  { group: "Infra", items: ["PostgreSQL", "Supabase", "pgvector", "Docker", "AWS", "Terraform"] },
+  { group: "Languages", items: ["Python", "Java", "TypeScript", "JavaScript", "C++", "C", "SQL", "Dart", "Bash"] },
+  { group: "ML / Data", items: ["PyTorch", "HuggingFace", "MediaPipe", "scikit-learn", "NumPy", "Pandas", "OpenCV", "TensorFlow"] },
+  { group: "Web", items: ["Next.js", "React", "Node", "Spring Boot", "Flask", "Django", "GraphQL", "Tailwind", "REST", "OpenAPI"] },
+  { group: "Infra / Cloud", items: ["PostgreSQL", "MySQL", "MongoDB", "Supabase", "pgvector", "Docker", "Kubernetes", "AWS", "GCP", "Terraform", "Ansible", "GitHub Actions", "Jenkins"] },
   { group: "Mobile", items: ["Flutter", "Riverpod", "Firebase"] },
+  { group: "Testing / Tools", items: ["JUnit", "pytest", "Mockito", "Git", "Postman", "Datadog", "Linux"] },
 ];
 
 export type Project = {
@@ -137,7 +138,9 @@ export type Project = {
   color: string;
   category: string;
   title: string;
-  blurb: string;
+  short?: string; // compact label for the neuron node (falls back to title)
+  blurb: string; // one-line, for quick scan
+  detail: string; // full description shown in the project card
   tech: string; // display string
   tags: string[]; // normalized tech tags - the basis for neuron connections
   link?: string;
@@ -147,17 +150,83 @@ export type Project = {
 // Every project is a neuron; two neurons wire together when they share a tech
 // tag (see computeEdges). The layout is force-directed at runtime.
 export const projects: Project[] = [
-  { id: "det", color: "#84B3AC", category: "Perception", title: "3D Object Detection", blurb: "LIDAR + camera fusion for autonomous perception, improving localization accuracy 25% over baseline.", tech: "PyTorch · OpenCV · Rutgers research", tags: ["python", "pytorch", "opencv"] },
-  { id: "pharma", color: "#BBA0A0", category: "Safety", title: "PharmaGuard", blurb: "A distilled language model + RAG that warns before medications collide, across 1M+ interactions.", tech: "Python · HuggingFace · FAISS", tags: ["python", "huggingface", "rag"], link: "https://github.com/thakur22429s/DrugLM", linkLabel: "GitHub" },
-  { id: "badminton", color: "#A2B295", category: "Sport", title: "Badminton-Sense", blurb: "Classifies badminton strokes from broadcast video using pose estimation and sequence models.", tech: "PyTorch · MediaPipe · scikit-learn", tags: ["python", "pytorch", "mediapipe", "scikit"], link: "https://github.com/thakur22429s/BadmintonSense", linkLabel: "GitHub" },
-  { id: "nocta", color: "#C9B79A", category: "Shipped", title: "Nocta", blurb: "A card-deck social discovery app for college students, live on the Apple App Store.", tech: "Flutter · Dart · Firebase", tags: ["flutter", "dart", "firebase"], link: "https://apps.apple.com/us/app/nocta/id6758424070", linkLabel: "App Store" },
-  { id: "acp", color: "#939CB0", category: "In flight", title: "ACP", blurb: "An AI career platform surfacing role and skill matches with RAG over your profile.", tech: "Next.js · Supabase · pgvector", tags: ["nextjs", "typescript", "supabase", "pgvector", "rag", "tailwind"] },
-  { id: "boardroom", color: "#BE9B85", category: "In flight", title: "Investor Boardroom", blurb: "Pitch to a panel of AI investor personas that grill you in character and return a structured critique.", tech: "Next.js · Supabase · LLM", tags: ["nextjs", "typescript", "supabase", "llm"] },
-  { id: "apex", color: "#9DB0AE", category: "Data", title: "Apex Analytics", blurb: "An F1 telemetry dashboard processing 2GB+ of data with interactive Plotly/Dash visualizations.", tech: "Python · Flask · Dash · PostgreSQL", tags: ["python", "flask", "dash", "postgres"] },
-  { id: "circle", color: "#A8A2B5", category: "Social", title: "Purdue Circle", blurb: "A student social app on a headless GraphQL CMS, cutting response payloads by 60%.", tech: "Next.js · React · GraphQL", tags: ["nextjs", "react", "graphql", "typescript", "tailwind"] },
-  { id: "magpie", color: "#BFB49A", category: "Recs", title: "Movie Magpie", blurb: "A recommendation system over 10k+ films with Firebase-backed profiles and feedback.", tech: "React · Firebase", tags: ["react", "firebase"] },
-  { id: "arb", color: "#B0A48F", category: "Markets", title: "Betting Arbitrage", blurb: "Scrapes odds from 10+ books to surface 1-5% arbitrage opportunities in real time.", tech: "React · Selenium · PostgreSQL", tags: ["python", "react", "selenium", "postgres"] },
-  { id: "myshell", color: "#9AA0A6", category: "Systems", title: "MyShell", blurb: "A Unix-style shell interpreter in C++ with piping, redirection, and job control via Flex + Bison.", tech: "C++ · Flex · Bison", tags: ["cpp"] },
+  {
+    id: "det", color: "#84B3AC", category: "Perception", title: "3D Object Detection", short: "3D Detection",
+    blurb: "LIDAR + camera fusion for autonomous perception, improving localization accuracy 25% over baseline.",
+    detail:
+      "Graduate research at Rutgers on 3D object detection that fuses LIDAR point clouds with camera imagery for autonomous perception. I engineered a high-throughput sensor pipeline that improved localization accuracy 25% over baseline, plus backend modules that auto-generate 3D bounding-box metadata from raw sensor inputs, cutting manual annotation time roughly 40%. Geometric transformation services map sensor data into world coordinates at 98% reprojection accuracy using configurable camera intrinsics and extrinsics. I explored PointPillars and BEVFusion baselines with custom fusion-head ablations, validated on KITTI and cross-checked on nuScenes.",
+    tech: "PyTorch · OpenCV · NumPy · Rutgers research", tags: ["python", "pytorch", "opencv"],
+  },
+  {
+    id: "pharma", color: "#BBA0A0", category: "Safety", title: "PharmaGuard",
+    blurb: "A distilled language model + RAG that warns before medications collide, across 1M+ interactions.",
+    detail:
+      "A RAG-based medication-interaction detector that flags dangerous drug combinations before they happen. It pairs a distilled language model (PubMedBERT distilled into DistilBERT via knowledge distillation) with retrieval over 1M+ interaction entries, using all-MiniLM-L6-v2 sentence embeddings and a FAISS index served behind a REST API with structured JSON. I evaluated it on top-5 retrieval accuracy, MRR@10, and the faithfulness of generated explanations against the retrieved source snippets.",
+    tech: "Python · HuggingFace · FAISS · sentence-transformers", tags: ["python", "huggingface", "rag"], link: "https://github.com/thakur22429s/DrugLM", linkLabel: "GitHub",
+  },
+  {
+    id: "badminton", color: "#A2B295", category: "Sport", title: "Badminton-Sense",
+    blurb: "Classifies badminton strokes from broadcast video using pose estimation and sequence models.",
+    detail:
+      "A deep-learning pipeline that classifies badminton strokes from broadcast video. BWF match footage is clipped per stroke, run through MediaPipe pose extraction, hip-center and torso-length normalized, resampled to 30 frames, then fed to a BiLSTM or a Spatial-Temporal Transformer for 10-class stroke prediction. Trained on ShuttleSet (36,492 strokes across 44 professional matches). The key finding: at this data scale the 527K-param BiLSTM (macro-F1 0.213) beats the larger Transformer, which collapses to majority-class prediction, while distant broadcast camera angles cap pose detection near 42%.",
+    tech: "PyTorch · MediaPipe · scikit-learn · Streamlit", tags: ["python", "pytorch", "mediapipe", "scikit"], link: "https://github.com/thakur22429s/BadmintonSense", linkLabel: "GitHub",
+  },
+  {
+    id: "nocta", color: "#C9B79A", category: "Shipped", title: "Nocta",
+    blurb: "A card-deck social discovery app for college students, live on the Apple App Store.",
+    detail:
+      "A card-deck social discovery app for college students, live on the Apple App Store (originally shipped as Deqd, since rebranded). Built in Flutter and Dart with Riverpod for state management and Firebase for auth, Firestore, and Cloud Functions. It reached low-hundreds of early organic downloads.",
+    tech: "Flutter · Dart · Riverpod · Firebase", tags: ["flutter", "dart", "firebase"], link: "https://apps.apple.com/us/app/nocta/id6758424070", linkLabel: "App Store",
+  },
+  {
+    id: "acp", color: "#939CB0", category: "In flight", title: "ACP",
+    blurb: "An AI career platform surfacing role and skill matches with RAG over your profile.",
+    detail:
+      "AI Career Platform - a RAG product that surfaces role and skill matches against a user's profile. It ingests a profile, embeds it, and runs embedding-based job and skill search alongside conversational guidance. Built on Next.js (App Router), Tailwind, and Supabase (Postgres + auth + pgvector). Pre-MVP: auth and ingestion are working, retrieval is in progress.",
+    tech: "Next.js · Supabase · pgvector · Tailwind", tags: ["nextjs", "typescript", "supabase", "pgvector", "rag", "tailwind"],
+  },
+  {
+    id: "boardroom", color: "#BE9B85", category: "In flight", title: "Investor Boardroom",
+    blurb: "Pitch to a panel of AI investor personas that grill you in character and return a structured critique.",
+    detail:
+      "An LLM-driven pitch-practice simulator. A founder pitches a deck to a configurable panel of AI investor personas - growth VC, technical VC, angel - each grilling in character with role-consistent Q&A, then returning a structured critique. Built on Next.js and Supabase with streaming LLM responses. Currently a working prototype.",
+    tech: "Next.js · Supabase · streaming LLM", tags: ["nextjs", "typescript", "supabase", "llm"],
+  },
+  {
+    id: "apex", color: "#9DB0AE", category: "Data", title: "Apex Analytics",
+    blurb: "An F1 telemetry dashboard processing 2GB+ of data with interactive Plotly/Dash visualizations.",
+    detail:
+      "An F1-style telemetry analytics dashboard. A Python/Pandas ingestion pipeline normalizes and stores 2GB+ of telemetry in PostgreSQL behind a Flask REST API, while an interactive Plotly/Dash frontend serves real-time heatmaps and performance comparisons across event conditions, with endpoints for both event-level and aggregate queries.",
+    tech: "Python · Flask · Dash · PostgreSQL", tags: ["python", "flask", "dash", "postgres"],
+  },
+  {
+    id: "circle", color: "#A8A2B5", category: "Social", title: "Purdue Circle",
+    blurb: "A student social app on a headless GraphQL CMS, cutting response payloads by 60%.",
+    detail:
+      "A student social and networking app built with an Agile team. User queries flow through Next.js into a headless GraphQL CMS, cutting response payload size 60% and serving across platforms via Tailwind. A popularity engine reaches 70%+ accuracy using features like posts, timelines, direct messaging, and reactions.",
+    tech: "Next.js · React · GraphQL · TypeScript", tags: ["nextjs", "react", "graphql", "typescript", "tailwind"],
+  },
+  {
+    id: "magpie", color: "#BFB49A", category: "Recs", title: "Movie Magpie",
+    blurb: "A recommendation system over 10k+ films with Firebase-backed profiles and feedback.",
+    detail:
+      "A movie recommender hitting 78% accuracy over a database of 10k+ films, driven by user parameters like genre, release date, ratings, and popularity. Firebase-backed CRUD saves recommendations, creates user profiles, and captures feedback on prediction accuracy. Built with React and Material UI.",
+    tech: "React · Material UI · Firebase", tags: ["react", "firebase"],
+  },
+  {
+    id: "arb", color: "#B0A48F", category: "Markets", title: "Betting Arbitrage",
+    blurb: "Scrapes odds from 10+ books to surface 1-5% arbitrage opportunities in real time.",
+    detail:
+      "A sports-betting arbitrage bot that scrapes odds from 10+ books, analyzes real-time price differences, and surfaces 1-5% arbitrage opportunities, processing 1,000+ odds entries a day. Selenium and BeautifulSoup handle scraping into PostgreSQL, with NumPy/Pandas analysis and beta ML models for odds prediction and human-like automation. React frontend.",
+    tech: "Python · Selenium · PostgreSQL · React", tags: ["python", "react", "selenium", "postgres"],
+  },
+  {
+    id: "myshell", color: "#9AA0A6", category: "Systems", title: "MyShell",
+    blurb: "A Unix-style shell interpreter in C++ with piping, redirection, and job control via Flex + Bison.",
+    detail:
+      "A Unix-style shell interpreter written in C++, reimplementing behavior from bash and csh across 10+ features: autocomplete, command history, environment variables, subshells, piping, and redirection. Flex generates the scanner and Bison the parser for the shell grammar.",
+    tech: "C++ · Flex · Bison", tags: ["cpp"],
+  },
 ];
 
 // Two neurons connect when they share tech; edge weight = number shared.

@@ -5,9 +5,9 @@
 
 const FACTS = `
 # Identity
-- Abhay Singh Thakur - Master's CS student at Rutgers (AI/ML), graduating May 2026.
+- Abhay Singh Thakur - recently earned his M.S. in Computer Science (AI/ML) at Rutgers, May 2026.
 - Based in the New York City / New Brunswick, NJ area.
-- Public contact only: thakur22429s@gmail.com · linkedin.com/in/abhay-singh-thakur · github.com/thakur22429s · portfolio thakur22429s.github.io.
+- Public contact only: thakur22429s@gmail.com · linkedin.com/in/abhay-singh-thakur · github.com/thakur22429s · portfolio abhaysinghthakur.com.
 - Currently interviewing for SWE and ML roles.
 - Off-screen: photography, badminton, and hosting an Airbnb. Likes the round trip from research paper to shipped production.
 

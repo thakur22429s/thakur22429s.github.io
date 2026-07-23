@@ -10,7 +10,18 @@ export default function About() {
         <h2 className="dsp">Who I am</h2>
       </div>
       <div className="about-grid">
-        <p className="about-para reveal">{about.paragraph}</p>
+        <div className="about-left reveal">
+          <p className="about-para">{about.paragraph}</p>
+          <div className="edu">
+            {education.map((e) => (
+              <div className="e" key={e.school}>
+                <div className="s dsp">{e.school}</div>
+                <div className="dg">{e.degree}</div>
+                <div className="p">{e.period}</div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="about-right reveal">
           <div className="skills">
             <span className="skills-label">toolkit</span>
@@ -28,15 +39,6 @@ export default function About() {
             ))}
           </div>
         </div>
-      </div>
-      <div className="edu reveal">
-        {education.map((e) => (
-          <div className="e" key={e.school}>
-            <div className="s dsp">{e.school}</div>
-            <div className="dg">{e.degree}</div>
-            <div className="p">{e.period}</div>
-          </div>
-        ))}
       </div>
     </section>
   );
