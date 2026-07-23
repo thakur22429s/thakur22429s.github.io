@@ -7,7 +7,7 @@ const LINKS = [
   { id: "about", label: "About" },
   { id: "experience", label: "Work" },
   { id: "projects", label: "Projects" },
-  { id: "life", label: "Life" },
+  // { id: "life", label: "Life" }, // hidden until photos are ready
   { id: "contact", label: "Contact" },
 ];
 
