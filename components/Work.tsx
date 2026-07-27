@@ -363,6 +363,19 @@ export default function Work() {
       </div>
       <div className="nn-hint">hover to wake · click to open · wired by shared tech</div>
 
+      {/* Mobile: the ring needs desktop width, so small screens get a list. */}
+      <ul className="proj-list">
+        {projects.map((p, i) => (
+          <li key={p.id}>
+            <button className="pl-card" onClick={() => setModal(i)}>
+              <span className="pl-cat">{p.category}</span>
+              <span className="pl-title">{p.title}</span>
+              <span className="pl-blurb">{p.blurb}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
       <div
         className={modal != null ? "nn-modal open" : "nn-modal"}
         onClick={(e) => {
