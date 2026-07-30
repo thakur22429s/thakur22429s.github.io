@@ -41,10 +41,31 @@ export default function ContactForm() {
     }
   };
 
+  // Prefilled fallback so a delivery outage is never a dead end for a visitor.
+  const mailtoFallback =
+    `mailto:thakur22429s@gmail.com` +
+    `?subject=${encodeURIComponent(`Portfolio message from ${form.name || "someone"}`)}` +
+    `&body=${encodeURIComponent(
+      form.message + (form.name || form.email ? `\n\n- ${form.name} (${form.email})` : "")
+    )}`;
+
   if (status === "sent") {
     return (
-      <div className="cf-done reveal">
-        Thanks - your message is on its way. I&apos;ll get back to you soon.
+      <div className="cf-done reveal" role="status">
+        <span className="cf-check" aria-hidden>
+          ✓
+        </span>
+        <div className="cf-done-txt">
+          <div className="cf-done-t">Message sent</div>
+          <div className="cf-done-d">Thanks — I&apos;ll get back to you soon.</div>
+        </div>
+        <button
+          type="button"
+          className="cf-again"
+          onClick={() => setStatus("idle")}
+        >
+          Send another
+        </button>
       </div>
     );
   }
@@ -83,7 +104,8 @@ export default function ContactForm() {
         </button>
         {status === "error" && (
           <span className="cf-err">
-            Failed to send - try again, or email me directly.
+            Couldn&apos;t send just now — email me at{" "}
+            <a href={mailtoFallback}>thakur22429s@gmail.com</a>.
           </span>
         )}
       </div>
