@@ -274,7 +274,14 @@ a{color:inherit;text-decoration:none}
 .cf-msg{resize:vertical;min-height:110px}
 .cform-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .cf-err{color:var(--rose);font-size:14px}
-.cf-done{max-width:560px;margin:26px 0 34px;padding:20px 22px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--sage);border-radius:10px;color:var(--ink-soft);font-size:17px}
+.cf-err a{color:var(--rose);text-decoration:underline}
+.cf-done{display:flex;align-items:center;gap:15px;max-width:560px;margin:26px 0 34px;padding:18px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--sage);border-radius:10px}
+.cf-check{flex:0 0 auto;width:32px;height:32px;border-radius:50%;background:var(--sage);color:#12200c;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.cf-done-txt{flex:1 1 auto}
+.cf-done-t{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink)}
+.cf-done-d{color:var(--ink-soft);font-size:15px;margin-top:1px}
+.cf-again{flex:0 0 auto;background:none;border:0;color:var(--ink-faint);font-family:var(--mono);font-size:11px;letter-spacing:.6px;text-transform:uppercase;transition:color .2s}
+.cf-again:hover{color:var(--teal)}
 @media(max-width:560px){.cform-row{flex-direction:column}}
 
 /* perched paradise-flycatcher chat launcher */
