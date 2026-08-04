@@ -51,7 +51,7 @@ export default function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="cf-done reveal" role="status">
+      <div className="cf-done" role="status">
         <span className="cf-check" aria-hidden>
           ✓
         </span>
