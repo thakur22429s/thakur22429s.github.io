@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     model: google(MODEL),
     system: SYSTEM_PROMPT,
     messages: await convertToModelMessages(trimmed),
-    temperature: 0.85,
+    temperature: 0.7,
     // gemini-flash-latest is a 2.5-class model with "thinking" on by default,
     // and those thoughts count against the output cap. Keep the cap well above
     // the thinking budget or short replies get truncated mid-sentence. Reply
