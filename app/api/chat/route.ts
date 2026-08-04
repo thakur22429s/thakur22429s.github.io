@@ -58,8 +58,8 @@ export async function POST(req: Request) {
     model: google(MODEL),
     system: SYSTEM_PROMPT,
     messages: await convertToModelMessages(trimmed),
-    temperature: 0.6,
-    maxOutputTokens: 500,
+    temperature: 0.85,
+    maxOutputTokens: 360,
   });
 
   return createUIMessageStreamResponse({
